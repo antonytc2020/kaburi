@@ -1,1 +1,88 @@
 <h1>Github pages test</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kaburi - Pide tu comida o reserva tu mesa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, nav, main, section, footer { padding: 20px; }
+    nav a { margin: 0 10px; text-decoration: none; color: #333; }
+    .form-section { max-width: 400px; margin: 30px auto; background: #f5f5f5; padding: 20px; border-radius: 8px; }
+    label { display: block; margin-top: 10px; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kaburi</h1>
+        <nav>
+            <a href="#menu">Menú</a>
+            <a href="#pedido">Pide Online</a>
+            <a href="#reserva">Reserva Mesa</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="menu">
+            <h2>Menú</h2>
+            <ul>
+                <li>Alitas BBQ - $100</li>
+                <li>Alitas Picantes - $100</li>
+                <li>Papas Fritas - $60</li>
+                <li>Hamburguesa - $120</li>
+                <!-- Agrega más platillos aquí -->
+            </ul>
+        </section>
+
+        <section id="pedido" class="form-section">
+            <h2>Pide tu comida</h2>
+            <form>
+                <label for="platillo">Platillo:</label>
+                <select id="platillo" name="platillo">
+                    <option>Alitas BBQ</option>
+                    <option>Alitas Picantes</option>
+                    <option>Papas Fritas</option>
+                    <option>Hamburguesa</option>
+                </select>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" min="1" value="1" required>
+                <label for="nombre">Tu nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <label for="direccion">Dirección:</label>
+                <textarea id="direccion" name="direccion" required></textarea>
+                <button type="submit">Enviar Pedido</button>
+            </form>
+        </section>
+
+        <section id="reserva" class="form-section">
+            <h2>Reserva tu mesa</h2>
+            <form>
+                <label for="nombreReserva">Nombre:</label>
+                <input type="text" id="nombreReserva" name="nombreReserva" required>
+                <label for="personas">Número de personas:</label>
+                <input type="number" id="personas" name="personas" min="1" value="2" required>
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+                <label for="hora">Hora:</label>
+                <input type="time" id="hora" name="hora" required>
+                <button type="submit">Reservar</button>
+            </form>
+        </section>
+
+        <section id="contacto">
+            <h2>Contacto y Ubicación</h2>
+            <p>Teléfono: 555-123-4567</p>
+            <p>Dirección: Calle Principal 123, Ciudad</p>
+            <iframe src="https://maps.google.com/maps?q=Ciudad&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0"></iframe>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Kaburi. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
