@@ -1,88 +1,195 @@
-<h1>Github pages test</h1>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Kaburi - Pide tu comida o reserva tu mesa</title>
+    <title>Kaburi - Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    header, nav, main, section, footer { padding: 20px; }
-    nav a { margin: 0 10px; text-decoration: none; color: #333; }
-    .form-section { max-width: 400px; margin: 30px auto; background: #f5f5f5; padding: 20px; border-radius: 8px; }
-    label { display: block; margin-top: 10px; }
-    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px 20px; }
+        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5;}
+        .container { max-width: 400px; margin: 80px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px #0002; }
+        h2 { text-align: center;}
+        label { display: block; margin-top: 10px; }
+        input { width: 100%; padding: 8px; margin-top: 5px;}
+        button { margin-top: 15px; padding: 10px 20px; width: 100%;}
+        .switch { margin-top: 20px; text-align: center;}
+        #main-interface { display: none; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Kaburi</h1>
-        <nav>
-            <a href="#menu">Menú</a>
-            <a href="#pedido">Pide Online</a>
-            <a href="#reserva">Reserva Mesa</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-    </header>
+    <div class="container" id="auth-section">
+        <h2 id="form-title">Iniciar Sesión</h2>
+        <form id="login-form">
+            <label for="login-email">Correo electrónico:</label>
+            <input type="email" id="login-email" required>
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <form id="register-form" style="display:none;">
+            <label for="register-email">Correo electrónico:</label>
+            <input type="email" id="register-email" required>
+            <label for="register-password">Contraseña:</label>
+            <input type="password" id="register-password" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <div class="switch">
+            <span id="toggle-msg">¿No tienes cuenta?</span>
+            <a href="#" id="toggle-link">Registrarse</a>
+        </div>
+    </div>
 
-    <main>
-        <section id="menu">
-            <h2>Menú</h2>
-            <ul>
-                <li>Alitas BBQ - $100</li>
-                <li>Alitas Picantes - $100</li>
-                <li>Papas Fritas - $60</li>
-                <li>Hamburguesa - $120</li>
-                <!-- Agrega más platillos aquí -->
-            </ul>
-        </section>
+    <div id="main-interface">
+        <!-- Aquí va la interfaz principal que ya te compartí antes -->
+        <header>
+            <h1>Kaburi</h1>
+            <button onclick="logout()" style="float:right;">Cerrar sesión</button>
+            <nav>
+                <a href="#menu">Menú</a>
+                <a href="#pedido">Pide Online</a>
+                <a href="#reserva">Reserva Mesa</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </header>
+        <main>
+            <!-- ... el resto de tu interfaz ... -->
+            <section id="menu">
+                <h2>Menú</h2>
+                <ul>
+                    <li>Alitas BBQ - $100</li>
+                    <li>Alitas Picantes - $100</li>
+                    <li>Papas Fritas - $60</li>
+                    <li>Hamburguesa - $120</li>
+                </ul>
+            </section>
+            <section id="pedido" class="form-section">
+                <h2>Pide tu comida</h2>
+                <form>
+                    <label for="platillo">Platillo:</label>
+                    <select id="platillo" name="platillo">
+                        <option>Alitas BBQ</option>
+                        <option>Alitas Picantes</option>
+                        <option>Papas Fritas</option>
+                        <option>Hamburguesa</option>
+                    </select>
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" min="1" value="1" required>
+                    <label for="nombre">Tu nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                    <label for="direccion">Dirección:</label>
+                    <textarea id="direccion" name="direccion" required></textarea>
+                    <button type="submit">Enviar Pedido</button>
+                </form>
+            </section>
+            <section id="reserva" class="form-section">
+                <h2>Reserva tu mesa</h2>
+                <form>
+                    <label for="nombreReserva">Nombre:</label>
+                    <input type="text" id="nombreReserva" name="nombreReserva" required>
+                    <label for="personas">Número de personas:</label>
+                    <input type="number" id="personas" name="personas" min="1" value="2" required>
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora" required>
+                    <button type="submit">Reservar</button>
+                </form>
+            </section>
+            <section id="contacto">
+                <h2>Contacto y Ubicación</h2>
+                <p>Teléfono: 555-123-4567</p>
+                <p>Dirección: Calle Principal 123, Ciudad</p>
+                <iframe src="https://maps.google.com/maps?q=Ciudad&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0"></iframe>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2025 Kaburi. Todos los derechos reservados.</p>
+        </footer>
+    </div>
 
-        <section id="pedido" class="form-section">
-            <h2>Pide tu comida</h2>
-            <form>
-                <label for="platillo">Platillo:</label>
-                <select id="platillo" name="platillo">
-                    <option>Alitas BBQ</option>
-                    <option>Alitas Picantes</option>
-                    <option>Papas Fritas</option>
-                    <option>Hamburguesa</option>
-                </select>
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" id="cantidad" name="cantidad" min="1" value="1" required>
-                <label for="nombre">Tu nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-                <label for="direccion">Dirección:</label>
-                <textarea id="direccion" name="direccion" required></textarea>
-                <button type="submit">Enviar Pedido</button>
-            </form>
-        </section>
+    <script>
+        // Alternar entre login y registro
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const toggleLink = document.getElementById('toggle-link');
+        const formTitle = document.getElementById('form-title');
+        const toggleMsg = document.getElementById('toggle-msg');
+        const authSection = document.getElementById('auth-section');
+        const mainInterface = document.getElementById('main-interface');
 
-        <section id="reserva" class="form-section">
-            <h2>Reserva tu mesa</h2>
-            <form>
-                <label for="nombreReserva">Nombre:</label>
-                <input type="text" id="nombreReserva" name="nombreReserva" required>
-                <label for="personas">Número de personas:</label>
-                <input type="number" id="personas" name="personas" min="1" value="2" required>
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" required>
-                <label for="hora">Hora:</label>
-                <input type="time" id="hora" name="hora" required>
-                <button type="submit">Reservar</button>
-            </form>
-        </section>
+        toggleLink.onclick = function(e){
+            e.preventDefault();
+            if(loginForm.style.display !== 'none'){
+                loginForm.style.display = 'none';
+                registerForm.style.display = '';
+                formTitle.textContent = 'Registrarse';
+                toggleMsg.textContent = '¿Ya tienes cuenta?';
+                toggleLink.textContent = 'Iniciar sesión';
+            } else {
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+            }
+        };
 
-        <section id="contacto">
-            <h2>Contacto y Ubicación</h2>
-            <p>Teléfono: 555-123-4567</p>
-            <p>Dirección: Calle Principal 123, Ciudad</p>
-            <iframe src="https://maps.google.com/maps?q=Ciudad&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="200" frameborder="0" style="border:0"></iframe>
-        </section>
-    </main>
+        // Simulación de "base de datos" en localStorage
+        function getUsers(){
+            return JSON.parse(localStorage.getItem('users') || '{}');
+        }
+        function saveUser(email, password){
+            const users = getUsers();
+            users[email] = password;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        function validateUser(email, password){
+            const users = getUsers();
+            return users[email] && users[email] === password;
+        }
 
-    <footer>
-        <p>&copy; 2025 Kaburi. Todos los derechos reservados.</p>
-    </footer>
+        // Manejar registro
+        registerForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const users = getUsers();
+            if(users[email]){
+                alert('Este correo ya está registrado.');
+            } else {
+                saveUser(email, password);
+                alert('Registro exitoso. Ahora inicia sesión.');
+                toggleLink.click();
+            }
+        };
+
+        // Manejar login
+        loginForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if(validateUser(email, password)){
+                // Simular sesión iniciada
+                localStorage.setItem('session', email);
+                authSection.style.display = 'none';
+                mainInterface.style.display = '';
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        };
+
+        // Cerrar sesión
+        function logout(){
+            localStorage.removeItem('session');
+            mainInterface.style.display = 'none';
+            authSection.style.display = '';
+        }
+        // Mantener sesión si ya está iniciada
+        window.onload = function(){
+            if(localStorage.getItem('session')){
+                authSection.style.display = 'none';
+                mainInterface.style.display = '';
+            }
+        }
+    </script>
 </body>
 </html>
