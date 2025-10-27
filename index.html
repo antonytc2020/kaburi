@@ -232,12 +232,74 @@
             cursor: pointer;
             box-shadow: 0 2px 8px #0009;
         }
+        .panel-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0 5px 0;
+        }
+        .panel-action-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0005;
+            transition: filter 0.15s;
+        }
+        .panel-action-btn:hover {
+            filter: brightness(1.11);
+        }
+        .pedido-resumen {
+            background: rgba(38,38,46,0.86);
+            border-radius: 12px;
+            margin: 38px auto 0 auto;
+            max-width: 420px;
+            width: 100%;
+            padding: 17px 19px 11px 19px;
+            box-shadow: 0 2px 12px #0006;
+            font-size: 1.17em;
+        }
+        .pedido-resumen h4 {
+            margin: 0 0 10px 0;
+            color: #f7971e;
+            text-align: center;
+        }
+        .pedido-lista {
+            margin: 0 0 11px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .pedido-lista li {
+            margin-bottom: 7px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .pedido-item-nombre {
+            font-weight: normal;
+        }
+        .pedido-item-precio {
+            font-weight: bold;
+            color: #ffdd00;
+        }
+        .pedido-total {
+            text-align: right;
+            font-size: 1.17em;
+            font-weight: bold;
+            color: #43e8ff;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
         @media (max-width: 500px) {
             #auth-section { width: 96vw; left: 2vw; right: 2vw; padding: 12px 6px;}
             .big-option-btn { font-size: 1.15em; padding: 19px 0; }
             .options-center, .carta-center { padding-top: 60px;}
             #logout-btn { padding: 9px 13px; font-size: 1em; top:10px; right:10px;}
             .carta-card { padding: 16px 4vw 12px 4vw; }
+            .pedido-resumen { padding: 10px 4vw 10px 4vw; }
         }
     </style>
 </head>
@@ -303,9 +365,9 @@
                         <button class="menu-pedir-btn" onclick="pedirMenu('12 alitas', 36)">Pedir</button>
                     </li>
                     <li>
-                        <span class="menu-desc">Combo 20 alitas + masas + nuggets</span>
+                        <span class="menu-desc">Combo 20 alitas + nuggets</span>
                         <span class="menu-precio"><span class="menu-soles">S/</span>65</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + masas + nuggets', 65)">Pedir</button>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + nuggets', 65)">Pedir</button>
                     </li>
                     <li>
                         <span class="menu-desc">Combo 30 alitas + nuggets + gaseosa</span>
@@ -313,11 +375,21 @@
                         <button class="menu-pedir-btn" onclick="pedirMenu('Combo 30 alitas + nuggets + gaseosa', 75)">Pedir</button>
                     </li>
                 </ul>
+                <div class="panel-actions">
+                    <button class="panel-action-btn" onclick="seguirOrdenando()">Seguir ordenando</button>
+                    <button class="panel-action-btn" onclick="cambiarPedido()">Cambiar pedido</button>
+                    <button class="panel-action-btn" onclick="continuarPedido()">Continuar</button>
+                </div>
+                <div id="pedido-resumen" class="pedido-resumen" style="display:none;">
+                    <h4>Mi pedido</h4>
+                    <ul class="pedido-lista" id="pedido-lista"></ul>
+                    <div class="pedido-total" id="pedido-total"></div>
+                </div>
             </div>
         </div>
     </div>
     <script>
-        // Alternar entre login y registro
+        // Alternar login/registro
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const toggleLink = document.getElementById('toggle-link');
@@ -330,6 +402,12 @@
         const btnHacerPedido = document.getElementById('btn-hacer-pedido');
         const panelCarta = document.getElementById('panel-carta');
         const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
+
+        // Pedido actual
+        let pedido = [];
 
         toggleLink.onclick = function(e){
             e.preventDefault();
@@ -408,6 +486,9 @@
             toggleMsg.textContent = '¿No tienes cuenta?';
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
+            pedido = [];
+            actualizarResumen();
+            pedidoResumen.style.display = 'none';
             document.body.style.background = "";
         };
 
@@ -420,21 +501,66 @@
             }
         };
 
-        // Mostrar carta de alitas en el panel
         btnHacerPedido.onclick = function() {
             mainOptions.classList.remove('show');
             panelCarta.classList.add('show');
+            if (pedido.length > 0) {
+                pedidoResumen.style.display = '';
+                actualizarResumen();
+            }
         }
         closeCard.onclick = function() {
             panelCarta.classList.remove('show');
             mainOptions.classList.add('show');
         }
 
-        // Función para simular hacer el pedido
         function pedirMenu(item, precio) {
-            alert("¡Pedido realizado!\n" + item + " - S/ " + precio);
+            pedido.push({nombre: item, precio: precio});
+            actualizarResumen();
+            pedidoResumen.style.display = '';
         }
-        window.pedirMenu = pedirMenu; // para que sea accesible desde los botones onClick
+        window.pedirMenu = pedirMenu;
+
+        function actualizarResumen() {
+            // Limpiar lista
+            pedidoLista.innerHTML = "";
+            let total = 0;
+            pedido.forEach(p => {
+                total += p.precio;
+                let li = document.createElement('li');
+                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
+                pedidoLista.appendChild(li);
+            });
+            pedidoTotal.textContent = "Total: S/ " + total;
+        }
+
+        // Acciones panel
+        function seguirOrdenando() {
+            alert("¡Puedes seguir agregando más productos!");
+        }
+        function cambiarPedido() {
+            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
+                pedido = [];
+                actualizarResumen();
+                pedidoResumen.style.display = 'none';
+            }
+        }
+        function continuarPedido() {
+            if(pedido.length === 0){
+                alert("Debes seleccionar al menos un producto.");
+                return;
+            }
+            alert("¡Pedido enviado!\nGracias por tu compra.");
+            pedido = [];
+            actualizarResumen();
+            pedidoResumen.style.display = 'none';
+            // Aquí podrías cerrar el panel y regresar al menú principal si lo deseas:
+            // panelCarta.classList.remove('show');
+            // mainOptions.classList.add('show');
+        }
+        window.seguirOrdenando = seguirOrdenando;
+        window.cambiarPedido = cambiarPedido;
+        window.continuarPedido = continuarPedido;
     </script>
 </body>
 </html>
