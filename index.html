@@ -19,20 +19,34 @@
         }
         .container {
             max-width: 400px;
-            margin: 80px auto;
-            background: rgba(0,0,0,0.82);
-            padding: 30px;
+            margin: 40px auto 0 auto;
+            background: rgba(0,0,0,0.90);
+            padding: 30px 20px;
             border-radius: 12px;
             box-shadow: 0 4px 20px #0009;
             color: #fff;
             position: relative;
             z-index: 2;
-            transition: transform 0.7s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.7s;
         }
-        .container.down {
-            transform: translateY(120vh);
-            opacity: 0.3;
-            pointer-events: none;
+        .container .logout-area {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .container .logout-area button {
+            padding: 6px 16px;
+            font-size: 0.95em;
+            border-radius: 4px;
+            border: none;
+            background: #ff5252;
+            color: white;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .container .logout-area span {
+            font-size: 0.9em;
+            color: #fff;
         }
         h2, h1 {
             text-align: center;
@@ -49,7 +63,7 @@
             background: #222;
             color: #fff;
         }
-        button {
+        button[type="submit"] {
             margin-top: 15px;
             padding: 10px 20px;
             width: 100%;
@@ -62,7 +76,7 @@
             box-shadow: 0 2px 4px #0007;
             transition: background 0.2s;
         }
-        button:hover { background: #b71c1c; }
+        button[type="submit"]:hover { background: #b71c1c; }
         .switch { margin-top: 20px; text-align: center;}
         #main-interface { display: none; }
         nav a {
@@ -93,6 +107,10 @@
 </head>
 <body>
     <div class="container" id="auth-section">
+        <div class="logout-area" id="user-logged" style="display:none;">
+            <span id="welcome-user"></span>
+            <button onclick="logout()">Cerrar sesión</button>
+        </div>
         <h2 id="form-title">Iniciar Sesión</h2>
         <form id="login-form">
             <label for="login-email">Correo electrónico:</label>
@@ -108,7 +126,7 @@
             <input type="password" id="register-password" required>
             <button type="submit">Registrarse</button>
         </form>
-        <div class="switch">
+        <div class="switch" id="switch-area">
             <span id="toggle-msg">¿No tienes cuenta?</span>
             <a href="#" id="toggle-link">Registrarse</a>
         </div>
@@ -117,7 +135,6 @@
     <div id="main-interface">
         <header>
             <h1>Kaburi</h1>
-            <button onclick="logout()" style="float:right;">Cerrar sesión</button>
             <nav>
                 <a href="#menu">Menú</a>
                 <a href="#pedido">Pide Online</a>
@@ -189,6 +206,9 @@
         const toggleMsg = document.getElementById('toggle-msg');
         const authSection = document.getElementById('auth-section');
         const mainInterface = document.getElementById('main-interface');
+        const userLogged = document.getElementById('user-logged');
+        const welcomeUser = document.getElementById('welcome-user');
+        const switchArea = document.getElementById('switch-area');
 
         toggleLink.onclick = function(e){
             e.preventDefault();
@@ -232,7 +252,6 @@
             } else {
                 saveUser(email, password);
                 alert('Registro exitoso. Ahora inicia sesión.');
-                // Regresa a login automáticamente
                 loginForm.style.display = '';
                 registerForm.style.display = 'none';
                 formTitle.textContent = 'Iniciar Sesión';
@@ -242,33 +261,51 @@
             }
         };
 
-        // Manejar login y animar transición
+        // Manejar login
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
                 localStorage.setItem('session', email);
-                // Animación: desliza hacia abajo el panel
-                authSection.classList.add('down');
-                setTimeout(() => {
-                    mainInterface.style.display = '';
-                }, 700); // espera la animación
+                welcomeUser.textContent = "Bienvenido, " + email;
+                userLogged.style.display = '';
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'none';
+                formTitle.style.display = 'none';
+                switchArea.style.display = 'none';
+                mainInterface.style.display = '';
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
         };
 
-        // Cerrar sesión (restablece el panel con animación inversa)
+        // Cerrar sesión (panel de login siempre visible)
         function logout(){
             localStorage.removeItem('session');
             mainInterface.style.display = 'none';
-            authSection.classList.remove('down');
+            userLogged.style.display = 'none';
+            formTitle.style.display = '';
+            switchArea.style.display = '';
+            loginForm.style.display = '';
+            registerForm.style.display = 'none';
+            welcomeUser.textContent = '';
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+            formTitle.textContent = 'Iniciar Sesión';
+            toggleMsg.textContent = '¿No tienes cuenta?';
+            toggleLink.textContent = 'Registrarse';
         }
         // Mantener sesión si ya está iniciada
         window.onload = function(){
             if(localStorage.getItem('session')){
-                authSection.classList.add('down');
+                const email = localStorage.getItem('session');
+                welcomeUser.textContent = "Bienvenido, " + email;
+                userLogged.style.display = '';
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'none';
+                formTitle.style.display = 'none';
+                switchArea.style.display = 'none';
                 mainInterface.style.display = '';
             }
         }
