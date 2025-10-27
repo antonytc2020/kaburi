@@ -12,41 +12,44 @@
         }
         body {
             min-height: 100vh;
-            background: #181822;
+            background: 
+                linear-gradient(120deg, rgba(183,28,28,0.75), rgba(33,33,33,0.75)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
             color: #fff;
             font-family: Arial, sans-serif;
             overflow-x: hidden;
         }
-        #logout-btn {
-            display: none;
+        /* Logo global */
+        .logo-global {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            background: #ff5252;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 16px #000a;
-            z-index: 11;
-            transition: filter 0.2s, background 0.2s;
+            top: 25px;
+            left: 25px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
         }
-        #logout-btn.show {
-            display: block;
+        .logo-global img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 2px 12px #0008;
+            padding: 10px;
         }
+        @media (max-width: 500px) {
+            .logo-global img { width: 65px; height: 65px; padding: 4px;}
+            .logo-global { top: 5px; left: 5px;}
+        }
+        /* Login panel centrado, negro */
         #auth-section {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: 
-                linear-gradient(120deg, rgba(183,28,28,0.80) 0%, rgba(33,33,33,0.80) 100%),
-                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80');
-            background-size: cover;
-            background-position: center;
+            background: #181818ee;
             box-shadow: 0 4px 24px #000d;
             padding: 32px 28px 24px 28px;
             border-radius: 14px;
@@ -55,6 +58,20 @@
         }
         #auth-section.hidden {
             display: none;
+        }
+        .logo-login {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo-login img {
+            width: 115px;
+            height: 115px;
+            background: #fff;
+            border-radius: 50%;
+            object-fit: contain;
+            box-shadow: 0 2px 12px #0008;
+            padding: 14px;
         }
         #auth-section h2 { 
             text-align: center; 
@@ -89,6 +106,26 @@
         }
         button[type="submit"]:hover { background: #b71c1c; }
         .switch { margin-top: 22px; text-align: center;}
+        #logout-btn {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #ff5252;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 16px #000a;
+            z-index: 11;
+            transition: filter 0.2s, background 0.2s;
+        }
+        #logout-btn.show {
+            display: block;
+        }
         #main-options,
         #panel-carta {
             display: none;
@@ -160,6 +197,20 @@
             letter-spacing: 1.5px;
             color: #ff5252;
             text-shadow: 0 2px 8px #000a;
+        }
+        .logo-carta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .logo-carta img {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px #0008;
+            padding: 6px;
         }
         .alitas-img {
             width: 100%;
@@ -300,14 +351,21 @@
             #logout-btn { padding: 9px 13px; font-size: 1em; top:10px; right:10px;}
             .carta-card { padding: 16px 4vw 12px 4vw; }
             .pedido-resumen { padding: 10px 4vw 10px 4vw; }
+            .logo-carta img { width: 46px; height: 46px; padding: 2px;}
         }
     </style>
 </head>
 <body>
-    <!-- Botón cerrar sesión -->
-    <button id="logout-btn">Cerrar sesión</button>
+    <!-- Logo global fijo arriba izquierda -->
+    <div class="logo-global">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=300&q=80" alt="Logo Kaburi" draggable="false">
+        <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" style="width:80px; height:80px; background:none; box-shadow:none; border-radius:0; margin-left:10px; object-fit:contain;" draggable="false">
+    </div>
     <!-- Panel de login centrado -->
     <div class="container" id="auth-section">
+        <div class="logo-login">
+            <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+        </div>
         <h2 id="form-title">Iniciar Sesión</h2>
         <form id="login-form">
             <label for="login-email">Correo electrónico:</label>
@@ -328,9 +386,14 @@
             <a href="#" id="toggle-link">Registrarse</a>
         </div>
     </div>
+    <!-- Botón cerrar sesión -->
+    <button id="logout-btn">Cerrar sesión</button>
     <!-- Opciones después de login -->
     <div id="main-options">
         <div class="options-center">
+            <div class="logo-carta" style="position:absolute;top:34px;left:34px;">
+                <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+            </div>
             <button class="big-option-btn" id="btn-hacer-pedido">Hacer pedido</button>
             <button class="big-option-btn" onclick="alert('Reservar pedido')">Reservar pedido</button>
             <button class="big-option-btn" onclick="alert('Pedir por delivery')">Pedir por delivery</button>
@@ -340,6 +403,9 @@
     <div id="panel-carta">
         <div class="carta-center">
             <div class="carta-card">
+                <div class="logo-carta">
+                    <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+                </div>
                 <button id="close-card" title="Cerrar">&times;</button>
                 <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Alitas" class="alitas-img">
                 <h3>Alitas</h3>
