@@ -16,10 +16,11 @@
             font-family: Arial, sans-serif;
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)),
-                url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+                url('alitas-bg.jpg'),
+                url('kaburi-logo.jpg');
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-size: cover, cover, 420px;
+            background-position: center, center, 70% 8%;
             color: #fff;
             overflow-x: hidden;
         }
@@ -45,7 +46,6 @@
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
         }
-        /* Login panel centrado, negro */
         #auth-section {
             position: fixed;
             top: 50%;
@@ -365,12 +365,12 @@
 <body>
     <!-- Logo global fijo arriba izquierda -->
     <div class="logo-global">
-        <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+        <img src="kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
     </div>
     <!-- Panel de login centrado -->
     <div class="container" id="auth-section">
         <div class="logo-login">
-            <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+            <img src="kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
         </div>
         <h2 id="form-title">Iniciar Sesión</h2>
         <form id="login-form">
@@ -398,7 +398,7 @@
     <div id="main-options">
         <div class="options-center">
             <div class="logo-carta">
-                <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+                <img src="kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
             </div>
             <button class="big-option-btn" id="btn-hacer-pedido">Hacer pedido</button>
             <button class="big-option-btn" onclick="alert('Reservar pedido')">Reservar pedido</button>
@@ -410,10 +410,10 @@
         <div class="carta-center">
             <div class="carta-card">
                 <div class="logo-carta">
-                    <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
+                    <img src="kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
                 </div>
                 <button id="close-card" title="Cerrar">&times;</button>
-                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Alitas" class="alitas-img">
+                <img src="alitas-bg.jpg" alt="Alitas" class="alitas-img">
                 <h3>Alitas</h3>
                 <ul class="menu-alitas">
                     <li>
@@ -535,8 +535,8 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
-                document.body.style.background = 
-                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
+                document.body.style.background =
+                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('alitas-bg.jpg'), url('kaburi-logo.jpg')";
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
@@ -562,14 +562,14 @@
             pedido = [];
             actualizarResumen();
             pedidoResumen.style.display = 'none';
-            document.body.style.background = 
-                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
+            document.body.style.background =
+                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('kaburi-logo.jpg')";
         };
 
         window.onload = function(){
             if(localStorage.getItem('session')){
-                document.body.style.background = 
-                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
+                document.body.style.background =
+                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('alitas-bg.jpg'), url('kaburi-logo.jpg')";
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
