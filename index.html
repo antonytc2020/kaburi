@@ -12,13 +12,15 @@
         }
         body {
             min-height: 100vh;
-            background: 
-                linear-gradient(120deg, rgba(183,28,28,0.75), rgba(33,33,33,0.75)),
-                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80');
+            min-width: 100vw;
+            font-family: Arial, sans-serif;
+            background:
+                linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)),
+                url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg');
+            background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
             color: #fff;
-            font-family: Arial, sans-serif;
             overflow-x: hidden;
         }
         /* Logo global */
@@ -202,6 +204,10 @@
             display: flex;
             align-items: center;
             margin-bottom: 15px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
         }
         .logo-carta img {
             width: 68px;
@@ -282,6 +288,7 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 2px 8px #0009;
+            z-index: 10;
         }
         .panel-actions {
             display: flex;
@@ -358,8 +365,7 @@
 <body>
     <!-- Logo global fijo arriba izquierda -->
     <div class="logo-global">
-        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=300&q=80" alt="Logo Kaburi" draggable="false">
-        <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" style="width:80px; height:80px; background:none; box-shadow:none; border-radius:0; margin-left:10px; object-fit:contain;" draggable="false">
+        <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
     </div>
     <!-- Panel de login centrado -->
     <div class="container" id="auth-section">
@@ -391,7 +397,7 @@
     <!-- Opciones después de login -->
     <div id="main-options">
         <div class="options-center">
-            <div class="logo-carta" style="position:absolute;top:34px;left:34px;">
+            <div class="logo-carta">
                 <img src="https://i.ibb.co/3kqZkTW/kaburi-logo.jpg" alt="Kaburi Logo" draggable="false">
             </div>
             <button class="big-option-btn" id="btn-hacer-pedido">Hacer pedido</button>
@@ -529,7 +535,8 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
-                document.body.style.background = "#181822";
+                document.body.style.background = 
+                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
@@ -555,12 +562,14 @@
             pedido = [];
             actualizarResumen();
             pedidoResumen.style.display = 'none';
-            document.body.style.background = "";
+            document.body.style.background = 
+                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
         };
 
         window.onload = function(){
             if(localStorage.getItem('session')){
-                document.body.style.background = "#181822";
+                document.body.style.background = 
+                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://i.ibb.co/3kqZkTW/kaburi-logo.jpg')";
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
@@ -620,9 +629,6 @@
             pedido = [];
             actualizarResumen();
             pedidoResumen.style.display = 'none';
-            // Aquí podrías cerrar el panel y regresar al menú principal si lo deseas:
-            // panelCarta.classList.remove('show');
-            // mainOptions.classList.add('show');
         }
         window.seguirOrdenando = seguirOrdenando;
         window.cambiarPedido = cambiarPedido;
