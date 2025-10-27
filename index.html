@@ -8,11 +8,9 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            background: linear-gradient(135deg, #b71c1c 0%, #212121 100%);
             min-height: 100vh;
-            background-image:
-                linear-gradient(135deg, rgba(183,28,28,0.7), rgba(33,33,33,0.8)),
-                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80');
+            /* Fondo solo de alitas */
+            background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -20,11 +18,19 @@
         .container {
             max-width: 400px;
             margin: 80px auto;
-            background: rgba(0,0,0,0.80);
+            background: rgba(0,0,0,0.82);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px #0008;
+            box-shadow: 0 4px 20px #0009;
             color: #fff;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.7s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.7s;
+        }
+        .container.hide {
+            transform: translateY(120vh);
+            opacity: 0;
+            pointer-events: none;
         }
         h2, h1 {
             text-align: center;
@@ -78,12 +84,21 @@
             color: #fff;
         }
         textarea { resize: vertical; }
+        /* Capa oscura para mejorar contraste del contenido */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(40,20,20,0.3);
+            z-index: 1;
+            pointer-events: none;
+        }
         @media (max-width: 500px) {
             .container, .form-section { padding: 12px; }
         }
     </style>
 </head>
 <body>
+    <div class="overlay"></div>
     <div class="container" id="auth-section">
         <h2 id="form-title">Iniciar Sesión</h2>
         <form id="login-form">
@@ -234,31 +249,33 @@
             }
         };
 
-        // Manejar login
+        // Manejar login y animar transición
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
-                // Simular sesión iniciada
                 localStorage.setItem('session', email);
-                authSection.style.display = 'none';
-                mainInterface.style.display = '';
+                // Animación: desliza hacia abajo el panel
+                authSection.classList.add('hide');
+                setTimeout(() => {
+                    mainInterface.style.display = '';
+                }, 700); // espera la animación
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
         };
 
-        // Cerrar sesión
+        // Cerrar sesión (restablece el panel con animación inversa)
         function logout(){
             localStorage.removeItem('session');
             mainInterface.style.display = 'none';
-            authSection.style.display = '';
+            authSection.classList.remove('hide');
         }
         // Mantener sesión si ya está iniciada
         window.onload = function(){
             if(localStorage.getItem('session')){
-                authSection.style.display = 'none';
+                authSection.classList.add('hide');
                 mainInterface.style.display = '';
             }
         }
