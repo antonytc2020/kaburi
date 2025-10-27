@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
         body.logged {
-            /* Fondo oscuro con colores de arcoiris */
             background: linear-gradient(135deg, #232526 0%, #6a11cb 25%, #2575fc 50%, #ff6a00 75%, #f7971e 100%);
             background-size: 400% 400%;
             animation: rainbowBG 10s ease-in-out infinite;
@@ -47,6 +46,9 @@
             color: #fff;
             width: 320px;
             z-index: 10;
+        }
+        #auth-section.hidden {
+            display: none;
         }
         #auth-section h2 { text-align: center; color: #ff5252; margin-top: 0;}
         label { display: block; margin-top: 10px; }
@@ -91,7 +93,9 @@
             z-index: 11;
             transition: filter 0.2s;
         }
-        #logout-btn:hover { filter: brightness(1.15);}
+        #logout-btn.show {
+            display: block;
+        }
         /* Opciones después de login */
         #main-options {
             display: none;
@@ -101,12 +105,16 @@
             top: 0; left: 0;
             z-index: 1;
         }
+        #main-options.show {
+            display: flex;
+        }
         .options-center {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
         }
         .big-option-btn {
             width: 320px;
@@ -242,12 +250,10 @@
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
                 localStorage.setItem('session', email);
-                // Cambia fondo
                 document.body.classList.add('logged');
-                // Muestra opciones, oculta panel de login y muestra solo botón cerrar sesión
-                mainOptions.style.display = '';
-                authSection.style.display = 'none';
-                logoutBtn.style.display = '';
+                mainOptions.classList.add('show');
+                authSection.classList.add('hidden');
+                logoutBtn.classList.add('show');
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
@@ -257,9 +263,9 @@
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
             document.body.classList.remove('logged');
-            mainOptions.style.display = 'none';
-            authSection.style.display = '';
-            logoutBtn.style.display = 'none';
+            mainOptions.classList.remove('show');
+            authSection.classList.remove('hidden');
+            logoutBtn.classList.remove('show');
             loginForm.reset();
             registerForm.reset();
             loginForm.style.display = '';
@@ -274,9 +280,9 @@
         window.onload = function(){
             if(localStorage.getItem('session')){
                 document.body.classList.add('logged');
-                mainOptions.style.display = '';
-                authSection.style.display = 'none';
-                logoutBtn.style.display = '';
+                mainOptions.classList.add('show');
+                authSection.classList.add('hidden');
+                logoutBtn.classList.add('show');
             }
         }
     </script>
