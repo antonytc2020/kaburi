@@ -37,7 +37,6 @@
         #logout-btn.show {
             display: block;
         }
-        /* Login panel centrado con fondo de alitas y overlay rojo */
         #auth-section {
             position: fixed;
             top: 50%;
@@ -90,7 +89,8 @@
         }
         button[type="submit"]:hover { background: #b71c1c; }
         .switch { margin-top: 22px; text-align: center;}
-        #main-options {
+        #main-options,
+        #panel-carta {
             display: none;
             position: fixed;
             top: 0; left: 0;
@@ -98,10 +98,12 @@
             height: 100vh;
             z-index: 1;
         }
-        #main-options.show {
+        #main-options.show,
+        #panel-carta.show {
             display: flex;
         }
-        .options-center {
+        .options-center,
+        .carta-center {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -132,26 +134,26 @@
             transform: scale(1.045);
             border-color: #fff;
         }
-        /* Carta alitas */
-        #card-alitas {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 55%;
-            transform: translate(-50%, -50%);
+        /* Carta alitas panel */
+        .carta-card {
             background: rgba(24,18,22,0.97);
             border-radius: 18px;
             box-shadow: 0 4px 32px #000c;
             padding: 34px 30px 28px 30px;
-            z-index: 100;
-            min-width: 310px;
-            max-width: 95vw;
+            min-width: 320px;
+            max-width: 98vw;
             color: #fff;
             border: 4px solid;
             border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
             font-size: 1.13em;
+            position: relative;
+            animation: cartaFadeIn 0.4s;
         }
-        #card-alitas h3 {
+        @keyframes cartaFadeIn {
+            from { opacity: 0; transform: scale(0.95);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        .carta-card h3 {
             text-align: center;
             margin-top: 0;
             font-size: 1.45em;
@@ -159,20 +161,66 @@
             color: #ff5252;
             text-shadow: 0 2px 8px #000a;
         }
-        #card-alitas ul {
-            padding-left: 20px;
-            margin: 17px 0 5px 0;
+        .alitas-img {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 16px;
+            margin: 0 auto 24px auto;
+            display: block;
+            box-shadow: 0 2px 12px #0008;
         }
-        #card-alitas li {
-            margin-bottom: 10px;
+        .menu-alitas {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .menu-alitas li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 13px;
             font-size: 1.15em;
-            letter-spacing: 0.7px;
+        }
+        .menu-desc {
+            flex: 1 1 auto;
+            margin-right: 14px;
+            letter-spacing: 0.5px;
+        }
+        .menu-precio {
+            font-weight: bold;
+            font-size: 1.08em;
+            color: #f7971e;
+            margin-left: 6px;
+            margin-right: 6px;
+            min-width: 64px;
+            text-align: right;
+        }
+        .menu-soles {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffdd00;
+            margin-right: 2px;
+        }
+        .menu-pedir-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 18px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 7px;
+            box-shadow: 0 2px 6px #0005;
+            transition: filter 0.15s;
+        }
+        .menu-pedir-btn:hover {
+            filter: brightness(1.12);
         }
         #close-card {
-            display: block;
-            float: right;
-            margin-top: -15px;
-            margin-right: -15px;
+            position: absolute;
+            right: 17px;
+            top: 15px;
             background: #ff5252;
             color: #fff;
             border: none;
@@ -187,9 +235,9 @@
         @media (max-width: 500px) {
             #auth-section { width: 96vw; left: 2vw; right: 2vw; padding: 12px 6px;}
             .big-option-btn { font-size: 1.15em; padding: 19px 0; }
-            .options-center { padding-top: 60px;}
+            .options-center, .carta-center { padding-top: 60px;}
             #logout-btn { padding: 9px 13px; font-size: 1em; top:10px; right:10px;}
-            #card-alitas { padding: 16px 7vw 12px 7vw; }
+            .carta-card { padding: 16px 4vw 12px 4vw; }
         }
     </style>
 </head>
@@ -226,18 +274,47 @@
             <button class="big-option-btn" onclick="alert('Pedir por delivery')">Pedir por delivery</button>
         </div>
     </div>
-    <!-- Carta de alitas -->
-    <div id="card-alitas">
-        <button id="close-card" title="Cerrar">&times;</button>
-        <h3>Alitas</h3>
-        <ul>
-            <li>4 piezas ............................... <b>14 soles</b></li>
-            <li>6 alitas ............................... <b>21 soles</b></li>
-            <li>9 alitas ............................... <b>32 soles</b></li>
-            <li>12 alitas .............................. <b>36 soles</b></li>
-            <li>Combo 20 alitas + masas + nuggets ...... <b>65 soles</b></li>
-            <li>Combo 30 alitas + nuggets + gaseosa .... <b>75 soles</b></li>
-        </ul>
+    <!-- Panel carta de alitas -->
+    <div id="panel-carta">
+        <div class="carta-center">
+            <div class="carta-card">
+                <button id="close-card" title="Cerrar">&times;</button>
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Alitas" class="alitas-img">
+                <h3>Alitas</h3>
+                <ul class="menu-alitas">
+                    <li>
+                        <span class="menu-desc">4 piezas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>14</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('4 piezas', 14)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">6 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>21</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('6 alitas', 21)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">9 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>32</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('9 alitas', 32)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">12 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>36</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('12 alitas', 36)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 20 alitas + masas + nuggets</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>65</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + masas + nuggets', 65)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 30 alitas + nuggets + gaseosa</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>75</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 30 alitas + nuggets + gaseosa', 75)">Pedir</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <script>
         // Alternar entre login y registro
@@ -250,8 +327,8 @@
         const switchArea = document.getElementById('switch-area');
         const logoutBtn = document.getElementById('logout-btn');
         const mainOptions = document.getElementById('main-options');
-        const cardAlitas = document.getElementById('card-alitas');
         const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const panelCarta = document.getElementById('panel-carta');
         const closeCard = document.getElementById('close-card');
 
         toggleLink.onclick = function(e){
@@ -320,6 +397,7 @@
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
             mainOptions.classList.remove('show');
+            panelCarta.classList.remove('show');
             authSection.classList.remove('hidden');
             logoutBtn.classList.remove('show');
             loginForm.reset();
@@ -330,7 +408,6 @@
             toggleMsg.textContent = '¿No tienes cuenta?';
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
-            cardAlitas.style.display = 'none';
             document.body.style.background = "";
         };
 
@@ -343,13 +420,21 @@
             }
         };
 
-        // Mostrar carta de alitas
+        // Mostrar carta de alitas en el panel
         btnHacerPedido.onclick = function() {
-            cardAlitas.style.display = "block";
+            mainOptions.classList.remove('show');
+            panelCarta.classList.add('show');
         }
         closeCard.onclick = function() {
-            cardAlitas.style.display = "none";
+            panelCarta.classList.remove('show');
+            mainOptions.classList.add('show');
         }
+
+        // Función para simular hacer el pedido
+        function pedirMenu(item, precio) {
+            alert("¡Pedido realizado!\n" + item + " - S/ " + precio);
+        }
+        window.pedirMenu = pedirMenu; // para que sea accesible desde los botones onClick
     </script>
 </body>
 </html>
