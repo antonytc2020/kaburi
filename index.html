@@ -145,29 +145,26 @@
             cursor: pointer; outline: none; transition: background 0.18s; text-decoration: none;
         }
         .user-name-dropdown button:hover, .user-name-dropdown a:hover { background: #ff5252cc; }
-        .welcome-message {
+        .goodbye-message {
             position: fixed;
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5em;
+            font-size: 3.3em;
             color: #fff;
-            z-index: 101;
+            z-index: 1200;
             font-weight: 900;
             opacity: 0;
             transition:
-                opacity 0.7s,
-                top 1.2s cubic-bezier(0.22,1,0.36,1),
-                left 1.2s cubic-bezier(0.22,1,0.36,1),
-                font-size 1.2s cubic-bezier(0.22,1,0.36,1),
-                transform 1.2s cubic-bezier(0.22,1,0.36,1);
+                opacity 1.1s cubic-bezier(0.22,1,0.36,1);
             pointer-events: none;
-            text-shadow: 0 6px 30px #000a, 0 1px 1px #b71c1c;
+            background: none;
+            text-shadow: 0 6px 30px #000a;
             letter-spacing: 2px;
         }
-        .welcome-message.show { opacity: 1; }
-        .welcome-message.to-corner { top: 40px; left: 140px; transform: translate(0, 0); font-size: 1.23em; }
-        .welcome-message.hide { opacity: 0; transition: opacity 0.8s; }
+        .goodbye-message.show { opacity: 1; }
+        .goodbye-message.hide { opacity: 0; transition: opacity 0.8s; }
+        /* resto igual */
         #main-options {
             display: none;
             position: fixed;
@@ -382,6 +379,7 @@
         </ul>
     </nav>
     <div class="welcome-message" id="welcome-message"></div>
+    <div class="goodbye-message" id="goodbye-message"></div>
     <div class="container" id="auth-section">
         <div class="logo-login">
             <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
@@ -508,6 +506,7 @@
     </div>
     <script>
         const welcomeMessage = document.getElementById('welcome-message');
+        const goodbyeMessage = document.getElementById('goodbye-message');
         const userNameBadge = document.getElementById('user-name-badge');
         const userDropdown = document.getElementById('user-dropdown');
         const darkOverlay = document.getElementById('dark-overlay');
@@ -551,6 +550,20 @@
             setTimeout(() => {
                 welcomeMessage.className = "welcome-message to-corner";
             }, 3400);
+        }
+
+        function showGoodbye(nombre, cb) {
+            goodbyeMessage.textContent = `¡Hasta pronto, ${nombre}!`;
+            goodbyeMessage.className = "goodbye-message show";
+            darkOverlay.classList.add('active');
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message show hide";
+                darkOverlay.classList.remove('active');
+            }, 1800);
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message";
+                if (cb) cb();
+            }, 2300);
         }
 
         userNameBadge.onclick = function(e) {
@@ -725,7 +738,8 @@
         };
 
         logoutBtn.onclick = function() {
-            localStorage.removeItem('session');
+            const session = JSON.parse(localStorage.getItem('session') || '{}');
+            const nombre = session.nombre || "usuario";
             mainOptions.classList.remove('show');
             panelCarta.classList.remove('show');
             userNameBadge.classList.remove('show', 'to-corner');
@@ -739,7 +753,15 @@
             toggleMsg.textContent = '¿No tienes cuenta?';
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
-            document.getElementById('auth-section').classList.remove('hidden');
+            localStorage.removeItem('session');
+
+            showGoodbye(nombre, () => {
+                document.getElementById('auth-section').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.add('show');
+                }, 80);
+                logoutBtn.classList.remove('show');
+            });
         };
 
         btnHacerPedido.onclick = function() {
