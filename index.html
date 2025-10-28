@@ -57,11 +57,7 @@
             display: block; opacity: 1; transform: translateY(0);
         }
         .user-name-badge.to-corner {
-            top: 40px;
-            left: 140px;
-            font-size: 1.6em;
-            letter-spacing: 1.5px;
-            padding: 0 9px 0 0;
+            top: 40px; left: 140px; font-size: 1.6em; letter-spacing: 1.5px; padding: 0 9px 0 0;
         }
         .user-name-dropdown {
             display: none; position: fixed; top: 0; left: 0; height: 100vh;
@@ -183,6 +179,17 @@
         }
         .big-option-btn:hover {
             filter: brightness(1.13); transform: scale(1.045); border-color: #fff;
+        }
+        /* PANEL CARTA: OCULTA POR DEFECTO */
+        #panel-carta {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 1;
+        }
+        #panel-carta.show {
+            display: flex;
         }
         .carta-center {
             display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw;
@@ -382,7 +389,6 @@
         </div>
     </div>
     <script>
-        // Animación panel de login
         window.onload = function(){
             setTimeout(() => {
                 document.getElementById('auth-section').classList.add('show');
@@ -399,8 +405,6 @@
                 }, 2600);
             }
         };
-
-        // Login/registro y referencias JS
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const toggleLink = document.getElementById('toggle-link');
@@ -425,7 +429,6 @@
         const recoverMessage = document.getElementById('recover-message');
         let pedido = [];
         let dropdownOpen = false;
-
         function showWelcome(nombre) {
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
@@ -441,7 +444,6 @@
                 userNameBadge.style.display = "block";
             }, 2600);
         }
-
         userNameBadge.onclick = function(e) {
             e.stopPropagation();
             if (dropdownOpen) {
@@ -473,7 +475,6 @@
                 }
             }
         }
-
         toggleLink.onclick = function(e){
             e.preventDefault();
             if(loginForm.style.display !== 'none'){
@@ -490,7 +491,6 @@
                 toggleLink.textContent = 'Registrarse';
             }
         };
-
         function getUsers(){
             return JSON.parse(localStorage.getItem('users') || '{}');
         }
@@ -503,7 +503,6 @@
             const users = getUsers();
             return users[email] && users[email].password === password ? users[email] : null;
         }
-
         registerForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('register-email').value;
@@ -527,7 +526,6 @@
                 document.getElementById('login-email').focus();
             }
         };
-
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -547,7 +545,6 @@
                 alert('Correo o contraseña incorrectos.');
             }
         };
-
         forgotLink.onclick = function(e){
             e.preventDefault();
             loginForm.style.display = 'none';
@@ -586,7 +583,6 @@
                 switchArea.style.display = '';
             },2500);
         };
-
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
             mainOptions.classList.remove('show');
@@ -603,8 +599,6 @@
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
         };
-
-        // PANEL DE PEDIDOS
         btnHacerPedido.onclick = function() {
             mainOptions.classList.remove('show');
             panelCarta.classList.add('show');
