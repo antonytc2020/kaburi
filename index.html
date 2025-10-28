@@ -20,21 +20,12 @@
             overflow-x: hidden;
         }
         .logo-global {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            z-index: 20;
-            display: flex;
-            align-items: center;
+            position: fixed; top: 25px; left: 25px;
+            z-index: 20; display: flex; align-items: center;
         }
         .logo-global img {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 2px 12px #0008;
-            padding: 10px;
+            width: 90px; height: 90px; object-fit: contain;
+            background: #fff; border-radius: 24px; box-shadow: 0 2px 12px #0008; padding: 10px;
         }
         .user-name-badge {
             display: none;
@@ -63,9 +54,7 @@
             box-shadow: none;
         }
         .user-name-badge.show {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
+            display: block; opacity: 1; transform: translateY(0);
         }
         .user-name-badge.to-corner {
             top: 40px;
@@ -75,49 +64,22 @@
             padding: 0 9px 0 0;
         }
         .user-name-dropdown {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 310px;
-            background: #181818f2;
-            color: #fff;
-            border-radius: 0 18px 18px 0;
-            box-shadow: 6px 0 38px #000b;
-            z-index: 30;
-            font-size: 1.1em;
-            animation: fadeInDrop 0.18s;
+            display: none; position: fixed; top: 0; left: 0; height: 100vh;
+            width: 310px; background: #181818f2; color: #fff;
+            border-radius: 0 18px 18px 0; box-shadow: 6px 0 38px #000b;
+            z-index: 30; font-size: 1.1em; animation: fadeInDrop 0.18s;
         }
         @keyframes fadeInDrop { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform:translateX(0);} }
-        .user-name-dropdown ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .user-name-dropdown li {
-            border-bottom: 1px solid #ff52525a;
-        }
-        .user-name-dropdown li:last-child {
-            border-bottom: none;
-        }
+        .user-name-dropdown ul { list-style: none; margin: 0; padding: 0; }
+        .user-name-dropdown li { border-bottom: 1px solid #ff52525a; }
+        .user-name-dropdown li:last-child { border-bottom: none; }
         .user-name-dropdown button, .user-name-dropdown a {
-            display: block;
-            width: 100%;
-            background: none;
-            border: none;
-            color: inherit;
-            text-align: left;
-            padding: 22px 32px;
-            font-size: 1em;
-            cursor: pointer;
-            outline: none;
-            transition: background 0.18s;
+            display: block; width: 100%; background: none; border: none;
+            color: inherit; text-align: left; padding: 22px 32px; font-size: 1em;
+            cursor: pointer; outline: none; transition: background 0.18s;
             text-decoration: none;
         }
-        .user-name-dropdown button:hover, .user-name-dropdown a:hover {
-            background: #ff5252cc;
-        }
+        .user-name-dropdown button:hover, .user-name-dropdown a:hover { background: #ff5252cc; }
         .welcome-message {
             position: fixed;
             top: 45%;
@@ -139,12 +101,7 @@
             letter-spacing: 2px;
         }
         .welcome-message.show { opacity: 1; }
-        .welcome-message.to-corner {
-            top: 40px;
-            left: 140px;
-            transform: translate(0, 0);
-            font-size: 1.23em;
-        }
+        .welcome-message.to-corner { top: 40px; left: 140px; transform: translate(0, 0); font-size: 1.23em; }
         @media (max-width: 600px) {
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
@@ -153,7 +110,6 @@
             .user-name-dropdown { width: 97vw; min-width:unset; border-radius:0 0 18px 18px; }
             #auth-section { width: 96vw; left: 2vw; right: 2vw; padding: 12px 6px;}
         }
-        /* Panel auth animación */
         #auth-section {
             position: fixed;
             top: 50%;
@@ -168,93 +124,41 @@
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
         }
-        #auth-section.show {
-            transform: translate(-50%, -50%) translateY(0);
-            opacity: 1;
-        }
+        #auth-section.show { transform: translate(-50%, -50%) translateY(0); opacity: 1; }
         #auth-section.hidden { display: none; }
-        .logo-login {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
+        .logo-login { display: flex; justify-content: center; margin-bottom: 20px; }
         .logo-login img {
-            width: 115px;
-            height: 115px;
-            background: #fff;
-            border-radius: 50%;
-            object-fit: contain;
-            box-shadow: 0 2px 12px #0008;
-            padding: 14px;
+            width: 115px; height: 115px; background: #fff; border-radius: 50%;
+            object-fit: contain; box-shadow: 0 2px 12px #0008; padding: 14px;
         }
-        #auth-section h2 { 
-            text-align: center; 
-            color: #ff5252; 
-            margin-top: 0;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px #000a;
-        }
+        #auth-section h2 { text-align: center; color: #ff5252; margin-top: 0; letter-spacing: 2px; text-shadow: 0 2px 8px #000a; }
         label { display: block; margin-top: 14px; }
         input {
-            width: 100%;
-            padding: 9px;
-            margin-top: 6px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background: #222c;
-            color: #fff;
-            font-size: 1em;
+            width: 100%; padding: 9px; margin-top: 6px; border-radius: 5px;
+            border: 1px solid #333; background: #222c; color: #fff; font-size: 1em;
         }
         button[type="submit"] {
-            margin-top: 19px;
-            padding: 12px 20px;
-            width: 100%;
-            background: #ff5252;
-            color: #fff;
-            font-size: 1.15em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px #0007;
-            transition: background 0.2s;
+            margin-top: 19px; padding: 12px 20px; width: 100%; background: #ff5252;
+            color: #fff; font-size: 1.15em; border: none; border-radius: 5px;
+            cursor: pointer; box-shadow: 0 2px 6px #0007; transition: background 0.2s;
         }
         button[type="submit"]:hover { background: #b71c1c; }
         .switch { margin-top: 22px; text-align: center;}
         #logout-btn {
-            display: none;
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: #ff5252;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 16px #000a;
-            z-index: 11;
+            display: none; position: fixed; top: 30px; right: 30px;
+            background: #ff5252; color: #fff; border: none; border-radius: 8px;
+            padding: 12px 28px; font-size: 1.2em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px 16px #000a; z-index: 11;
             transition: filter 0.2s, background 0.2s;
         }
         #logout-btn.show { display: block; }
-        /* PANEL OPCIONES PRINCIPAL */
         #main-options {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 1;
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
             background: rgba(15,16,20,0.95);
         }
         #main-options.show { display: flex; }
         .options-center {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw;
         }
         .panel-bienvenida {
             max-width: 600px;
@@ -264,54 +168,24 @@
             padding: 36px 22px 38px 22px;
             margin-bottom: 50px;
         }
-        .panel-bienvenida h2 {
-            text-align: center;
-            color: #ff5252;
-            font-size: 2.2em;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-        }
+        .panel-bienvenida h2 { text-align: center; color: #ff5252; font-size: 2.2em; letter-spacing: 2px; margin-bottom: 16px; }
         .panel-bienvenida p {
-            text-align: center;
-            font-size: 1.22em;
-            color: #fff;
-            margin: 0 0 18px 0;
-            line-height: 1.5;
-            letter-spacing: .5px;
+            text-align: center; font-size: 1.22em; color: #fff; margin: 0 0 18px 0;
+            line-height: 1.5; letter-spacing: .5px;
         }
         .big-option-btn {
-            width: 85vw;
-            max-width: 650px;
-            min-width: 250px;
-            padding: 36px 0;
-            margin: 24px 0 0 0;
-            font-size: 2.05em;
-            font-weight: bold;
-            border-radius: 18px;
-            border: 4px solid;
-            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
-            color: #fff;
-            background: rgba(30,30,35,0.2);
-            box-shadow: 0 3px 16px #0009;
-            cursor: pointer;
-            transition: transform 0.19s, filter 0.18s, border-color 0.22s;
-            letter-spacing: 1px;
-            backdrop-filter: blur(3px);
-            display: block;
+            width: 85vw; max-width: 650px; min-width: 250px;
+            padding: 36px 0; margin: 24px 0 0 0; font-size: 2.05em; font-weight: bold;
+            border-radius: 18px; border: 4px solid; border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
+            color: #fff; background: rgba(30,30,35,0.2); box-shadow: 0 3px 16px #0009;
+            cursor: pointer; transition: transform 0.19s, filter 0.18s, border-color 0.22s;
+            letter-spacing: 1px; backdrop-filter: blur(3px); display: block;
         }
         .big-option-btn:hover {
-            filter: brightness(1.13);
-            transform: scale(1.045);
-            border-color: #fff;
+            filter: brightness(1.13); transform: scale(1.045); border-color: #fff;
         }
-        /* PANEL CARTA Y RESTO IGUAL QUE ANTES... */
         .carta-center {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw;
         }
         .carta-card {
             background: rgba(24,18,22,0.97);
@@ -329,40 +203,52 @@
         }
         @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
         .carta-card h3 {
-            text-align: center;
-            margin-top: 0;
-            font-size: 1.45em;
-            letter-spacing: 1.5px;
-            color: #ff5252;
-            text-shadow: 0 2px 8px #000a;
+            text-align: center; margin-top: 0; font-size: 1.45em; letter-spacing: 1.5px; color: #ff5252; text-shadow: 0 2px 8px #000a;
         }
         .logo-carta {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 2;
+            display: flex; align-items: center; margin-bottom: 15px; position: absolute; top: 20px; left: 20px; z-index: 2;
         }
         .logo-carta img {
-            width: 68px;
-            height: 68px;
-            object-fit: contain;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px #0008;
-            padding: 6px;
+            width: 68px; height: 68px; object-fit: contain; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px #0008; padding: 6px;
         }
-        .alitas-img {
-            width: 100%;
-            max-width: 320px;
-            border-radius: 16px;
-            margin: 0 auto 24px auto;
-            display: block;
-            box-shadow: 0 2px 12px #0008;
+        .alitas-img { width: 100%; max-width: 320px; border-radius: 16px; margin: 0 auto 24px auto; display: block; box-shadow: 0 2px 12px #0008;}
+        .menu-alitas { list-style: none; padding: 0; margin: 0;}
+        .menu-alitas li {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; font-size: 1.15em;
         }
-        /* ... (resto igual que antes) ... */
+        .menu-desc { flex: 1 1 auto; margin-right: 14px; letter-spacing: 0.5px; }
+        .menu-precio {
+            font-weight: bold; font-size: 1.08em; color: #f7971e; margin-left: 6px; margin-right: 6px; min-width: 64px; text-align: right;
+        }
+        .menu-soles { font-size: 1.1em; font-weight: bold; color: #ffdd00; margin-right: 2px; }
+        .menu-pedir-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e);
+            color: #fff; border: none; border-radius: 7px; padding: 7px 18px; font-size: 1em; font-weight: bold; cursor: pointer; margin-left: 7px; box-shadow: 0 2px 6px #0005; transition: filter 0.15s;
+        }
+        .menu-pedir-btn:hover { filter: brightness(1.12); }
+        #close-card {
+            position: absolute; right: 17px; top: 15px;
+            background: #ff5252; color: #fff; border: none; border-radius: 100%;
+            width: 32px; height: 32px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 8px #0009; z-index: 10;
+        }
+        .panel-actions {
+            display: flex; gap: 15px; justify-content: center; margin: 30px 0 5px 0;
+        }
+        .panel-action-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252);
+            color: #fff; border: none; border-radius: 7px; padding: 12px 20px; font-size: 1.15em; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px #0005; transition: filter 0.15s;
+        }
+        .panel-action-btn:hover { filter: brightness(1.11);}
+        .pedido-resumen {
+            background: rgba(38,38,46,0.86); border-radius: 12px; margin: 38px auto 0 auto; max-width: 420px; width: 100%; padding: 17px 19px 11px 19px; box-shadow: 0 2px 12px #0006; font-size: 1.17em;
+        }
+        .pedido-resumen h4 { margin: 0 0 10px 0; color: #f7971e; text-align: center; }
+        .pedido-lista { margin: 0 0 11px 0; padding: 0; list-style: none;}
+        .pedido-lista li { margin-bottom: 7px; display: flex; justify-content: space-between; }
+        .pedido-item-nombre { font-weight: normal; }
+        .pedido-item-precio { font-weight: bold; color: #ffdd00; }
+        .pedido-total { text-align: right; font-size: 1.17em; font-weight: bold; color: #43e8ff; margin-top: 12px; margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -427,7 +313,6 @@
         </form>
     </div>
     <button id="logout-btn">Cerrar sesión</button>
-    <!-- PANEL PRINCIPAL DE OPCIONES CON FONDO OSCURO Y MENSAJE -->
     <div id="main-options">
         <div class="options-center">
             <div class="panel-bienvenida">
@@ -442,7 +327,6 @@
             <button class="big-option-btn" onclick="alert('Pedir por delivery')">Pedir por delivery</button>
         </div>
     </div>
-    <!-- PANEL CARTA DE PEDIDO (ALITAS) -->
     <div id="panel-carta">
         <div class="carta-center">
             <div class="carta-card">
@@ -542,7 +426,6 @@
         let pedido = [];
         let dropdownOpen = false;
 
-        // Bienvenida muy grande y transición suave a la esquina superior izquierda y luego muestra el nombre como botón sin marco
         function showWelcome(nombre) {
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
