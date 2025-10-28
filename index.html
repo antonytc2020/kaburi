@@ -29,7 +29,7 @@
         #dark-overlay.active {
             background: rgba(20,20,22,0.80);
         }
-        .logo-global { position: fixed; top: 25px; left: 25px; z-index: 20; display: flex; align-items: center; }
+        .logo-global { position: fixed; top: 25px; left: 25px; z-index: 1002; display: flex; align-items: center; }
         .logo-global img { width: 90px; height: 90px; object-fit: contain; background: #fff; border-radius: 24px; box-shadow: 0 2px 12px #0008; padding: 10px; }
         .user-name-badge {
             display: none;
@@ -37,7 +37,7 @@
             top: 48px; left: 130px;
             background: none; color: #fff;
             font-size: 2.3em; font-weight: 900; border: none; border-radius: 0;
-            padding: 0 20px 0 0; z-index: 22;
+            padding: 0 20px 0 0; z-index: 1002;
             cursor: pointer; opacity: 0; transform: translateY(-30px);
             transition: opacity 0.4s, transform 0.5s, top 1.2s cubic-bezier(0.22,1,0.36,1), left 1.2s cubic-bezier(0.22,1,0.36,1), font-size 1.2s cubic-bezier(0.22,1,0.36,1), letter-spacing 1.2s cubic-bezier(0.22,1,0.36,1);
             outline: none; box-shadow: none;
@@ -47,7 +47,7 @@
         .user-name-dropdown {
             display: none; position: fixed; top: 0; left: 0; height: 100vh; width: 310px;
             background: #181818f2; color: #fff; border-radius: 0 18px 18px 0; box-shadow: 6px 0 38px #000b;
-            z-index: 9999; font-size: 1.1em; animation: fadeInDrop 0.18s;
+            z-index: 1003; font-size: 1.1em; animation: fadeInDrop 0.18s;
         }
         @keyframes fadeInDrop { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform:translateX(0);} }
         .user-name-dropdown ul { list-style: none; margin: 0; padding: 0; }
@@ -87,8 +87,11 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 1;
+            z-index: 999;
             background: rgba(15,16,20,0.95);
+            padding-top: 140px;
+            padding-left: 40px;
+            box-sizing: border-box;
         }
         #main-options.show { display: flex; }
         .options-center {
@@ -98,7 +101,7 @@
             justify-content: flex-start;
             height: 100vh;
             width: 100vw;
-            padding-top: 5vh;
+            max-width: 100vw;
         }
         .panel-bienvenida {
             background: none;
@@ -106,8 +109,8 @@
             border: none;
             margin: 0 0 0 0;
             padding: 0;
-            width: 92vw;
-            max-width: 1200px;
+            width: 98vw;
+            max-width: 1400px;
         }
         .panel-bienvenida h2 {
             color: #fff;
@@ -121,9 +124,9 @@
             border: none;
         }
         .panel-bienvenida p {
-            font-size: 1.35em;
+            font-size: 1.55em;
             color: #e0e0e0;
-            margin: 0 0 1.5em 0;
+            margin: 0 0 2em 0;
             line-height: 1.45;
             text-align: left;
             letter-spacing: .5px;
@@ -146,7 +149,7 @@
             min-width: 320px;
             max-width: 500px;
             padding: 40px 30px 35px 30px;
-            font-size: 2.3em;
+            font-size: 2.5em;
             font-weight: bold;
             border-radius: 22px;
             border: none;
@@ -157,6 +160,7 @@
             transition: transform 0.19s, filter 0.18s, box-shadow 0.22s;
             letter-spacing: 1.5px;
             margin-bottom: 0;
+            margin-top: 0;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -168,28 +172,30 @@
             box-shadow: 0 7px 34px #000b;
         }
         .option-desc {
-            font-size: 0.47em;
+            font-size: 0.52em;
             color: #fff;
             font-weight: 400;
             margin-top: 18px;
             margin-left: 6px;
             letter-spacing: 0.5px;
-            opacity: 0.97;
+            opacity: 0.98;
             line-height: 1.35;
             text-shadow: 0 1px 6px #000a;
         }
-        @media (max-width: 1100px) {
-            .main-btns-row { flex-direction: column; align-items: stretch; gap:32px; }
-            .big-option-btn { width: 98vw; max-width: 600px; margin: 0 auto 0 auto;}
+        #logout-btn {
+            display: none; position: fixed; top: 38px; right: 38px;
+            background: #ff5252; color: #fff; border: none; border-radius: 8px;
+            padding: 15px 32px; font-size: 1.4em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px 16px #000a; z-index: 1002;
+            transition: filter 0.2s, background 0.2s;
         }
-        @media (max-width: 700px) {
-            .panel-bienvenida { max-width: 100vw; padding-right: 0; }
-            .panel-bienvenida h2 { font-size: 2.1em; }
-            .panel-bienvenida p { font-size: 1.05em; }
-        }
+        #logout-btn.show { display: block; }
         /* ... resto igual que antes (carta, login, etc) ... */
         #panel-carta { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;}
         #panel-carta.show { display: flex;}
+        .container#auth-section.hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -350,6 +356,7 @@
                 showWelcome(session.nombre || "Usuario");
                 setTimeout(() => {
                     document.getElementById('auth-section').classList.remove('show');
+                    document.getElementById('auth-section').classList.add('hidden');
                 }, 300);
                 setTimeout(() => {
                     mainOptions.classList.add('show');
@@ -500,6 +507,7 @@
                 showWelcome(user.nombre);
                 setTimeout(() => {
                     document.getElementById('auth-section').classList.remove('show');
+                    document.getElementById('auth-section').classList.add('hidden');
                 }, 300);
                 setTimeout(() => {
                     mainOptions.classList.add('show');
@@ -564,6 +572,7 @@
             toggleMsg.textContent = '¿No tienes cuenta?';
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
+            document.getElementById('auth-section').classList.remove('hidden');
         };
 
         btnHacerPedido.onclick = function() {
