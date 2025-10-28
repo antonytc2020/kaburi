@@ -29,11 +29,60 @@
             transition: background 1.2s cubic-bezier(0.22,1,0.36,1);
         }
         #dark-overlay.active { background: rgba(20,20,22,0.80); }
-        .logo-global { position: fixed; top: 25px; left: 25px; z-index: 1002; display: flex; align-items: center; }
+        .logo-global {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        .logo-global.hide { opacity: 0; }
         .logo-global img {
             width: 90px; height: 90px; object-fit: contain;
             background: #fff; border-radius: 24px; box-shadow: 0 2px 12px #0008; padding: 10px;
-            transition: width 1s cubic-bezier(0.22,1,0.36,1), height 1s cubic-bezier(0.22,1,0.36,1), top 1s cubic-bezier(0.22,1,0.36,1), left 1s cubic-bezier(0.22,1,0.36,1), border-radius 1s cubic-bezier(0.22,1,0.36,1);
+        }
+        #animated-logo {
+            position: fixed;
+            z-index: 2003;
+            width: 300px;
+            height: 300px;
+            left: 50%;
+            top: 50%;
+            border-radius: 50px;
+            background: #fff;
+            box-shadow: 0 2px 32px #000c;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+            pointer-events: none;
+            transition:
+                width 0.9s cubic-bezier(.22,1,.36,1),
+                height 0.9s cubic-bezier(.22,1,.36,1),
+                left 0.9s cubic-bezier(.22,1,.36,1),
+                top 0.9s cubic-bezier(.22,1,.36,1),
+                border-radius 0.9s cubic-bezier(.22,1,.36,1),
+                opacity 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        #animated-logo.visible { opacity: 1; }
+        #animated-logo.corner {
+            width: 90px;
+            height: 90px;
+            left: 70px;
+            top: 70px;
+            border-radius: 24px;
+            transform: none;
+            opacity: 1;
+        }
+        #animated-logo.to-center {
+            width: 300px;
+            height: 300px;
+            left: 50%;
+            top: 50%;
+            border-radius: 50px;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
         .user-name-badge {
             display: none;
@@ -262,7 +311,6 @@
             .main-btns-row { width: 100%; }
             .panel-bienvenida { width: 100vw; }
         }
-        /* --- LOGIN PANEL MODERNO --- */
         #auth-section {
             display: flex;
             align-items: center;
@@ -392,41 +440,6 @@
         }
         #logout-btn.show { display: block; }
         .hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
-
-        /* Animación de logo centrado y reducción */
-        #animated-logo {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            z-index: 2000;
-            width: 300px;
-            height: 300px;
-            border-radius: 40px;
-            background: #fff;
-            box-shadow: 0 2px 32px #000c;
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0;
-            transition:
-                width 1s cubic-bezier(0.22,1,0.36,1),
-                height 1s cubic-bezier(0.22,1,0.36,1),
-                left 1s cubic-bezier(0.22,1,0.36,1),
-                top 1s cubic-bezier(0.22,1,0.36,1),
-                border-radius 1s cubic-bezier(0.22,1,0.36,1),
-                opacity 0.4s cubic-bezier(0.22,1,0.36,1);
-            pointer-events: none;
-        }
-        #animated-logo.show {
-            opacity: 1;
-        }
-        #animated-logo.to-corner {
-            width: 90px;
-            height: 90px;
-            left: 70px;
-            top: 70px;
-            border-radius: 24px;
-            transform: none;
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -446,7 +459,6 @@
             <li><button type="button" onclick="eliminarCuenta()">Eliminar cuenta</button></li>
         </ul>
     </nav>
-    <!-- LOGIN PANEL MODERNO -->
     <div class="container" id="auth-section">
         <div class="auth-card">
             <div class="logo-login">
@@ -493,7 +505,6 @@
             </form>
         </div>
     </div>
-    <!-- FIN LOGIN PANEL MODERNO -->
     <button id="logout-btn">Cerrar sesión</button>
     <div id="main-options">
         <div class="options-center">
@@ -574,44 +585,88 @@
         </div>
     </div>
     <script>
-        // Referencias
         const userNameBadge = document.getElementById('user-name-badge');
         const userDropdown = document.getElementById('user-dropdown');
-        const darkOverlay = document.getElementById('dark-overlay');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mainOptions = document.getElementById('main-options');
+        const panelCarta = document.getElementById('panel-carta');
+        const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const toggleLink = document.getElementById('toggle-link');
+        const formTitle = document.getElementById('form-title');
+        const toggleMsg = document.getElementById('toggle-msg');
+        const authSection = document.getElementById('auth-section');
+        const switchArea = document.getElementById('switch-area');
+        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const forgotLink = document.getElementById('forgot-link');
+        const recoverForm = document.getElementById('recover-form');
+        const recoverContact = document.getElementById('recover-contact');
+        const recoverMessage = document.getElementById('recover-message');
+        const logoGlobal = document.querySelector('.logo-global');
+        const animatedLogo = document.getElementById('animated-logo');
+
         let pedido = [];
         let dropdownOpen = false;
 
-        // Animación de logo
-        const animatedLogo = document.getElementById('animated-logo');
+        // LOGO ANIMATION FUNCTIONS
 
-        function playLogoTransition(cb) {
-            animatedLogo.classList.add('show');
-            animatedLogo.classList.remove('to-corner');
-
+        // From center to corner (login)
+        function loginLogoAnimation(cb) {
+            // Hide logoGlobal
+            logoGlobal.classList.add('hide');
+            // Show animated logo in center (grow)
+            animatedLogo.className = '';
+            animatedLogo.classList.add('visible', 'to-center');
             setTimeout(() => {
-                animatedLogo.classList.add('to-corner');
-                // Quitar el logo después de la animación
+                // Move and shrink to corner
+                animatedLogo.classList.remove('to-center');
+                animatedLogo.classList.add('corner');
                 setTimeout(() => {
-                    animatedLogo.classList.remove('show', 'to-corner');
-                    if (cb) cb();
-                }, 1000);
-            }, 900); // tiempo grande logo visible
+                    // Show logoGlobal, hide animated logo
+                    logoGlobal.classList.remove('hide');
+                    animatedLogo.classList.remove('visible', 'corner');
+                    if(cb) cb();
+                }, 950);
+            }, 900);
+        }
+
+        // From corner to center (logout)
+        function logoutLogoAnimation(cb) {
+            // Hide logoGlobal
+            logoGlobal.classList.add('hide');
+            // Place animated logo in corner
+            animatedLogo.className = '';
+            animatedLogo.classList.add('visible', 'corner');
+            setTimeout(() => {
+                // Move and grow to center
+                animatedLogo.classList.remove('corner');
+                animatedLogo.classList.add('to-center');
+                setTimeout(() => {
+                    // Hide animated logo
+                    animatedLogo.classList.remove('visible', 'to-center');
+                    if(cb) cb();
+                }, 950);
+            }, 100);
         }
 
         window.onload = function(){
             if(localStorage.getItem('session')){
-                document.getElementById('auth-section').classList.add('hidden');
-                document.getElementById('main-options').classList.add('show');
-                document.getElementById('logout-btn').classList.add('show');
+                authSection.classList.add('hidden');
+                mainOptions.classList.add('show');
+                logoutBtn.classList.add('show');
                 const session = JSON.parse(localStorage.getItem('session'));
                 mostrarUsuario(session.nombre || "Usuario");
-                playLogoTransition();
+                loginLogoAnimation();
             } else {
                 setTimeout(() => {
-                    document.getElementById('auth-section').classList.add('show');
-                    document.getElementById('auth-section').classList.remove('hidden');
-                    document.getElementById('main-options').classList.remove('show');
-                    document.getElementById('logout-btn').classList.remove('show');
+                    authSection.classList.add('show');
+                    authSection.classList.remove('hidden');
+                    mainOptions.classList.remove('show');
+                    logoutBtn.classList.remove('show');
                 }, 150);
             }
         };
@@ -659,25 +714,6 @@
                 }
             }
         }
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const toggleLink = document.getElementById('toggle-link');
-        const formTitle = document.getElementById('form-title');
-        const toggleMsg = document.getElementById('toggle-msg');
-        const authSection = document.getElementById('auth-section');
-        const switchArea = document.getElementById('switch-area');
-        const logoutBtn = document.getElementById('logout-btn');
-        const mainOptions = document.getElementById('main-options');
-        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
-        const panelCarta = document.getElementById('panel-carta');
-        const closeCard = document.getElementById('close-card');
-        const pedidoResumen = document.getElementById('pedido-resumen');
-        const pedidoLista = document.getElementById('pedido-lista');
-        const pedidoTotal = document.getElementById('pedido-total');
-        const forgotLink = document.getElementById('forgot-link');
-        const recoverForm = document.getElementById('recover-form');
-        const recoverContact = document.getElementById('recover-contact');
-        const recoverMessage = document.getElementById('recover-message');
 
         toggleLink.onclick = function(e){
             e.preventDefault();
@@ -740,11 +776,11 @@
             const user = validateUser(email, password);
             if(user){
                 localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
-                // Animación logo en login
-                playLogoTransition(function() {
-                    document.getElementById('auth-section').classList.add('hidden');
-                    document.getElementById('main-options').classList.add('show');
-                    document.getElementById('logout-btn').classList.add('show');
+                // Oculta panel, luego logo animado (centro -> esquina), luego muestra todo
+                authSection.classList.add('hidden');
+                loginLogoAnimation(function() {
+                    mainOptions.classList.add('show');
+                    logoutBtn.classList.add('show');
                     mostrarUsuario(user.nombre);
                 });
             } else {
@@ -792,8 +828,6 @@
         };
 
         logoutBtn.onclick = function() {
-            const session = JSON.parse(localStorage.getItem('session') || '{}');
-            const nombre = session.nombre || "usuario";
             mainOptions.classList.remove('show');
             panelCarta.classList.remove('show');
             userNameBadge.classList.remove('show', 'to-corner');
@@ -809,11 +843,11 @@
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
             localStorage.removeItem('session');
-            // Animación logo en logout
-            playLogoTransition(function() {
-                document.getElementById('auth-section').classList.remove('hidden');
+            // Animación: logo global desaparece, logo animado de esquina a centro y desaparece, luego login visible
+            logoutLogoAnimation(function() {
+                authSection.classList.remove('hidden');
                 setTimeout(() => {
-                    document.getElementById('auth-section').classList.add('show');
+                    authSection.classList.add('show');
                 }, 80);
                 logoutBtn.classList.remove('show');
             });
