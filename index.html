@@ -18,6 +18,7 @@
             background-position: center, center, 70% 8%;
             color: #fff;
             overflow-x: hidden;
+            font-size: 20px;
         }
         #dark-overlay {
             pointer-events: none;
@@ -37,11 +38,11 @@
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%) translateY(-80vh);
-            background: rgba(32, 24, 34, 0.98);
+            background: rgba(32, 24, 34, 0.97);
             box-shadow: 0 6px 32px #000d;
             padding: 36px 32px 28px 32px;
             border-radius: 18px;
-            width: 350px;
+            width: 370px;
             z-index: 2000;
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
@@ -58,7 +59,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             margin-top: -16px;
         }
         .logo-login img {
@@ -77,24 +78,24 @@
             margin-bottom: 18px;
             letter-spacing: 2px;
             text-shadow: 0 2px 8px #000a;
-            font-size: 2em;
+            font-size: 2.2em;
             font-weight: bold;
         }
-        label { display: block; margin-top: 12px; font-size: 1.05em;}
+        label { display: block; margin-top: 12px; font-size: 1.16em;}
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-top: 7px;
             border-radius: 6px;
             border: 1px solid #222;
             background: #16151b;
             color: #fff;
-            font-size: 1em;
+            font-size: 1.12em;
             outline: none;
         }
         button[type="submit"] {
             margin-top: 20px;
-            padding: 13px 0;
+            padding: 15px 0;
             width: 100%;
             background: linear-gradient(90deg, #ff5252, #f7971e 70%, #43e8ff);
             color: #fff;
@@ -220,29 +221,29 @@
         }
         .main-btns-row {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: flex-start;
             align-items: stretch;
-            gap: 50px;
+            gap: 32px;
             margin: 0 0 0 0;
-            flex-wrap: wrap;
             width: 100%;
         }
         .big-option-btn {
-            flex: 1 1 320px;
+            width: 98%;
             min-width: 320px;
-            max-width: 500px;
-            padding: 40px 30px 35px 30px;
-            font-size: 2.5em;
+            max-width: 800px;
+            align-self: center;
+            padding: 36px 30px 36px 30px;
+            font-size: 2.1em;
             font-weight: bold;
             border-radius: 22px;
-            border: none;
+            border: 3px solid #ff5252;
             color: #fff;
-            background: linear-gradient(90deg, #ff5252, #f7971e 60%, #43e8ff);
-            box-shadow: 0 6px 32px #0008;
+            background: transparent;
+            box-shadow: 0 4px 14px #0007;
             cursor: pointer;
-            transition: transform 0.19s, filter 0.18s, box-shadow 0.22s;
-            letter-spacing: 1.5px;
+            transition: transform 0.19s, filter 0.18s, box-shadow 0.22s, background 0.24s;
+            letter-spacing: 1.25px;
             margin-bottom: 0;
             margin-top: 0;
             display: flex;
@@ -251,15 +252,16 @@
             position: relative;
         }
         .big-option-btn:hover {
-            filter: brightness(1.13);
-            transform: scale(1.045);
+            background: rgba(255,82,82,0.09);
+            filter: brightness(1.05);
+            transform: scale(1.025);
             box-shadow: 0 7px 34px #000b;
         }
         .option-desc {
-            font-size: 0.52em;
+            font-size: 0.55em;
             color: #fff;
             font-weight: 400;
-            margin-top: 18px;
+            margin-top: 15px;
             margin-left: 6px;
             letter-spacing: 0.5px;
             opacity: 0.98;
@@ -268,7 +270,99 @@
         }
         #panel-carta { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;}
         #panel-carta.show { display: flex;}
-        /* ...carta, menú, etc igual que antes... */
+        .carta-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .carta-card {
+            background: rgba(24,18,22,0.99);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #000c;
+            padding: 34px 30px 28px 30px;
+            min-width: 340px;
+            max-width: 95vw;
+            width: 95vw;
+            color: #fff;
+            border: 3px solid #ff5252;
+            font-size: 1.25em;
+            position: relative;
+            animation: cartaFadeIn 0.4s;
+        }
+        @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
+        .carta-card h3 {
+            text-align: center; margin-top: 0; font-size: 1.65em; letter-spacing: 1.5px; color: #ff5252; text-shadow: 0 2px 8px #000a;
+        }
+        .logo-carta {
+            display: flex; align-items: center; margin-bottom: 15px; position: absolute; top: 20px; left: 20px; z-index: 2;
+        }
+        .logo-carta img {
+            width: 68px; height: 68px; object-fit: contain; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px #0008; padding: 6px;
+        }
+        .alitas-img { width: 100%; max-width: 320px; border-radius: 16px; margin: 0 auto 24px auto; display: block; box-shadow: 0 2px 12px #0008;}
+        .menu-alitas { list-style: none; padding: 0; margin: 0;}
+        .menu-alitas li {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; font-size: 1.25em;
+        }
+        .menu-desc { flex: 1 1 auto; margin-right: 14px; letter-spacing: 0.5px; }
+        .menu-precio {
+            font-weight: bold; font-size: 1.15em; color: #f7971e; margin-left: 6px; margin-right: 6px; min-width: 70px; text-align: right;
+        }
+        .menu-soles { font-size: 1.1em; font-weight: bold; color: #ffdd00; margin-right: 2px; }
+        .menu-pedir-btn {
+            background: transparent;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            border-radius: 9px;
+            padding: 10px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 7px;
+            box-shadow: 0 2px 6px #0004;
+            transition: background 0.18s, color 0.18s;
+        }
+        .menu-pedir-btn:hover {
+            background: #ff5252;
+            color: #fff;
+        }
+        #close-card {
+            position: absolute; right: 17px; top: 15px;
+            background: #ff5252; color: #fff; border: none; border-radius: 100%;
+            width: 32px; height: 32px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 8px #0009; z-index: 10;
+        }
+        .panel-actions {
+            display: flex; gap: 15px; justify-content: center; margin: 30px 0 5px 0;
+        }
+        .panel-action-btn {
+            background: transparent;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            border-radius: 9px;
+            padding: 13px 28px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0004;
+            transition: background 0.18s, color 0.18s;
+        }
+        .panel-action-btn:hover {
+            background: #ff5252;
+            color: #fff;
+        }
+        .pedido-resumen {
+            background: rgba(38,38,46,0.86); border-radius: 12px; margin: 38px auto 0 auto; max-width: 420px; width: 100%; padding: 17px 19px 11px 19px; box-shadow: 0 2px 12px #0006; font-size: 1.17em;
+        }
+        .pedido-resumen h4 { margin: 0 0 10px 0; color: #f7971e; text-align: center; }
+        .pedido-lista { margin: 0 0 11px 0; padding: 0; list-style: none;}
+        .pedido-lista li { margin-bottom: 7px; display: flex; justify-content: space-between; }
+        .pedido-item-nombre { font-weight: normal; }
+        .pedido-item-precio { font-weight: bold; color: #ffdd00; }
+        .pedido-total { text-align: right; font-size: 1.17em; font-weight: bold; color: #43e8ff; margin-top: 12px; margin-bottom: 0; }
     </style>
 </head>
 <body>
