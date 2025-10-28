@@ -15,11 +15,11 @@
             min-width: 100vw;
             font-family: Arial, sans-serif;
             background:
-                linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)),
+                linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)),
                 url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'),
                 url('kaburi-logo.jpg');
             background-repeat: no-repeat, no-repeat, no-repeat;
-            background-size: cover, cover, 420px;
+            background-size: cover, contain, 420px;
             background-position: center, center, 70% 8%;
             color: #fff;
             overflow-x: hidden;
@@ -511,6 +511,21 @@
             return users[email] && users[email] === password;
         }
 
+        function setMainBackground() {
+            document.body.style.background =
+                "linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'), url('kaburi-logo.jpg')";
+            document.body.style.backgroundRepeat = "no-repeat, no-repeat, no-repeat";
+            document.body.style.backgroundSize = "cover, contain, 420px";
+            document.body.style.backgroundPosition = "center, center, 70% 8%";
+        }
+        function setLoginBackground() {
+            document.body.style.background =
+                "linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)), url('kaburi-logo.jpg')";
+            document.body.style.backgroundRepeat = "no-repeat, no-repeat";
+            document.body.style.backgroundSize = "cover, 420px";
+            document.body.style.backgroundPosition = "center, 70% 8%";
+        }
+
         registerForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('register-email').value;
@@ -529,15 +544,6 @@
                 document.getElementById('login-email').focus();
             }
         };
-
-        function setMainBackground() {
-            document.body.style.background =
-                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'), url('kaburi-logo.jpg')";
-        }
-        function setLoginBackground() {
-            document.body.style.background =
-                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('kaburi-logo.jpg')";
-        }
 
         loginForm.onsubmit = function(e){
             e.preventDefault();
