@@ -33,6 +33,7 @@
         .logo-global img {
             width: 90px; height: 90px; object-fit: contain;
             background: #fff; border-radius: 24px; box-shadow: 0 2px 12px #0008; padding: 10px;
+            transition: width 1s cubic-bezier(0.22,1,0.36,1), height 1s cubic-bezier(0.22,1,0.36,1), top 1s cubic-bezier(0.22,1,0.36,1), left 1s cubic-bezier(0.22,1,0.36,1), border-radius 1s cubic-bezier(0.22,1,0.36,1);
         }
         .user-name-badge {
             display: none;
@@ -62,42 +63,6 @@
             cursor: pointer; outline: none; transition: background 0.18s; text-decoration: none;
         }
         .user-name-dropdown button:hover, .user-name-dropdown a:hover { background: #ff5252cc; }
-        .goodbye-message {
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3.3em;
-            color: #fff;
-            z-index: 1200;
-            font-weight: 900;
-            opacity: 0;
-            transition: opacity 1.1s cubic-bezier(0.22,1,0.36,1);
-            pointer-events: none;
-            background: none;
-            text-shadow: 0 6px 30px #000a;
-            letter-spacing: 2px;
-        }
-        .goodbye-message.show { opacity: 1; }
-        .goodbye-message.hide { opacity: 0; transition: opacity 0.8s; }
-        .welcome-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3.6em;
-            color: #fff;
-            z-index: 1200;
-            font-weight: 900;
-            opacity: 0;
-            transition: opacity 1s cubic-bezier(0.22,1,0.36,1);
-            pointer-events: none;
-            background: none;
-            text-shadow: 0 6px 30px #000a;
-            letter-spacing: 2px;
-        }
-        .welcome-message.show { opacity: 1; }
-        .welcome-message.hide { opacity: 0; transition: opacity 0.8s; }
         #main-options {
             display: none;
             position: fixed;
@@ -306,9 +271,7 @@
             background: rgba(25,25,35,0.86);
             transition: opacity 0.7s;
         }
-        #auth-section.hidden {
-            display: none !important;
-        }
+        #auth-section.hidden { display: none !important; }
         .auth-card {
             background: #18181eeb;
             border-radius: 18px;
@@ -410,7 +373,6 @@
             .logo-global { top: 8px; left: 8px;}
             .logo-global img { width: 64px; height: 64px; padding: 5px;}
         }
-        /* --- FIN LOGIN PANEL MODERNO --- */
         #logout-btn {
             display: none;
             position: fixed;
@@ -428,10 +390,43 @@
             box-shadow: 0 2px 12px #0008;
             transition: background 0.18s, color 0.18s, transform 0.19s;
         }
-        #logout-btn.show {
-            display: block;
-        }
+        #logout-btn.show { display: block; }
         .hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+
+        /* Animación de logo centrado y reducción */
+        #animated-logo {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            z-index: 2000;
+            width: 300px;
+            height: 300px;
+            border-radius: 40px;
+            background: #fff;
+            box-shadow: 0 2px 32px #000c;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+            transition:
+                width 1s cubic-bezier(0.22,1,0.36,1),
+                height 1s cubic-bezier(0.22,1,0.36,1),
+                left 1s cubic-bezier(0.22,1,0.36,1),
+                top 1s cubic-bezier(0.22,1,0.36,1),
+                border-radius 1s cubic-bezier(0.22,1,0.36,1),
+                opacity 0.4s cubic-bezier(0.22,1,0.36,1);
+            pointer-events: none;
+        }
+        #animated-logo.show {
+            opacity: 1;
+        }
+        #animated-logo.to-corner {
+            width: 90px;
+            height: 90px;
+            left: 70px;
+            top: 70px;
+            border-radius: 24px;
+            transform: none;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -439,6 +434,7 @@
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo">
     </div>
+    <img id="animated-logo" src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Logo Kaburi animado" />
     <button class="user-name-badge" id="user-name-badge" type="button"></button>
     <nav class="user-name-dropdown" id="user-dropdown" tabindex="-1">
         <ul>
@@ -450,8 +446,6 @@
             <li><button type="button" onclick="eliminarCuenta()">Eliminar cuenta</button></li>
         </ul>
     </nav>
-    <div class="welcome-message" id="welcome-message"></div>
-    <div class="goodbye-message" id="goodbye-message"></div>
     <!-- LOGIN PANEL MODERNO -->
     <div class="container" id="auth-section">
         <div class="auth-card">
@@ -581,23 +575,37 @@
     </div>
     <script>
         // Referencias
-        const welcomeMessage = document.getElementById('welcome-message');
-        const goodbyeMessage = document.getElementById('goodbye-message');
         const userNameBadge = document.getElementById('user-name-badge');
         const userDropdown = document.getElementById('user-dropdown');
         const darkOverlay = document.getElementById('dark-overlay');
         let pedido = [];
         let dropdownOpen = false;
 
+        // Animación de logo
+        const animatedLogo = document.getElementById('animated-logo');
+
+        function playLogoTransition(cb) {
+            animatedLogo.classList.add('show');
+            animatedLogo.classList.remove('to-corner');
+
+            setTimeout(() => {
+                animatedLogo.classList.add('to-corner');
+                // Quitar el logo después de la animación
+                setTimeout(() => {
+                    animatedLogo.classList.remove('show', 'to-corner');
+                    if (cb) cb();
+                }, 1000);
+            }, 900); // tiempo grande logo visible
+        }
+
         window.onload = function(){
-            // Revisar si hay sesión iniciada
             if(localStorage.getItem('session')){
-                const session = JSON.parse(localStorage.getItem('session'));
-                showWelcome(session.nombre || "Usuario");
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('main-options').classList.add('show');
                 document.getElementById('logout-btn').classList.add('show');
+                const session = JSON.parse(localStorage.getItem('session'));
                 mostrarUsuario(session.nombre || "Usuario");
+                playLogoTransition();
             } else {
                 setTimeout(() => {
                     document.getElementById('auth-section').classList.add('show');
@@ -612,30 +620,6 @@
             userNameBadge.textContent = nombre;
             userNameBadge.classList.add('show', 'to-corner');
             userNameBadge.style.display = "block";
-        }
-
-        function showWelcome(nombre) {
-            welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
-            welcomeMessage.className = "welcome-message show";
-            darkOverlay.classList.add('active');
-            setTimeout(() => {
-                welcomeMessage.className = "welcome-message hide";
-                darkOverlay.classList.remove('active');
-            }, 2200);
-        }
-
-        function showGoodbye(nombre, cb) {
-            goodbyeMessage.textContent = `¡Hasta pronto, ${nombre}!`;
-            goodbyeMessage.className = "goodbye-message show";
-            darkOverlay.classList.add('active');
-            setTimeout(() => {
-                goodbyeMessage.className = "goodbye-message show hide";
-                darkOverlay.classList.remove('active');
-            }, 1800);
-            setTimeout(() => {
-                goodbyeMessage.className = "goodbye-message";
-                if (cb) cb();
-            }, 2300);
         }
 
         userNameBadge.onclick = function(e) {
@@ -756,12 +740,13 @@
             const user = validateUser(email, password);
             if(user){
                 localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
-                showWelcome(user.nombre);
-                // Ocultar panel login y mostrar menú principal
-                document.getElementById('auth-section').classList.add('hidden');
-                document.getElementById('main-options').classList.add('show');
-                document.getElementById('logout-btn').classList.add('show');
-                mostrarUsuario(user.nombre);
+                // Animación logo en login
+                playLogoTransition(function() {
+                    document.getElementById('auth-section').classList.add('hidden');
+                    document.getElementById('main-options').classList.add('show');
+                    document.getElementById('logout-btn').classList.add('show');
+                    mostrarUsuario(user.nombre);
+                });
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
@@ -824,7 +809,8 @@
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
             localStorage.removeItem('session');
-            showGoodbye(nombre, () => {
+            // Animación logo en logout
+            playLogoTransition(function() {
                 document.getElementById('auth-section').classList.remove('hidden');
                 setTimeout(() => {
                     document.getElementById('auth-section').classList.add('show');
