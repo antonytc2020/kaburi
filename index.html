@@ -24,7 +24,28 @@
             color: #fff;
             overflow-x: hidden;
         }
-        /* Logo global */
+        /* Panel de login animado */
+        #auth-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateY(-80vh);
+            background: #181818ee;
+            box-shadow: 0 4px 24px #000d;
+            padding: 32px 28px 24px 28px;
+            border-radius: 14px;
+            width: 340px;
+            z-index: 10;
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
+        }
+        #auth-section.show {
+            transform: translate(-50%, -50%) translateY(0);
+            opacity: 1;
+        }
+        #auth-section.hidden {
+            display: none;
+        }
         .logo-global {
             position: fixed;
             top: 25px;
@@ -45,21 +66,6 @@
         @media (max-width: 500px) {
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
-        }
-        #auth-section {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #181818ee;
-            box-shadow: 0 4px 24px #000d;
-            padding: 32px 28px 24px 28px;
-            border-radius: 14px;
-            width: 340px;
-            z-index: 10;
-        }
-        #auth-section.hidden {
-            display: none;
         }
         .logo-login {
             display: flex;
@@ -173,6 +179,51 @@
             transform: scale(1.045);
             border-color: #fff;
         }
+        .welcome-message {
+            position: fixed;
+            top: 42%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.8em;
+            color: #fff;
+            z-index: 50;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.7s, top 1.2s, left 1.2s, font-size 1.2s, transform 1.2s;
+            pointer-events: none;
+            text-shadow: 0 4px 18px #000a;
+        }
+        .welcome-message.show {
+            opacity: 1;
+        }
+        .welcome-message.to-corner {
+            top: 40px;
+            left: calc(100vw - 40px);
+            transform: translate(-100%, 0);
+            font-size: 1.5em;
+        }
+        .user-name-badge {
+            display: none;
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: #ff5252ee;
+            color: #fff;
+            font-size: 1.1em;
+            border-radius: 8px;
+            padding: 10px 28px;
+            box-shadow: 0 4px 16px #000a;
+            font-weight: bold;
+            z-index: 22;
+            transition: top 0.3s, right 0.3s, opacity 0.4s;
+            opacity: 0;
+        }
+        .user-name-badge.show {
+            display: block;
+            opacity: 1;
+        }
+        /* ... el resto de tu CSS permanece igual ... */
+        /* Carta alitas, menú, paneles, etc. */
         .carta-card {
             background: rgba(24,18,22,0.97);
             border-radius: 18px;
@@ -358,6 +409,7 @@
             .carta-card { padding: 16px 4vw 12px 4vw; }
             .pedido-resumen { padding: 10px 4vw 10px 4vw; }
             .logo-carta img { width: 46px; height: 46px; padding: 2px;}
+            .user-name-badge { top: 15px; right: 8px; font-size: 0.95em; padding: 7px 16px;}
         }
     </style>
 </head>
@@ -366,6 +418,8 @@
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
     </div>
+    <div class="user-name-badge" id="user-name-badge"></div>
+    <div class="welcome-message" id="welcome-message"></div>
     <!-- Panel de login centrado -->
     <div class="container" id="auth-section">
         <div class="logo-login">
@@ -380,6 +434,16 @@
             <button type="submit">Ingresar</button>
         </form>
         <form id="register-form" style="display:none;">
+            <label for="register-nombre">Nombre:</label>
+            <input type="text" id="register-nombre" required>
+            <label for="register-apellido">Apellido:</label>
+            <input type="text" id="register-apellido" required>
+            <label for="register-edad">Edad:</label>
+            <input type="number" id="register-edad" min="1" required>
+            <label for="register-direccion">Dirección:</label>
+            <input type="text" id="register-direccion" required>
+            <label for="register-telefono">Número telefónico:</label>
+            <input type="tel" id="register-telefono" required pattern="[0-9]{6,}">
             <label for="register-email">Correo electrónico:</label>
             <input type="email" id="register-email" autocomplete="username" required>
             <label for="register-password">Contraseña:</label>
@@ -460,6 +524,22 @@
         </div>
     </div>
     <script>
+        // --- Animación de entrada del panel ---
+        window.onload = function(){
+            setTimeout(() => {
+                document.getElementById('auth-section').classList.add('show');
+            }, 150);
+            // Autologin si hay sesión
+            if(localStorage.getItem('session')){
+                setMainBackground();
+                mainOptions.classList.add('show');
+                authSection.classList.add('hidden');
+                logoutBtn.classList.add('show');
+                const session = JSON.parse(localStorage.getItem('session'));
+                showWelcome(session.nombre || "Usuario");
+            }
+        };
+
         // Alternar login/registro
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
@@ -476,8 +556,9 @@
         const pedidoResumen = document.getElementById('pedido-resumen');
         const pedidoLista = document.getElementById('pedido-lista');
         const pedidoTotal = document.getElementById('pedido-total');
+        const userNameBadge = document.getElementById('user-name-badge');
+        const welcomeMessage = document.getElementById('welcome-message');
 
-        // Pedido actual
         let pedido = [];
 
         toggleLink.onclick = function(e){
@@ -500,15 +581,39 @@
         function getUsers(){
             return JSON.parse(localStorage.getItem('users') || '{}');
         }
-        function saveUser(email, password){
+        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
             const users = getUsers();
-            users[email] = password;
+            users[email] = {password, nombre, apellido, edad, direccion, telefono};
             localStorage.setItem('users', JSON.stringify(users));
         }
         function validateUser(email, password){
             const users = getUsers();
-            return users[email] && users[email] === password;
+            return users[email] && users[email].password === password ? users[email] : null;
         }
+
+        registerForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const nombre = document.getElementById('register-nombre').value;
+            const apellido = document.getElementById('register-apellido').value;
+            const edad = document.getElementById('register-edad').value;
+            const direccion = document.getElementById('register-direccion').value;
+            const telefono = document.getElementById('register-telefono').value;
+            const users = getUsers();
+            if(users[email]){
+                alert('Este correo ya está registrado.');
+            } else {
+                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
+                alert('Registro exitoso. Ahora inicia sesión.');
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+                document.getElementById('login-email').focus();
+            }
+        };
 
         function setMainBackground() {
             document.body.style.background =
@@ -525,38 +630,42 @@
             document.body.style.backgroundPosition = "center, 70% 8%";
         }
 
-        registerForm.onsubmit = function(e){
-            e.preventDefault();
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const users = getUsers();
-            if(users[email]){
-                alert('Este correo ya está registrado.');
-            } else {
-                saveUser(email, password);
-                alert('Registro exitoso. Ahora inicia sesión.');
-                loginForm.style.display = '';
-                registerForm.style.display = 'none';
-                formTitle.textContent = 'Iniciar Sesión';
-                toggleMsg.textContent = '¿No tienes cuenta?';
-                toggleLink.textContent = 'Registrarse';
-                document.getElementById('login-email').focus();
-            }
-        };
-
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
-            if(validateUser(email, password)){
+            const user = validateUser(email, password);
+            if(user){
+                // Guardar info de sesión (solo nombre)
+                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
                 setMainBackground();
-                mainOptions.classList.add('show');
-                authSection.classList.add('hidden');
-                logoutBtn.classList.add('show');
+                showWelcome(user.nombre);
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.remove('show');
+                }, 300);
+                setTimeout(() => {
+                    mainOptions.classList.add('show');
+                    authSection.classList.add('hidden');
+                    logoutBtn.classList.add('show');
+                }, 2700);
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
         };
+
+        // Bienvenida animada y badge
+        function showWelcome(nombre) {
+            welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
+            welcomeMessage.className = "welcome-message show";
+            setTimeout(() => {
+                welcomeMessage.className += " to-corner";
+            }, 1400);
+            setTimeout(() => {
+                welcomeMessage.className = "welcome-message";
+                userNameBadge.textContent = nombre;
+                userNameBadge.classList.add('show');
+            }, 2600);
+        }
 
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
@@ -576,15 +685,7 @@
             actualizarResumen();
             pedidoResumen.style.display = 'none';
             setLoginBackground();
-        };
-
-        window.onload = function(){
-            if(localStorage.getItem('session')){
-                setMainBackground();
-                mainOptions.classList.add('show');
-                authSection.classList.add('hidden');
-                logoutBtn.classList.add('show');
-            }
+            userNameBadge.classList.remove('show');
         };
 
         btnHacerPedido.onclick = function() {
@@ -608,7 +709,6 @@
         window.pedirMenu = pedirMenu;
 
         function actualizarResumen() {
-            // Limpiar lista
             pedidoLista.innerHTML = "";
             let total = 0;
             pedido.forEach(p => {
@@ -620,10 +720,7 @@
             pedidoTotal.textContent = "Total: S/ " + total;
         }
 
-        // Acciones panel
-        function seguirOrdenando() {
-            alert("¡Puedes seguir agregando más productos!");
-        }
+        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
         function cambiarPedido() {
             if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
                 pedido = [];
