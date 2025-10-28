@@ -16,7 +16,7 @@
             font-family: Arial, sans-serif;
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)),
-                url('alitas-bg.jpg'),
+                url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'),
                 url('kaburi-logo.jpg');
             background-repeat: no-repeat, no-repeat, no-repeat;
             background-size: cover, cover, 420px;
@@ -530,13 +530,21 @@
             }
         };
 
+        function setMainBackground() {
+            document.body.style.background =
+                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'), url('kaburi-logo.jpg')";
+        }
+        function setLoginBackground() {
+            document.body.style.background =
+                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('kaburi-logo.jpg')";
+        }
+
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             if(validateUser(email, password)){
-                document.body.style.background =
-                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('alitas-bg.jpg'), url('kaburi-logo.jpg')";
+                setMainBackground();
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
@@ -562,14 +570,12 @@
             pedido = [];
             actualizarResumen();
             pedidoResumen.style.display = 'none';
-            document.body.style.background =
-                "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('kaburi-logo.jpg')";
+            setLoginBackground();
         };
 
         window.onload = function(){
             if(localStorage.getItem('session')){
-                document.body.style.background =
-                    "linear-gradient(120deg, rgba(183,28,28,0.74), rgba(33,33,33,0.85)), url('alitas-bg.jpg'), url('kaburi-logo.jpg')";
+                setMainBackground();
                 mainOptions.classList.add('show');
                 authSection.classList.add('hidden');
                 logoutBtn.classList.add('show');
