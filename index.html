@@ -19,7 +19,6 @@
             color: #fff;
             overflow-x: hidden;
         }
-        /* Overlay para oscurecer fondo */
         #dark-overlay {
             pointer-events: none;
             position: fixed;
@@ -30,7 +29,6 @@
         }
         #dark-overlay.active {
             background: rgba(20,20,22,0.80);
-            transition: background 1.2s cubic-bezier(0.22,1,0.36,1);
         }
         .logo-global {
             position: fixed; top: 25px; left: 25px;
@@ -111,6 +109,7 @@
         }
         .welcome-message.show { opacity: 1; }
         .welcome-message.to-corner { top: 40px; left: 140px; transform: translate(0, 0); font-size: 1.23em; }
+        .welcome-message.hide { opacity: 0; transition: opacity 0.8s; }
         @media (max-width: 600px) {
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
@@ -269,7 +268,6 @@
     </style>
 </head>
 <body>
-    <!-- Overlay oscuro animado -->
     <div id="dark-overlay"></div>
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
@@ -404,7 +402,6 @@
         const welcomeMessage = document.getElementById('welcome-message');
         const userNameBadge = document.getElementById('user-name-badge');
         const darkOverlay = document.getElementById('dark-overlay');
-        // ...el resto de referencias igual...
         let pedido = [];
         let dropdownOpen = false;
 
@@ -436,11 +433,14 @@
                 welcomeMessage.className += " to-corner";
             }, 1400);
             setTimeout(() => {
-                welcomeMessage.className = "welcome-message";
+                welcomeMessage.className = "welcome-message to-corner hide";
                 userNameBadge.classList.add('show', 'to-corner');
                 userNameBadge.style.display = "block";
                 darkOverlay.classList.remove('active');
             }, 2600);
+            setTimeout(() => {
+                welcomeMessage.className = "welcome-message to-corner"; // Se queda arriba, invisible
+            }, 3400);
         }
 
         userNameBadge.onclick = function(e) {
@@ -474,7 +474,6 @@
                 }
             }
         }
-        // ...resto del js igual que antes...
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const toggleLink = document.getElementById('toggle-link');
