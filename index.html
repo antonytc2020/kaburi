@@ -19,6 +19,19 @@
             color: #fff;
             overflow-x: hidden;
         }
+        /* Overlay para oscurecer fondo */
+        #dark-overlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(20,20,22,0);
+            transition: background 1.2s cubic-bezier(0.22,1,0.36,1);
+        }
+        #dark-overlay.active {
+            background: rgba(20,20,22,0.80);
+            transition: background 1.2s cubic-bezier(0.22,1,0.36,1);
+        }
         .logo-global {
             position: fixed; top: 25px; left: 25px;
             z-index: 20; display: flex; align-items: center;
@@ -83,7 +96,7 @@
             transform: translate(-50%, -50%);
             font-size: 5em;
             color: #fff;
-            z-index: 50;
+            z-index: 101;
             font-weight: 900;
             opacity: 0;
             transition:
@@ -180,7 +193,6 @@
         .big-option-btn:hover {
             filter: brightness(1.13); transform: scale(1.045); border-color: #fff;
         }
-        /* PANEL CARTA: OCULTA POR DEFECTO */
         #panel-carta {
             display: none;
             position: fixed;
@@ -188,9 +200,7 @@
             width: 100vw; height: 100vh;
             z-index: 1;
         }
-        #panel-carta.show {
-            display: flex;
-        }
+        #panel-carta.show { display: flex; }
         .carta-center {
             display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw;
         }
@@ -259,6 +269,8 @@
     </style>
 </head>
 <body>
+    <!-- Overlay oscuro animado -->
+    <div id="dark-overlay"></div>
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
     </div>
@@ -389,6 +401,13 @@
         </div>
     </div>
     <script>
+        const welcomeMessage = document.getElementById('welcome-message');
+        const userNameBadge = document.getElementById('user-name-badge');
+        const darkOverlay = document.getElementById('dark-overlay');
+        // ...el resto de referencias igual...
+        let pedido = [];
+        let dropdownOpen = false;
+
         window.onload = function(){
             setTimeout(() => {
                 document.getElementById('auth-section').classList.add('show');
@@ -405,31 +424,9 @@
                 }, 2600);
             }
         };
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const toggleLink = document.getElementById('toggle-link');
-        const formTitle = document.getElementById('form-title');
-        const toggleMsg = document.getElementById('toggle-msg');
-        const authSection = document.getElementById('auth-section');
-        const switchArea = document.getElementById('switch-area');
-        const logoutBtn = document.getElementById('logout-btn');
-        const mainOptions = document.getElementById('main-options');
-        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
-        const panelCarta = document.getElementById('panel-carta');
-        const closeCard = document.getElementById('close-card');
-        const pedidoResumen = document.getElementById('pedido-resumen');
-        const pedidoLista = document.getElementById('pedido-lista');
-        const pedidoTotal = document.getElementById('pedido-total');
-        const userNameBadge = document.getElementById('user-name-badge');
-        const userDropdown = document.getElementById('user-dropdown');
-        const welcomeMessage = document.getElementById('welcome-message');
-        const forgotLink = document.getElementById('forgot-link');
-        const recoverForm = document.getElementById('recover-form');
-        const recoverContact = document.getElementById('recover-contact');
-        const recoverMessage = document.getElementById('recover-message');
-        let pedido = [];
-        let dropdownOpen = false;
+
         function showWelcome(nombre) {
+            darkOverlay.classList.add('active');
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
             userNameBadge.textContent = nombre;
@@ -442,8 +439,10 @@
                 welcomeMessage.className = "welcome-message";
                 userNameBadge.classList.add('show', 'to-corner');
                 userNameBadge.style.display = "block";
+                darkOverlay.classList.remove('active');
             }, 2600);
         }
+
         userNameBadge.onclick = function(e) {
             e.stopPropagation();
             if (dropdownOpen) {
@@ -475,6 +474,27 @@
                 }
             }
         }
+        // ...resto del js igual que antes...
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const toggleLink = document.getElementById('toggle-link');
+        const formTitle = document.getElementById('form-title');
+        const toggleMsg = document.getElementById('toggle-msg');
+        const authSection = document.getElementById('auth-section');
+        const switchArea = document.getElementById('switch-area');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mainOptions = document.getElementById('main-options');
+        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const panelCarta = document.getElementById('panel-carta');
+        const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
+        const forgotLink = document.getElementById('forgot-link');
+        const recoverForm = document.getElementById('recover-form');
+        const recoverContact = document.getElementById('recover-contact');
+        const recoverMessage = document.getElementById('recover-message');
+
         toggleLink.onclick = function(e){
             e.preventDefault();
             if(loginForm.style.display !== 'none'){
@@ -491,6 +511,7 @@
                 toggleLink.textContent = 'Registrarse';
             }
         };
+
         function getUsers(){
             return JSON.parse(localStorage.getItem('users') || '{}');
         }
@@ -503,6 +524,7 @@
             const users = getUsers();
             return users[email] && users[email].password === password ? users[email] : null;
         }
+
         registerForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('register-email').value;
@@ -526,6 +548,7 @@
                 document.getElementById('login-email').focus();
             }
         };
+
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -545,6 +568,7 @@
                 alert('Correo o contraseña incorrectos.');
             }
         };
+
         forgotLink.onclick = function(e){
             e.preventDefault();
             loginForm.style.display = 'none';
@@ -583,6 +607,7 @@
                 switchArea.style.display = '';
             },2500);
         };
+
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
             mainOptions.classList.remove('show');
@@ -599,6 +624,7 @@
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
         };
+
         btnHacerPedido.onclick = function() {
             mainOptions.classList.remove('show');
             panelCarta.classList.add('show');
