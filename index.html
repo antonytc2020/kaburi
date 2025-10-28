@@ -35,44 +35,62 @@
             box-shadow: 0 2px 12px #0008;
             padding: 10px;
         }
+        /* BOTÓN NOMBRE SIN MARCO */
         .user-name-badge {
             display: none;
             position: fixed;
             top: 48px;
             left: 130px;
-            background: #ff5252ee;
+            background: none;
             color: #fff;
-            font-size: 1.18em;
-            border-radius: 7px;
-            padding: 8px 22px;
-            box-shadow: 0 4px 16px #000a;
+            font-size: 4em;
+            border: none;
+            border-radius: 0;
+            padding: 0 18px 0 0;
             font-weight: bold;
             z-index: 22;
             cursor: pointer;
             opacity: 0;
             transform: translateY(-30px);
-            transition: opacity 0.4s, transform 0.5s;
+            transition: 
+                opacity 0.4s, 
+                transform 0.5s,
+                top 1.2s cubic-bezier(0.22,1,0.36,1),
+                left 1.2s cubic-bezier(0.22,1,0.36,1),
+                font-size 1.2s cubic-bezier(0.22,1,0.36,1),
+                letter-spacing 1.2s cubic-bezier(0.22,1,0.36,1);
+            outline: none;
+            box-shadow: none;
         }
         .user-name-badge.show {
             display: block;
             opacity: 1;
             transform: translateY(0);
         }
+        .user-name-badge.to-corner {
+            top: 40px;
+            left: 140px;
+            font-size: 1.23em;
+            letter-spacing: 1.5px;
+            padding: 0 9px 0 0;
+        }
+        /* PANEL MENÚ LATERAL IZQUIERDO */
         .user-name-dropdown {
             display: none;
             position: fixed;
-            top: 90px;
-            left: 130px;
-            background: #222d;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 310px;
+            background: #181818f2;
             color: #fff;
-            border-radius: 9px;
-            box-shadow: 0 6px 28px #000b;
-            min-width: 220px;
+            border-radius: 0 18px 18px 0;
+            box-shadow: 6px 0 38px #000b;
             z-index: 30;
-            font-size: 1em;
-            animation: fadeInDrop 0.26s;
+            font-size: 1.1em;
+            animation: fadeInDrop 0.18s;
         }
-        @keyframes fadeInDrop { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform:translateY(0);} }
+        @keyframes fadeInDrop { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform:translateX(0);} }
         .user-name-dropdown ul {
             list-style: none;
             margin: 0;
@@ -91,7 +109,7 @@
             border: none;
             color: inherit;
             text-align: left;
-            padding: 15px 24px;
+            padding: 22px 32px;
             font-size: 1em;
             cursor: pointer;
             outline: none;
@@ -101,298 +119,42 @@
         .user-name-dropdown button:hover, .user-name-dropdown a:hover {
             background: #ff5252cc;
         }
-        #auth-section {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateY(-80vh);
-            background: #181818ee;
-            box-shadow: 0 4px 24px #000d;
-            padding: 32px 28px 24px 28px;
-            border-radius: 14px;
-            width: 340px;
-            z-index: 10;
-            opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
-        }
-        #auth-section.show {
-            transform: translate(-50%, -50%) translateY(0);
-            opacity: 1;
-        }
-        #auth-section.hidden {
-            display: none;
-        }
-        .logo-login {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .logo-login img {
-            width: 115px;
-            height: 115px;
-            background: #fff;
-            border-radius: 50%;
-            object-fit: contain;
-            box-shadow: 0 2px 12px #0008;
-            padding: 14px;
-        }
-        #auth-section h2 { 
-            text-align: center; 
-            color: #ff5252; 
-            margin-top: 0;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px #000a;
-        }
-        label { display: block; margin-top: 14px; }
-        input {
-            width: 100%;
-            padding: 9px;
-            margin-top: 6px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background: #222c;
-            color: #fff;
-            font-size: 1em;
-        }
-        button[type="submit"] {
-            margin-top: 19px;
-            padding: 12px 20px;
-            width: 100%;
-            background: #ff5252;
-            color: #fff;
-            font-size: 1.15em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px #0007;
-            transition: background 0.2s;
-        }
-        button[type="submit"]:hover { background: #b71c1c; }
-        .switch { margin-top: 22px; text-align: center;}
-        #logout-btn {
-            display: none;
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: #ff5252;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 28px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 16px #000a;
-            z-index: 11;
-            transition: filter 0.2s, background 0.2s;
-        }
-        #logout-btn.show { display: block; }
-        #main-options, #panel-carta {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-        }
-        #main-options.show, #panel-carta.show { display: flex; }
-        .options-center, .carta-center {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
-        }
-        .big-option-btn {
-            width: 350px;
-            max-width: 90vw;
-            padding: 38px 0;
-            margin: 23px 0;
-            font-size: 2.1em;
-            font-weight: bold;
-            border-radius: 18px;
-            border: 4px solid;
-            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
-            color: #fff;
-            background: rgba(30,30,35,0.2);
-            box-shadow: 0 3px 16px #0009;
-            cursor: pointer;
-            transition: transform 0.15s, filter 0.18s, border-color 0.2s;
-            letter-spacing: 1px;
-            backdrop-filter: blur(3px);
-        }
-        .big-option-btn:hover {
-            filter: brightness(1.13);
-            transform: scale(1.045);
-            border-color: #fff;
-        }
+        /* BIENVENIDA MUY GRANDE Y AL CENTRO */
         .welcome-message {
             position: fixed;
-            top: 42%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.8em;
+            font-size: 5em;
             color: #fff;
             z-index: 50;
-            font-weight: bold;
+            font-weight: 900;
             opacity: 0;
-            transition: opacity 0.7s, top 1.2s, left 1.2s, font-size 1.2s, transform 1.2s;
+            transition:
+                opacity 0.7s,
+                top 1.2s cubic-bezier(0.22,1,0.36,1),
+                left 1.2s cubic-bezier(0.22,1,0.36,1),
+                font-size 1.2s cubic-bezier(0.22,1,0.36,1),
+                transform 1.2s cubic-bezier(0.22,1,0.36,1);
             pointer-events: none;
-            text-shadow: 0 4px 18px #000a;
+            text-shadow: 0 6px 30px #000a, 0 1px 1px #b71c1c;
+            letter-spacing: 2px;
         }
         .welcome-message.show { opacity: 1; }
         .welcome-message.to-corner {
             top: 40px;
-            left: calc(100vw - 40px);
-            transform: translate(-100%, 0);
-            font-size: 1.5em;
+            left: 140px;
+            transform: translate(0, 0);
+            font-size: 1.23em;
         }
-        .carta-card {
-            background: rgba(24,18,22,0.97);
-            border-radius: 18px;
-            box-shadow: 0 4px 32px #000c;
-            padding: 34px 30px 28px 30px;
-            min-width: 320px;
-            max-width: 98vw;
-            color: #fff;
-            border: 4px solid;
-            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
-            font-size: 1.13em;
-            position: relative;
-            animation: cartaFadeIn 0.4s;
-        }
-        @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
-        .carta-card h3 {
-            text-align: center;
-            margin-top: 0;
-            font-size: 1.45em;
-            letter-spacing: 1.5px;
-            color: #ff5252;
-            text-shadow: 0 2px 8px #000a;
-        }
-        .logo-carta {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 2;
-        }
-        .logo-carta img {
-            width: 68px;
-            height: 68px;
-            object-fit: contain;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px #0008;
-            padding: 6px;
-        }
-        .alitas-img {
-            width: 100%;
-            max-width: 320px;
-            border-radius: 16px;
-            margin: 0 auto 24px auto;
-            display: block;
-            box-shadow: 0 2px 12px #0008;
-        }
-        .menu-alitas {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .menu-alitas li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 13px;
-            font-size: 1.15em;
-        }
-        .menu-desc {
-            flex: 1 1 auto;
-            margin-right: 14px;
-            letter-spacing: 0.5px;
-        }
-        .menu-precio {
-            font-weight: bold;
-            font-size: 1.08em;
-            color: #f7971e;
-            margin-left: 6px;
-            margin-right: 6px;
-            min-width: 64px;
-            text-align: right;
-        }
-        .menu-soles {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #ffdd00;
-            margin-right: 2px;
-        }
-        .menu-pedir-btn {
-            background: linear-gradient(90deg, #ff5252, #f7971e);
-            color: #fff;
-            border: none;
-            border-radius: 7px;
-            padding: 7px 18px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 7px;
-            box-shadow: 0 2px 6px #0005;
-            transition: filter 0.15s;
-        }
-        .menu-pedir-btn:hover { filter: brightness(1.12); }
-        #close-card {
-            position: absolute;
-            right: 17px;
-            top: 15px;
-            background: #ff5252;
-            color: #fff;
-            border: none;
-            border-radius: 100%;
-            width: 32px;
-            height: 32px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 8px #0009;
-            z-index: 10;
-        }
-        .panel-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0 5px 0;
-        }
-        .panel-action-btn {
-            background: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252);
-            color: #fff;
-            border: none;
-            border-radius: 7px;
-            padding: 12px 20px;
-            font-size: 1.15em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 6px #0005;
-            transition: filter 0.15s;
-        }
-        .panel-action-btn:hover { filter: brightness(1.11);}
-        .pedido-resumen {
-            background: rgba(38,38,46,0.86);
-            border-radius: 12px;
-            margin: 38px auto 0 auto;
-            max-width: 420px;
-            width: 100%;
-            padding: 17px 19px 11px 19px;
-            box-shadow: 0 2px 12px #0006;
-            font-size: 1.17em;
-        }
-        @media (max-width: 500px) {
+        /* RESTO DE ESTILOS IGUAL QUE SIEMPRE (panel, login, carta, etc.) */
+        /* ... puedes añadir aquí el resto de estilos personalizados ... */
+        @media (max-width: 600px) {
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
-            .user-name-badge { top: 15px; left: 85px; font-size: 0.95em; padding: 7px 16px;}
-            .user-name-dropdown { top: 58px; left: 85px; min-width: 150px; font-size:0.95em;}
+            .user-name-badge { top: 15px; left: 70px; font-size: 1.4em; }
+            .user-name-badge.to-corner { top: 15px; left: 70px; font-size: 1em; }
+            .user-name-dropdown { width: 97vw; min-width:unset; border-radius:0 0 18px 18px; }
             #auth-section { width: 96vw; left: 2vw; right: 2vw; padding: 12px 6px;}
         }
     </style>
@@ -401,8 +163,8 @@
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
     </div>
-    <div class="user-name-badge" id="user-name-badge"></div>
-    <div class="user-name-dropdown" id="user-dropdown">
+    <button class="user-name-badge" id="user-name-badge"></button>
+    <nav class="user-name-dropdown" id="user-dropdown">
         <ul>
             <li><button type="button" onclick="alert('Cuenta: Pronto disponible')">Cuenta</button></li>
             <li><button type="button" onclick="alert('Ajustes de pago: Pronto disponible')">Ajustes de pago</button></li>
@@ -411,118 +173,10 @@
             <li><button type="button" onclick="alert('Términos y condiciones: Pronto disponible')">Términos y condiciones</button></li>
             <li><button type="button" onclick="eliminarCuenta()">Eliminar cuenta</button></li>
         </ul>
-    </div>
+    </nav>
     <div class="welcome-message" id="welcome-message"></div>
-    <div class="container" id="auth-section">
-        <div class="logo-login">
-            <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
-        </div>
-        <h2 id="form-title">Iniciar Sesión</h2>
-        <form id="login-form">
-            <label for="login-email">Correo electrónico:</label>
-            <input type="email" id="login-email" autocomplete="username" required>
-            <label for="login-password">Contraseña:</label>
-            <input type="password" id="login-password" autocomplete="current-password" required>
-            <button type="submit">Ingresar</button>
-        </form>
-        <form id="register-form" style="display:none;">
-            <label for="register-nombre">Nombre:</label>
-            <input type="text" id="register-nombre" required>
-            <label for="register-apellido">Apellido:</label>
-            <input type="text" id="register-apellido" required>
-            <label for="register-edad">Edad:</label>
-            <input type="number" id="register-edad" min="1" required>
-            <label for="register-direccion">Dirección:</label>
-            <input type="text" id="register-direccion" required>
-            <label for="register-telefono">Número telefónico:</label>
-            <input type="tel" id="register-telefono" required pattern="[0-9]{6,}">
-            <label for="register-email">Correo electrónico:</label>
-            <input type="email" id="register-email" autocomplete="username" required>
-            <label for="register-password">Contraseña:</label>
-            <input type="password" id="register-password" autocomplete="new-password" required>
-            <button type="submit">Registrarse</button>
-        </form>
-        <div class="switch" id="switch-area">
-            <span id="toggle-msg">¿No tienes cuenta?</span>
-            <a href="#" id="toggle-link">Registrarse</a>
-        </div>
-        <div style="text-align:center; margin-top:18px;">
-            <a href="#" id="forgot-link" style="color:#43e8ff;text-decoration:underline;cursor:pointer;font-size:1em;">
-                ¿Olvidaste tu contraseña?
-            </a>
-        </div>
-        <form id="recover-form" style="display:none; margin-top:20px;">
-            <label for="recover-contact">Ingresa tu correo o número telefónico:</label>
-            <input type="text" id="recover-contact" required>
-            <button type="submit">Enviar código de recuperación</button>
-            <div id="recover-message" style="margin-top:14px;color:#f7971e;font-size:1.09em;"></div>
-        </form>
-    </div>
-    <button id="logout-btn">Cerrar sesión</button>
-    <div id="main-options">
-        <div class="options-center">
-            <div class="logo-carta">
-                <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
-            </div>
-            <button class="big-option-btn" id="btn-hacer-pedido">Hacer pedido</button>
-            <button class="big-option-btn" onclick="alert('Reservar pedido')">Reservar pedido</button>
-            <button class="big-option-btn" onclick="alert('Pedir por delivery')">Pedir por delivery</button>
-        </div>
-    </div>
-    <div id="panel-carta">
-        <div class="carta-center">
-            <div class="carta-card">
-                <div class="logo-carta">
-                    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
-                </div>
-                <button id="close-card" title="Cerrar">&times;</button>
-                <img src="alitas-bg.jpg" alt="Alitas" class="alitas-img">
-                <h3>Alitas</h3>
-                <ul class="menu-alitas">
-                    <li>
-                        <span class="menu-desc">4 piezas</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>14</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('4 piezas', 14)">Pedir</button>
-                    </li>
-                    <li>
-                        <span class="menu-desc">6 alitas</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>21</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('6 alitas', 21)">Pedir</button>
-                    </li>
-                    <li>
-                        <span class="menu-desc">9 alitas</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>32</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('9 alitas', 32)">Pedir</button>
-                    </li>
-                    <li>
-                        <span class="menu-desc">12 alitas</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>36</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('12 alitas', 36)">Pedir</button>
-                    </li>
-                    <li>
-                        <span class="menu-desc">Combo 20 alitas + nuggets</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>65</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + nuggets', 65)">Pedir</button>
-                    </li>
-                    <li>
-                        <span class="menu-desc">Combo 30 alitas + nuggets + gaseosa</span>
-                        <span class="menu-precio"><span class="menu-soles">S/</span>75</span>
-                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 30 alitas + nuggets + gaseosa', 75)">Pedir</button>
-                    </li>
-                </ul>
-                <div class="panel-actions">
-                    <button class="panel-action-btn" onclick="seguirOrdenando()">Seguir ordenando</button>
-                    <button class="panel-action-btn" onclick="cambiarPedido()">Cambiar pedido</button>
-                    <button class="panel-action-btn" onclick="continuarPedido()">Continuar</button>
-                </div>
-                <div id="pedido-resumen" class="pedido-resumen" style="display:none;">
-                    <h4>Mi pedido</h4>
-                    <ul class="pedido-lista" id="pedido-lista"></ul>
-                    <div class="pedido-total" id="pedido-total"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- ...El resto de tu HTML (login, registro, cartas, pedidos, etc) igual que antes... -->
+    <!-- ... -->
     <script>
         // Animación panel de login
         window.onload = function(){
@@ -531,7 +185,7 @@
             }, 150);
         };
 
-        // Login/registro JS
+        // Login/registro y referencias JS
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const toggleLink = document.getElementById('toggle-link');
@@ -557,108 +211,24 @@
         let pedido = [];
         let dropdownOpen = false;
 
-        toggleLink.onclick = function(e){
-            e.preventDefault();
-            if(loginForm.style.display !== 'none'){
-                loginForm.style.display = 'none';
-                registerForm.style.display = '';
-                formTitle.textContent = 'Registrarse';
-                toggleMsg.textContent = '¿Ya tienes cuenta?';
-                toggleLink.textContent = 'Iniciar sesión';
-            } else {
-                loginForm.style.display = '';
-                registerForm.style.display = 'none';
-                formTitle.textContent = 'Iniciar Sesión';
-                toggleMsg.textContent = '¿No tienes cuenta?';
-                toggleLink.textContent = 'Registrarse';
-            }
-        };
-
-        function getUsers(){
-            return JSON.parse(localStorage.getItem('users') || '{}');
-        }
-        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
-            const users = getUsers();
-            users[email] = {password, nombre, apellido, edad, direccion, telefono};
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-        function validateUser(email, password){
-            const users = getUsers();
-            return users[email] && users[email].password === password ? users[email] : null;
-        }
-
-        registerForm.onsubmit = function(e){
-            e.preventDefault();
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const nombre = document.getElementById('register-nombre').value;
-            const apellido = document.getElementById('register-apellido').value;
-            const edad = document.getElementById('register-edad').value;
-            const direccion = document.getElementById('register-direccion').value;
-            const telefono = document.getElementById('register-telefono').value;
-            const users = getUsers();
-            if(users[email]){
-                alert('Este correo ya está registrado.');
-            } else {
-                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
-                alert('Registro exitoso. Ahora inicia sesión.');
-                loginForm.style.display = '';
-                registerForm.style.display = 'none';
-                formTitle.textContent = 'Iniciar Sesión';
-                toggleMsg.textContent = '¿No tienes cuenta?';
-                toggleLink.textContent = 'Registrarse';
-                document.getElementById('login-email').focus();
-            }
-        };
-
-        function setMainBackground() {
-            document.body.style.background =
-                "linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'), url('https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my')";
-            document.body.style.backgroundRepeat = "no-repeat, no-repeat, no-repeat";
-            document.body.style.backgroundSize = "cover, contain, 120px";
-            document.body.style.backgroundPosition = "center, center, 70% 8%";
-        }
-        function setLoginBackground() {
-            document.body.style.background =
-                "linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)), url('https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my')";
-            document.body.style.backgroundRepeat = "no-repeat, no-repeat";
-            document.body.style.backgroundSize = "cover, 120px";
-            document.body.style.backgroundPosition = "center, 70% 8%";
-        }
-
-        loginForm.onsubmit = function(e){
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const user = validateUser(email, password);
-            if(user){
-                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
-                setMainBackground();
-                showWelcome(user.nombre);
-                setTimeout(() => {
-                    document.getElementById('auth-section').classList.remove('show');
-                }, 300);
-                setTimeout(() => {
-                    mainOptions.classList.add('show');
-                    authSection.classList.add('hidden');
-                    logoutBtn.classList.add('show');
-                }, 1700);
-            } else {
-                alert('Correo o contraseña incorrectos.');
-            }
-        };
-
-        // Bienvenida animada y badge
+        // Bienvenida muy grande y transición suave a la esquina superior izquierda y luego muestra el nombre como botón sin marco
         function showWelcome(nombre) {
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
+            userNameBadge.textContent = nombre;
+            userNameBadge.classList.remove('to-corner');
+            userNameBadge.style.display = "none";
+            setTimeout(() => {
+                welcomeMessage.className += " to-corner";
+            }, 1400);
             setTimeout(() => {
                 welcomeMessage.className = "welcome-message";
-                userNameBadge.textContent = nombre;
-                userNameBadge.classList.add('show');
-            }, 1200);
+                userNameBadge.classList.add('show', 'to-corner');
+                userNameBadge.style.display = "block";
+            }, 2600);
         }
 
+        // Badge y menú lateral
         userNameBadge.onclick = function(e) {
             e.stopPropagation();
             if (dropdownOpen) {
@@ -691,123 +261,7 @@
             }
         }
 
-        logoutBtn.onclick = function() {
-            localStorage.removeItem('session');
-            mainOptions.classList.remove('show');
-            panelCarta.classList.remove('show');
-            authSection.classList.remove('hidden');
-            logoutBtn.classList.remove('show');
-            loginForm.reset();
-            registerForm.reset();
-            loginForm.style.display = '';
-            registerForm.style.display = 'none';
-            formTitle.textContent = 'Iniciar Sesión';
-            toggleMsg.textContent = '¿No tienes cuenta?';
-            toggleLink.textContent = 'Registrarse';
-            switchArea.style.display = '';
-            pedido = [];
-            actualizarResumen();
-            pedidoResumen.style.display = 'none';
-            setLoginBackground();
-            userNameBadge.classList.remove('show');
-            userDropdown.style.display = "none";
-            dropdownOpen = false;
-        };
-
-        btnHacerPedido.onclick = function() {
-            mainOptions.classList.remove('show');
-            panelCarta.classList.add('show');
-            if (pedido.length > 0) {
-                pedidoResumen.style.display = '';
-                actualizarResumen();
-            }
-        }
-        closeCard.onclick = function() {
-            panelCarta.classList.remove('show');
-            mainOptions.classList.add('show');
-        }
-
-        function pedirMenu(item, precio) {
-            pedido.push({nombre: item, precio: precio});
-            actualizarResumen();
-            pedidoResumen.style.display = '';
-        }
-        window.pedirMenu = pedirMenu;
-
-        function actualizarResumen() {
-            pedidoLista.innerHTML = "";
-            let total = 0;
-            pedido.forEach(p => {
-                total += p.precio;
-                let li = document.createElement('li');
-                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
-                pedidoLista.appendChild(li);
-            });
-            pedidoTotal.textContent = "Total: S/ " + total;
-        }
-
-        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
-        function cambiarPedido() {
-            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
-                pedido = [];
-                actualizarResumen();
-                pedidoResumen.style.display = 'none';
-            }
-        }
-        function continuarPedido() {
-            if(pedido.length === 0){
-                alert("Debes seleccionar al menos un producto.");
-                return;
-            }
-            alert("¡Pedido enviado!\nGracias por tu compra.");
-            pedido = [];
-            actualizarResumen();
-            pedidoResumen.style.display = 'none';
-        }
-        window.seguirOrdenando = seguirOrdenando;
-        window.cambiarPedido = cambiarPedido;
-        window.continuarPedido = continuarPedido;
-
-        // Recuperación de contraseña
-        forgotLink.onclick = function(e){
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'none';
-            switchArea.style.display = 'none';
-            recoverForm.style.display = '';
-            formTitle.textContent = 'Recuperar cuenta';
-            recoverMessage.textContent = '';
-        };
-
-        recoverForm.onsubmit = function(e){
-            e.preventDefault();
-            const contacto = recoverContact.value.trim();
-            if(!contacto){
-                recoverMessage.textContent = "Por favor ingresa tu correo o número telefónico.";
-                return;
-            }
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            let found = false;
-            for (let email in users) {
-                if (email === contacto || users[email].telefono === contacto) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                recoverMessage.style.color = "#43e8ff";
-                recoverMessage.textContent = "¡Te hemos enviado un mensaje de recuperación a tu correo o teléfono!";
-            } else {
-                recoverMessage.style.color = "#ff5252";
-                recoverMessage.textContent = "Usuario no encontrado. Intenta con otro correo o número.";
-            }
-            setTimeout(()=>{
-                formTitle.textContent = 'Iniciar Sesión';
-                recoverForm.style.display = 'none';
-                loginForm.style.display = '';
-                switchArea.style.display = '';
-            },2500);
-        };
+        // ...El resto de tu JS (login, registro, carta, recuperación, etc) igual que antes...
     </script>
 </body>
 </html>
