@@ -12,7 +12,7 @@
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)),
                 url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'),
-                url('https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my');
+                url('https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=7tQjQfE1D6G3F0QwN5XwA==');
             background-repeat: no-repeat, no-repeat, no-repeat;
             background-size: cover, contain, 120px;
             background-position: center, center, 70% 8%;
@@ -297,64 +297,141 @@
             .main-btns-row { width: 100%; }
             .panel-bienvenida { width: 100vw; }
         }
-        /* --- Cambios para ocultar el panel de login y mostrar el botón logout --- */
-.hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
-
-#auth-section { display: none; opacity: 0; transition: opacity 0.7s; }
-#auth-section.show { display: block; opacity: 1; z-index: 1004; }
-
-#logout-btn {
-    display: none;
-    position: fixed;
-    top: 35px;
-    right: 45px;
-    z-index: 1005;
-    background: #ff5252;
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 17px 36px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 12px #0008;
-    transition: background 0.18s, color 0.18s, transform 0.19s;
-}
-#logout-btn.show {
-    display: block;
-}
-        /* --- Cambios para ocultar el panel de login y mostrar el botón logout --- */
-.hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
-
-#auth-section { display: none; opacity: 0; transition: opacity 0.7s; }
-#auth-section.show { display: block; opacity: 1; z-index: 1004; }
-
-#logout-btn {
-    display: none;
-    position: fixed;
-    top: 35px;
-    right: 45px;
-    z-index: 1005;
-    background: #ff5252;
-    color: #fff;
-    border: none;
-    border-radius: 14px;
-    padding: 17px 36px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 12px #0008;
-    transition: background 0.18s, color 0.18s, transform 0.19s;
-}
-#logout-btn.show {
-    display: block;
-}
+        /* --- LOGIN PANEL MODERNO --- */
+        #auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: rgba(25,25,35,0.86);
+            transition: opacity 0.7s;
+        }
+        .auth-card {
+            background: #18181eeb;
+            border-radius: 18px;
+            box-shadow: 0 6px 38px #000b;
+            padding: 38px 34px 32px 34px;
+            min-width: 320px;
+            max-width: 98vw;
+            width: 360px;
+            color: #fff;
+            margin: 0 auto;
+            animation: cartaFadeIn 0.4s;
+        }
+        .auth-card h2 {
+            margin: 0 0 20px 0;
+            text-align: center;
+            color: #ff5252;
+            font-size: 2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .logo-login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .logo-login img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px #0008;
+            padding: 8px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .input-group label {
+            font-size: 1.02em;
+            color: #ffbaba;
+            margin-bottom: 2px;
+        }
+        .input-group input {
+            padding: 11px 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #24243a;
+            color: #fff;
+            font-size: 1.09em;
+            outline: none;
+            transition: border 0.17s;
+        }
+        .input-group input:focus {
+            border: 1.5px solid #ff5252;
+        }
+        .auth-btn {
+            width: 100%;
+            background: #ff5252;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.18em;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 0;
+            box-shadow: 0 2px 10px #0005;
+            margin-top: 6px;
+            transition: background 0.17s, color 0.17s;
+            cursor: pointer;
+        }
+        .auth-btn:hover {
+            background: #ff7979;
+            color: #fff;
+        }
+        .switch {
+            margin-top: 17px;
+            text-align: center;
+            font-size: 1em;
+        }
+        #toggle-link {
+            color: #43e8ff;
+            text-decoration: underline;
+            margin-left: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .forgot-link {
+            color: #43e8ff;
+            text-decoration: underline;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        @media (max-width: 500px) {
+            .auth-card { padding: 19px 6vw 22px 6vw; min-width: 0; width: 98vw;}
+        }
+        /* --- FIN LOGIN PANEL MODERNO --- */
+        #logout-btn {
+            display: none;
+            position: fixed;
+            top: 35px;
+            right: 45px;
+            z-index: 1005;
+            background: #ff5252;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 17px 36px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 12px #0008;
+            transition: background 0.18s, color 0.18s, transform 0.19s;
+        }
+        #logout-btn.show {
+            display: block;
+        }
+        .hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
     </style>
 </head>
 <body>
     <div id="dark-overlay"></div>
     <div class="logo-global">
-        <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+        <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800" alt="Kaburi Logo">
     </div>
     <button class="user-name-badge" id="user-name-badge" type="button"></button>
     <nav class="user-name-dropdown" id="user-dropdown" tabindex="-1">
@@ -369,51 +446,54 @@
     </nav>
     <div class="welcome-message" id="welcome-message"></div>
     <div class="goodbye-message" id="goodbye-message"></div>
+    <!-- LOGIN PANEL MODERNO -->
     <div class="container" id="auth-section">
-        <div class="logo-login">
-            <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+        <div class="auth-card">
+            <div class="logo-login">
+                <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800" alt="Logo">
+            </div>
+            <h2 id="form-title">Iniciar Sesión</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="login-email">Correo electrónico</label>
+                    <input type="email" id="login-email" autocomplete="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Ingresar</button>
+            </form>
+            <form id="register-form" style="display:none;">
+                <div class="input-group"><label for="register-nombre">Nombre</label><input type="text" id="register-nombre" required></div>
+                <div class="input-group"><label for="register-apellido">Apellido</label><input type="text" id="register-apellido" required></div>
+                <div class="input-group"><label for="register-edad">Edad</label><input type="number" id="register-edad" min="1" required></div>
+                <div class="input-group"><label for="register-direccion">Dirección</label><input type="text" id="register-direccion" required></div>
+                <div class="input-group"><label for="register-telefono">Número telefónico</label><input type="tel" id="register-telefono" required pattern="[0-9]{6,}"></div>
+                <div class="input-group"><label for="register-email">Correo electrónico</label><input type="email" id="register-email" autocomplete="username" required></div>
+                <div class="input-group"><label for="register-password">Contraseña</label><input type="password" id="register-password" autocomplete="new-password" required></div>
+                <button type="submit" class="auth-btn">Registrarse</button>
+            </form>
+            <div class="switch" id="switch-area">
+                <span id="toggle-msg">¿No tienes cuenta?</span>
+                <a href="#" id="toggle-link">Registrarse</a>
+            </div>
+            <div style="text-align:center; margin-top:18px;">
+                <a href="#" id="forgot-link" class="forgot-link">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+            <form id="recover-form" style="display:none; margin-top:20px;">
+                <div class="input-group">
+                    <label for="recover-contact">Ingresa tu correo o número telefónico</label>
+                    <input type="text" id="recover-contact" required>
+                </div>
+                <button type="submit" class="auth-btn">Enviar código de recuperación</button>
+                <div id="recover-message" style="margin-top:14px;color:#f7971e;font-size:1.09em;"></div>
+            </form>
         </div>
-        <h2 id="form-title">Iniciar Sesión</h2>
-        <form id="login-form">
-            <label for="login-email">Correo electrónico:</label>
-            <input type="email" id="login-email" autocomplete="username" required>
-            <label for="login-password">Contraseña:</label>
-            <input type="password" id="login-password" autocomplete="current-password" required>
-            <button type="submit">Ingresar</button>
-        </form>
-        <form id="register-form" style="display:none;">
-            <label for="register-nombre">Nombre:</label>
-            <input type="text" id="register-nombre" required>
-            <label for="register-apellido">Apellido:</label>
-            <input type="text" id="register-apellido" required>
-            <label for="register-edad">Edad:</label>
-            <input type="number" id="register-edad" min="1" required>
-            <label for="register-direccion">Dirección:</label>
-            <input type="text" id="register-direccion" required>
-            <label for="register-telefono">Número telefónico:</label>
-            <input type="tel" id="register-telefono" required pattern="[0-9]{6,}">
-            <label for="register-email">Correo electrónico:</label>
-            <input type="email" id="register-email" autocomplete="username" required>
-            <label for="register-password">Contraseña:</label>
-            <input type="password" id="register-password" autocomplete="new-password" required>
-            <button type="submit">Registrarse</button>
-        </form>
-        <div class="switch" id="switch-area">
-            <span id="toggle-msg">¿No tienes cuenta?</span>
-            <a href="#" id="toggle-link">Registrarse</a>
-        </div>
-        <div style="text-align:center; margin-top:18px;">
-            <a href="#" id="forgot-link" style="color:#43e8ff;text-decoration:underline;cursor:pointer;font-size:1em;">
-                ¿Olvidaste tu contraseña?
-            </a>
-        </div>
-        <form id="recover-form" style="display:none; margin-top:20px;">
-            <label for="recover-contact">Ingresa tu correo o número telefónico:</label>
-            <input type="text" id="recover-contact" required>
-            <button type="submit">Enviar código de recuperación</button>
-            <div id="recover-message" style="margin-top:14px;color:#f7971e;font-size:1.09em;"></div>
-        </form>
     </div>
+    <!-- FIN LOGIN PANEL MODERNO -->
     <button id="logout-btn">Cerrar sesión</button>
     <div id="main-options">
         <div class="options-center">
@@ -443,7 +523,7 @@
         <div class="carta-center">
             <div class="carta-card">
                 <div class="logo-carta">
-                    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+                    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800" alt="Logo">
                 </div>
                 <button id="close-card" title="Cerrar">&times;</button>
                 <img src="alitas-bg.jpg" alt="Alitas" class="alitas-img">
