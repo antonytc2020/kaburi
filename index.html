@@ -71,10 +71,19 @@
             top: 40px; left: 140px; font-size: 1.6em; letter-spacing: 1.5px; padding: 0 9px 0 0;
         }
         .user-name-dropdown {
-            display: none; position: fixed; top: 0; left: 0; height: 100vh;
-            width: 310px; background: #181818f2; color: #fff;
-            border-radius: 0 18px 18px 0; box-shadow: 6px 0 38px #000b;
-            z-index: 30; font-size: 1.1em; animation: fadeInDrop 0.18s;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 310px;
+            background: #181818f2;
+            color: #fff;
+            border-radius: 0 18px 18px 0;
+            box-shadow: 6px 0 38px #000b;
+            z-index: 9999;
+            font-size: 1.1em;
+            animation: fadeInDrop 0.18s;
         }
         @keyframes fadeInDrop { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform:translateX(0);} }
         .user-name-dropdown ul { list-style: none; margin: 0; padding: 0; }
@@ -128,7 +137,7 @@
             padding: 32px 28px 24px 28px;
             border-radius: 14px;
             width: 340px;
-            z-index: 10;
+            z-index: 2000;
             opacity: 0;
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
         }
@@ -272,8 +281,8 @@
     <div class="logo-global">
         <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
     </div>
-    <button class="user-name-badge" id="user-name-badge"></button>
-    <nav class="user-name-dropdown" id="user-dropdown">
+    <button class="user-name-badge" id="user-name-badge" type="button"></button>
+    <nav class="user-name-dropdown" id="user-dropdown" tabindex="-1">
         <ul>
             <li><button type="button" onclick="alert('Cuenta: Pronto disponible')">Cuenta</button></li>
             <li><button type="button" onclick="alert('Ajustes de pago: Pronto disponible')">Ajustes de pago</button></li>
@@ -401,6 +410,7 @@
     <script>
         const welcomeMessage = document.getElementById('welcome-message');
         const userNameBadge = document.getElementById('user-name-badge');
+        const userDropdown = document.getElementById('user-dropdown');
         const darkOverlay = document.getElementById('dark-overlay');
         let pedido = [];
         let dropdownOpen = false;
@@ -439,7 +449,7 @@
                 darkOverlay.classList.remove('active');
             }, 2600);
             setTimeout(() => {
-                welcomeMessage.className = "welcome-message to-corner"; // Se queda arriba, invisible
+                welcomeMessage.className = "welcome-message to-corner";
             }, 3400);
         }
 
@@ -451,14 +461,21 @@
             } else {
                 userDropdown.style.display = "block";
                 dropdownOpen = true;
+                userDropdown.focus();
             }
         };
+        // Cerrar menú al hacer click fuera o perder foco
         document.addEventListener('click', function(e){
             if (dropdownOpen && !userDropdown.contains(e.target) && e.target !== userNameBadge) {
                 userDropdown.style.display = "none";
                 dropdownOpen = false;
             }
         });
+        userDropdown.addEventListener('blur', function() {
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+        });
+
         function eliminarCuenta() {
             if (confirm("¿Seguro que quieres eliminar tu cuenta? Esto no se puede deshacer.")) {
                 const session = JSON.parse(localStorage.getItem('session') || '{}');
@@ -509,171 +526,3 @@
                 toggleMsg.textContent = '¿No tienes cuenta?';
                 toggleLink.textContent = 'Registrarse';
             }
-        };
-
-        function getUsers(){
-            return JSON.parse(localStorage.getItem('users') || '{}');
-        }
-        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
-            const users = getUsers();
-            users[email] = {password, nombre, apellido, edad, direccion, telefono};
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-        function validateUser(email, password){
-            const users = getUsers();
-            return users[email] && users[email].password === password ? users[email] : null;
-        }
-
-        registerForm.onsubmit = function(e){
-            e.preventDefault();
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const nombre = document.getElementById('register-nombre').value;
-            const apellido = document.getElementById('register-apellido').value;
-            const edad = document.getElementById('register-edad').value;
-            const direccion = document.getElementById('register-direccion').value;
-            const telefono = document.getElementById('register-telefono').value;
-            const users = getUsers();
-            if(users[email]){
-                alert('Este correo ya está registrado.');
-            } else {
-                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
-                alert('Registro exitoso. Ahora inicia sesión.');
-                loginForm.style.display = '';
-                registerForm.style.display = 'none';
-                formTitle.textContent = 'Iniciar Sesión';
-                toggleMsg.textContent = '¿No tienes cuenta?';
-                toggleLink.textContent = 'Registrarse';
-                document.getElementById('login-email').focus();
-            }
-        };
-
-        loginForm.onsubmit = function(e){
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const user = validateUser(email, password);
-            if(user){
-                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
-                showWelcome(user.nombre);
-                setTimeout(() => {
-                    document.getElementById('auth-section').classList.remove('show');
-                }, 300);
-                setTimeout(() => {
-                    mainOptions.classList.add('show');
-                    logoutBtn.classList.add('show');
-                }, 2600);
-            } else {
-                alert('Correo o contraseña incorrectos.');
-            }
-        };
-
-        forgotLink.onclick = function(e){
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'none';
-            switchArea.style.display = 'none';
-            recoverForm.style.display = '';
-            formTitle.textContent = 'Recuperar cuenta';
-            recoverMessage.textContent = '';
-        };
-        recoverForm.onsubmit = function(e){
-            e.preventDefault();
-            const contacto = recoverContact.value.trim();
-            if(!contacto){
-                recoverMessage.textContent = "Por favor ingresa tu correo o número telefónico.";
-                return;
-            }
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            let found = false;
-            for (let email in users) {
-                if (email === contacto || users[email].telefono === contacto) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                recoverMessage.style.color = "#43e8ff";
-                recoverMessage.textContent = "¡Te hemos enviado un mensaje de recuperación a tu correo o teléfono!";
-            } else {
-                recoverMessage.style.color = "#ff5252";
-                recoverMessage.textContent = "Usuario no encontrado. Intenta con otro correo o número.";
-            }
-            setTimeout(()=>{
-                formTitle.textContent = 'Iniciar Sesión';
-                recoverForm.style.display = 'none';
-                loginForm.style.display = '';
-                switchArea.style.display = '';
-            },2500);
-        };
-
-        logoutBtn.onclick = function() {
-            localStorage.removeItem('session');
-            mainOptions.classList.remove('show');
-            panelCarta.classList.remove('show');
-            userNameBadge.classList.remove('show', 'to-corner');
-            userDropdown.style.display = "none";
-            dropdownOpen = false;
-            loginForm.reset();
-            registerForm.reset();
-            loginForm.style.display = '';
-            registerForm.style.display = 'none';
-            formTitle.textContent = 'Iniciar Sesión';
-            toggleMsg.textContent = '¿No tienes cuenta?';
-            toggleLink.textContent = 'Registrarse';
-            switchArea.style.display = '';
-        };
-
-        btnHacerPedido.onclick = function() {
-            mainOptions.classList.remove('show');
-            panelCarta.classList.add('show');
-            if (pedido.length > 0) {
-                pedidoResumen.style.display = '';
-                actualizarResumen();
-            }
-        }
-        closeCard.onclick = function() {
-            panelCarta.classList.remove('show');
-            mainOptions.classList.add('show');
-        }
-        function pedirMenu(item, precio) {
-            pedido.push({nombre: item, precio: precio});
-            actualizarResumen();
-            pedidoResumen.style.display = '';
-        }
-        function actualizarResumen() {
-            pedidoLista.innerHTML = "";
-            let total = 0;
-            pedido.forEach(p => {
-                total += p.precio;
-                let li = document.createElement('li');
-                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
-                pedidoLista.appendChild(li);
-            });
-            pedidoTotal.textContent = "Total: S/ " + total;
-        }
-        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
-        function cambiarPedido() {
-            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
-                pedido = [];
-                actualizarResumen();
-                pedidoResumen.style.display = 'none';
-            }
-        }
-        function continuarPedido() {
-            if(pedido.length === 0){
-                alert("Debes seleccionar al menos un producto.");
-                return;
-            }
-            alert("¡Pedido enviado!\nGracias por tu compra.");
-            pedido = [];
-            actualizarResumen();
-            pedidoResumen.style.display = 'none';
-        }
-        window.pedirMenu = pedirMenu;
-        window.seguirOrdenando = seguirOrdenando;
-        window.cambiarPedido = cambiarPedido;
-        window.continuarPedido = continuarPedido;
-    </script>
-</body>
-</html>
