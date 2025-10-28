@@ -7,7 +7,8 @@
     <style>
         html, body { height: 100%; margin: 0; padding: 0; }
         body {
-            min-height: 100vh; min-width: 100vw;
+            min-height: 100vh;
+            min-width: 100vw;
             font-family: Arial, sans-serif;
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)),
@@ -35,7 +36,6 @@
             box-shadow: 0 2px 12px #0008;
             padding: 10px;
         }
-        /* BOTÓN NOMBRE SIN MARCO */
         .user-name-badge {
             display: none;
             position: fixed;
@@ -74,7 +74,6 @@
             letter-spacing: 1.5px;
             padding: 0 9px 0 0;
         }
-        /* PANEL MENÚ LATERAL IZQUIERDO */
         .user-name-dropdown {
             display: none;
             position: fixed;
@@ -119,7 +118,6 @@
         .user-name-dropdown button:hover, .user-name-dropdown a:hover {
             background: #ff5252cc;
         }
-        /* BIENVENIDA MUY GRANDE Y AL CENTRO */
         .welcome-message {
             position: fixed;
             top: 45%;
@@ -147,8 +145,6 @@
             transform: translate(0, 0);
             font-size: 1.23em;
         }
-        /* RESTO DE ESTILOS IGUAL QUE SIEMPRE (panel, login, carta, etc.) */
-        /* ... puedes añadir aquí el resto de estilos personalizados ... */
         @media (max-width: 600px) {
             .logo-global img { width: 65px; height: 65px; padding: 4px;}
             .logo-global { top: 5px; left: 5px;}
@@ -157,6 +153,91 @@
             .user-name-dropdown { width: 97vw; min-width:unset; border-radius:0 0 18px 18px; }
             #auth-section { width: 96vw; left: 2vw; right: 2vw; padding: 12px 6px;}
         }
+        /* Panel auth animación */
+        #auth-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateY(-80vh);
+            background: #181818ee;
+            box-shadow: 0 4px 24px #000d;
+            padding: 32px 28px 24px 28px;
+            border-radius: 14px;
+            width: 340px;
+            z-index: 10;
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s;
+        }
+        #auth-section.show {
+            transform: translate(-50%, -50%) translateY(0);
+            opacity: 1;
+        }
+        #auth-section.hidden { display: none; }
+        .logo-login {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo-login img {
+            width: 115px;
+            height: 115px;
+            background: #fff;
+            border-radius: 50%;
+            object-fit: contain;
+            box-shadow: 0 2px 12px #0008;
+            padding: 14px;
+        }
+        #auth-section h2 { 
+            text-align: center; 
+            color: #ff5252; 
+            margin-top: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #000a;
+        }
+        label { display: block; margin-top: 14px; }
+        input {
+            width: 100%;
+            padding: 9px;
+            margin-top: 6px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background: #222c;
+            color: #fff;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            margin-top: 19px;
+            padding: 12px 20px;
+            width: 100%;
+            background: #ff5252;
+            color: #fff;
+            font-size: 1.15em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0007;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover { background: #b71c1c; }
+        .switch { margin-top: 22px; text-align: center;}
+        #logout-btn {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #ff5252;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 16px #000a;
+            z-index: 11;
+            transition: filter 0.2s, background 0.2s;
+        }
+        #logout-btn.show { display: block; }
     </style>
 </head>
 <body>
@@ -175,8 +256,53 @@
         </ul>
     </nav>
     <div class="welcome-message" id="welcome-message"></div>
-    <!-- ...El resto de tu HTML (login, registro, cartas, pedidos, etc) igual que antes... -->
-    <!-- ... -->
+    <div class="container" id="auth-section">
+        <div class="logo-login">
+            <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+        </div>
+        <h2 id="form-title">Iniciar Sesión</h2>
+        <form id="login-form">
+            <label for="login-email">Correo electrónico:</label>
+            <input type="email" id="login-email" autocomplete="username" required>
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" autocomplete="current-password" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <form id="register-form" style="display:none;">
+            <label for="register-nombre">Nombre:</label>
+            <input type="text" id="register-nombre" required>
+            <label for="register-apellido">Apellido:</label>
+            <input type="text" id="register-apellido" required>
+            <label for="register-edad">Edad:</label>
+            <input type="number" id="register-edad" min="1" required>
+            <label for="register-direccion">Dirección:</label>
+            <input type="text" id="register-direccion" required>
+            <label for="register-telefono">Número telefónico:</label>
+            <input type="tel" id="register-telefono" required pattern="[0-9]{6,}">
+            <label for="register-email">Correo electrónico:</label>
+            <input type="email" id="register-email" autocomplete="username" required>
+            <label for="register-password">Contraseña:</label>
+            <input type="password" id="register-password" autocomplete="new-password" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <div class="switch" id="switch-area">
+            <span id="toggle-msg">¿No tienes cuenta?</span>
+            <a href="#" id="toggle-link">Registrarse</a>
+        </div>
+        <div style="text-align:center; margin-top:18px;">
+            <a href="#" id="forgot-link" style="color:#43e8ff;text-decoration:underline;cursor:pointer;font-size:1em;">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </div>
+        <form id="recover-form" style="display:none; margin-top:20px;">
+            <label for="recover-contact">Ingresa tu correo o número telefónico:</label>
+            <input type="text" id="recover-contact" required>
+            <button type="submit">Enviar código de recuperación</button>
+            <div id="recover-message" style="margin-top:14px;color:#f7971e;font-size:1.09em;"></div>
+        </form>
+    </div>
+    <button id="logout-btn">Cerrar sesión</button>
+    <!-- Agrega aquí el resto de tus paneles y lógica de carta/pedidos si lo necesitas -->
     <script>
         // Animación panel de login
         window.onload = function(){
@@ -194,13 +320,6 @@
         const authSection = document.getElementById('auth-section');
         const switchArea = document.getElementById('switch-area');
         const logoutBtn = document.getElementById('logout-btn');
-        const mainOptions = document.getElementById('main-options');
-        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
-        const panelCarta = document.getElementById('panel-carta');
-        const closeCard = document.getElementById('close-card');
-        const pedidoResumen = document.getElementById('pedido-resumen');
-        const pedidoLista = document.getElementById('pedido-lista');
-        const pedidoTotal = document.getElementById('pedido-total');
         const userNameBadge = document.getElementById('user-name-badge');
         const userDropdown = document.getElementById('user-dropdown');
         const welcomeMessage = document.getElementById('welcome-message');
@@ -208,10 +327,9 @@
         const recoverForm = document.getElementById('recover-form');
         const recoverContact = document.getElementById('recover-contact');
         const recoverMessage = document.getElementById('recover-message');
-        let pedido = [];
         let dropdownOpen = false;
 
-        // Bienvenida muy grande y transición suave a la esquina superior izquierda y luego muestra el nombre como botón sin marco
+        // Bienvenida muy grande y transición a la esquina superior izquierda y luego muestra el nombre como botón sin marco
         function showWelcome(nombre) {
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
@@ -261,7 +379,137 @@
             }
         }
 
-        // ...El resto de tu JS (login, registro, carta, recuperación, etc) igual que antes...
+        // Toggle login/registro
+        toggleLink.onclick = function(e){
+            e.preventDefault();
+            if(loginForm.style.display !== 'none'){
+                loginForm.style.display = 'none';
+                registerForm.style.display = '';
+                formTitle.textContent = 'Registrarse';
+                toggleMsg.textContent = '¿Ya tienes cuenta?';
+                toggleLink.textContent = 'Iniciar sesión';
+            } else {
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+            }
+        };
+
+        // Registro
+        function getUsers(){
+            return JSON.parse(localStorage.getItem('users') || '{}');
+        }
+        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
+            const users = getUsers();
+            users[email] = {password, nombre, apellido, edad, direccion, telefono};
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        function validateUser(email, password){
+            const users = getUsers();
+            return users[email] && users[email].password === password ? users[email] : null;
+        }
+
+        registerForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const nombre = document.getElementById('register-nombre').value;
+            const apellido = document.getElementById('register-apellido').value;
+            const edad = document.getElementById('register-edad').value;
+            const direccion = document.getElementById('register-direccion').value;
+            const telefono = document.getElementById('register-telefono').value;
+            const users = getUsers();
+            if(users[email]){
+                alert('Este correo ya está registrado.');
+            } else {
+                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
+                alert('Registro exitoso. Ahora inicia sesión.');
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+                document.getElementById('login-email').focus();
+            }
+        };
+
+        // Login
+        loginForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const user = validateUser(email, password);
+            if(user){
+                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
+                showWelcome(user.nombre);
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.remove('show');
+                }, 300);
+                setTimeout(() => {
+                    // Aquí puedes mostrar tus paneles/pedidos (mainOptions.classList.add('show'), etc)
+                }, 2600);
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        };
+
+        // Recuperación de contraseña
+        forgotLink.onclick = function(e){
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            switchArea.style.display = 'none';
+            recoverForm.style.display = '';
+            formTitle.textContent = 'Recuperar cuenta';
+            recoverMessage.textContent = '';
+        };
+        recoverForm.onsubmit = function(e){
+            e.preventDefault();
+            const contacto = recoverContact.value.trim();
+            if(!contacto){
+                recoverMessage.textContent = "Por favor ingresa tu correo o número telefónico.";
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            let found = false;
+            for (let email in users) {
+                if (email === contacto || users[email].telefono === contacto) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                recoverMessage.style.color = "#43e8ff";
+                recoverMessage.textContent = "¡Te hemos enviado un mensaje de recuperación a tu correo o teléfono!";
+            } else {
+                recoverMessage.style.color = "#ff5252";
+                recoverMessage.textContent = "Usuario no encontrado. Intenta con otro correo o número.";
+            }
+            setTimeout(()=>{
+                formTitle.textContent = 'Iniciar Sesión';
+                recoverForm.style.display = 'none';
+                loginForm.style.display = '';
+                switchArea.style.display = '';
+            },2500);
+        };
+
+        // Logout
+        logoutBtn.onclick = function() {
+            localStorage.removeItem('session');
+            userNameBadge.classList.remove('show', 'to-corner');
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+            loginForm.reset();
+            registerForm.reset();
+            loginForm.style.display = '';
+            registerForm.style.display = 'none';
+            formTitle.textContent = 'Iniciar Sesión';
+            toggleMsg.textContent = '¿No tienes cuenta?';
+            toggleLink.textContent = 'Registrarse';
+            switchArea.style.display = '';
+        };
     </script>
 </body>
 </html>
