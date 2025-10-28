@@ -306,6 +306,9 @@
             background: rgba(25,25,35,0.86);
             transition: opacity 0.7s;
         }
+        #auth-section.hidden {
+            display: none !important;
+        }
         .auth-card {
             background: #18181eeb;
             border-radius: 18px;
@@ -577,7 +580,309 @@
         </div>
     </div>
     <script>
-        // ... (el script es igual que en tu versión anterior; no requiere cambios para el logo)
+        // Referencias
+        const welcomeMessage = document.getElementById('welcome-message');
+        const goodbyeMessage = document.getElementById('goodbye-message');
+        const userNameBadge = document.getElementById('user-name-badge');
+        const userDropdown = document.getElementById('user-dropdown');
+        const darkOverlay = document.getElementById('dark-overlay');
+        let pedido = [];
+        let dropdownOpen = false;
+
+        window.onload = function(){
+            // Revisar si hay sesión iniciada
+            if(localStorage.getItem('session')){
+                const session = JSON.parse(localStorage.getItem('session'));
+                showWelcome(session.nombre || "Usuario");
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('main-options').classList.add('show');
+                document.getElementById('logout-btn').classList.add('show');
+                mostrarUsuario(session.nombre || "Usuario");
+            } else {
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.add('show');
+                    document.getElementById('auth-section').classList.remove('hidden');
+                    document.getElementById('main-options').classList.remove('show');
+                    document.getElementById('logout-btn').classList.remove('show');
+                }, 150);
+            }
+        };
+
+        function mostrarUsuario(nombre) {
+            userNameBadge.textContent = nombre;
+            userNameBadge.classList.add('show', 'to-corner');
+            userNameBadge.style.display = "block";
+        }
+
+        function showWelcome(nombre) {
+            welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
+            welcomeMessage.className = "welcome-message show";
+            darkOverlay.classList.add('active');
+            setTimeout(() => {
+                welcomeMessage.className = "welcome-message hide";
+                darkOverlay.classList.remove('active');
+            }, 2200);
+        }
+
+        function showGoodbye(nombre, cb) {
+            goodbyeMessage.textContent = `¡Hasta pronto, ${nombre}!`;
+            goodbyeMessage.className = "goodbye-message show";
+            darkOverlay.classList.add('active');
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message show hide";
+                darkOverlay.classList.remove('active');
+            }, 1800);
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message";
+                if (cb) cb();
+            }, 2300);
+        }
+
+        userNameBadge.onclick = function(e) {
+            e.stopPropagation();
+            if (dropdownOpen) {
+                userDropdown.style.display = "none";
+                dropdownOpen = false;
+            } else {
+                userDropdown.style.display = "block";
+                dropdownOpen = true;
+                userDropdown.focus();
+            }
+        };
+        document.addEventListener('click', function(e){
+            if (dropdownOpen && !userDropdown.contains(e.target) && e.target !== userNameBadge) {
+                userDropdown.style.display = "none";
+                dropdownOpen = false;
+            }
+        });
+        userDropdown.addEventListener('blur', function() {
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+        });
+
+        function eliminarCuenta() {
+            if (confirm("¿Seguro que quieres eliminar tu cuenta? Esto no se puede deshacer.")) {
+                const session = JSON.parse(localStorage.getItem('session') || '{}');
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                if (session.email && users[session.email]) {
+                    delete users[session.email];
+                    localStorage.setItem('users', JSON.stringify(users));
+                    localStorage.removeItem('session');
+                    alert("Cuenta eliminada correctamente.");
+                    location.reload();
+                } else {
+                    alert("Error al eliminar la cuenta.");
+                }
+            }
+        }
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const toggleLink = document.getElementById('toggle-link');
+        const formTitle = document.getElementById('form-title');
+        const toggleMsg = document.getElementById('toggle-msg');
+        const authSection = document.getElementById('auth-section');
+        const switchArea = document.getElementById('switch-area');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mainOptions = document.getElementById('main-options');
+        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const panelCarta = document.getElementById('panel-carta');
+        const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
+        const forgotLink = document.getElementById('forgot-link');
+        const recoverForm = document.getElementById('recover-form');
+        const recoverContact = document.getElementById('recover-contact');
+        const recoverMessage = document.getElementById('recover-message');
+
+        toggleLink.onclick = function(e){
+            e.preventDefault();
+            if(loginForm.style.display !== 'none'){
+                loginForm.style.display = 'none';
+                registerForm.style.display = '';
+                formTitle.textContent = 'Registrarse';
+                toggleMsg.textContent = '¿Ya tienes cuenta?';
+                toggleLink.textContent = 'Iniciar sesión';
+            } else {
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+            }
+        };
+
+        function getUsers(){
+            return JSON.parse(localStorage.getItem('users') || '{}');
+        }
+        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
+            const users = getUsers();
+            users[email] = {password, nombre, apellido, edad, direccion, telefono};
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        function validateUser(email, password){
+            const users = getUsers();
+            return users[email] && users[email].password === password ? users[email] : null;
+        }
+
+        registerForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const nombre = document.getElementById('register-nombre').value;
+            const apellido = document.getElementById('register-apellido').value;
+            const edad = document.getElementById('register-edad').value;
+            const direccion = document.getElementById('register-direccion').value;
+            const telefono = document.getElementById('register-telefono').value;
+            const users = getUsers();
+            if(users[email]){
+                alert('Este correo ya está registrado.');
+            } else {
+                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
+                alert('Registro exitoso. Ahora inicia sesión.');
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+                document.getElementById('login-email').focus();
+            }
+        };
+
+        loginForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const user = validateUser(email, password);
+            if(user){
+                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
+                showWelcome(user.nombre);
+                // Ocultar panel login y mostrar menú principal
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('main-options').classList.add('show');
+                document.getElementById('logout-btn').classList.add('show');
+                mostrarUsuario(user.nombre);
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        };
+
+        forgotLink.onclick = function(e){
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            switchArea.style.display = 'none';
+            recoverForm.style.display = '';
+            formTitle.textContent = 'Recuperar cuenta';
+            recoverMessage.textContent = '';
+        };
+        recoverForm.onsubmit = function(e){
+            e.preventDefault();
+            const contacto = recoverContact.value.trim();
+            if(!contacto){
+                recoverMessage.textContent = "Por favor ingresa tu correo o número telefónico.";
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            let found = false;
+            for (let email in users) {
+                if (email === contacto || users[email].telefono === contacto) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                recoverMessage.style.color = "#43e8ff";
+                recoverMessage.textContent = "¡Te hemos enviado un mensaje de recuperación a tu correo o teléfono!";
+            } else {
+                recoverMessage.style.color = "#ff5252";
+                recoverMessage.textContent = "Usuario no encontrado. Intenta con otro correo o número.";
+            }
+            setTimeout(()=>{
+                formTitle.textContent = 'Iniciar Sesión';
+                recoverForm.style.display = 'none';
+                loginForm.style.display = '';
+                switchArea.style.display = '';
+            },2500);
+        };
+
+        logoutBtn.onclick = function() {
+            const session = JSON.parse(localStorage.getItem('session') || '{}');
+            const nombre = session.nombre || "usuario";
+            mainOptions.classList.remove('show');
+            panelCarta.classList.remove('show');
+            userNameBadge.classList.remove('show', 'to-corner');
+            userNameBadge.style.display = "none";
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+            loginForm.reset();
+            registerForm.reset();
+            loginForm.style.display = '';
+            registerForm.style.display = 'none';
+            formTitle.textContent = 'Iniciar Sesión';
+            toggleMsg.textContent = '¿No tienes cuenta?';
+            toggleLink.textContent = 'Registrarse';
+            switchArea.style.display = '';
+            localStorage.removeItem('session');
+            showGoodbye(nombre, () => {
+                document.getElementById('auth-section').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.add('show');
+                }, 80);
+                logoutBtn.classList.remove('show');
+            });
+        };
+
+        btnHacerPedido.onclick = function() {
+            mainOptions.classList.remove('show');
+            panelCarta.classList.add('show');
+            if (pedido.length > 0) {
+                pedidoResumen.style.display = '';
+                actualizarResumen();
+            }
+        }
+        closeCard.onclick = function() {
+            panelCarta.classList.remove('show');
+            mainOptions.classList.add('show');
+        }
+        function pedirMenu(item, precio) {
+            pedido.push({nombre: item, precio: precio});
+            actualizarResumen();
+            pedidoResumen.style.display = '';
+        }
+        function actualizarResumen() {
+            pedidoLista.innerHTML = "";
+            let total = 0;
+            pedido.forEach(p => {
+                total += p.precio;
+                let li = document.createElement('li');
+                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
+                pedidoLista.appendChild(li);
+            });
+            pedidoTotal.textContent = "Total: S/ " + total;
+        }
+        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
+        function cambiarPedido() {
+            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
+                pedido = [];
+                actualizarResumen();
+                pedidoResumen.style.display = 'none';
+            }
+        }
+        function continuarPedido() {
+            if(pedido.length === 0){
+                alert("Debes seleccionar al menos un producto.");
+                return;
+            }
+            alert("¡Pedido enviado!\nGracias por tu compra.");
+            pedido = [];
+            actualizarResumen();
+            pedidoResumen.style.display = 'none';
+        }
+        window.pedirMenu = pedirMenu;
+        window.seguirOrdenando = seguirOrdenando;
+        window.cambiarPedido = cambiarPedido;
+        window.continuarPedido = continuarPedido;
     </script>
 </body>
 </html>
