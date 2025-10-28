@@ -12,11 +12,742 @@
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)),
                 url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHKkoOaaBDhd34-ttLRBHudU_MNirAsIKRRuOG5Hd2G1OJcsGe8YwvZE9VO3d0gbIzn_cIt59X0ACsnRB5ToFABfusc8yIpq6lf77-EZCFQ'),
-                [...] 
+                url('https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my');
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            background-size: cover, contain, 120px;
+            background-position: center, center, 70% 8%;
+            color: #fff;
+            overflow-x: hidden;
+            font-size: 20px;
+        }
+        #dark-overlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(20,20,22,0);
+            transition: background 1.2s cubic-bezier(0.22,1,0.36,1);
+        }
+        #dark-overlay.active { background: rgba(20,20,22,0.80); }
+        .logo-global { position: fixed; top: 25px; left: 25px; z-index: 1002; display: flex; align-items: center; }
+        .logo-global img {
+            width: 90px; height: 90px; object-fit: contain;
+            background: #fff; border-radius: 24px; box-shadow: 0 2px 12px #0008; padding: 10px;
+        }
+        .user-name-badge {
+            display: none;
+            position: fixed;
+            top: 48px; left: 130px;
+            background: none; color: #fff;
+            font-size: 2.3em; font-weight: 900; border: none; border-radius: 0;
+            padding: 0 20px 0 0; z-index: 1002;
+            cursor: pointer; opacity: 0; transform: translateY(-30px);
+            transition: opacity 0.4s, transform 0.5s, top 1.2s cubic-bezier(0.22,1,0.36,1), left 1.2s cubic-bezier(0.22,1,0.36,1), font-size 1.2s cubic-bezier(0.22,1,0.36,1), letter-spacing 1.2s cubic-bezier(0.22,1,0.36,1);
+            outline: none; box-shadow: none;
+        }
+        .user-name-badge.show { display: block; opacity: 1; transform: translateY(0);}
+        .user-name-badge.to-corner { top: 40px; left: 140px; font-size: 1.6em; letter-spacing: 1.5px; padding: 0 9px 0 0; }
+        .user-name-dropdown {
+            display: none; position: fixed; top: 0; left: 0; height: 100vh; width: 310px;
+            background: #181818f2; color: #fff; border-radius: 0 18px 18px 0; box-shadow: 6px 0 38px #000b;
+            z-index: 1003; font-size: 1.1em; animation: fadeInDrop 0.18s;
+        }
+        @keyframes fadeInDrop { from { opacity:0; transform: translateX(-16px); } to { opacity:1; transform:translateX(0);} }
+        .user-name-dropdown ul { list-style: none; margin: 0; padding: 0; }
+        .user-name-dropdown li { border-bottom: 1px solid #ff52525a; }
+        .user-name-dropdown li:last-child { border-bottom: none; }
+        .user-name-dropdown button, .user-name-dropdown a {
+            display: block; width: 100%; background: none; border: none;
+            color: inherit; text-align: left; padding: 22px 32px; font-size: 1em;
+            cursor: pointer; outline: none; transition: background 0.18s; text-decoration: none;
+        }
+        .user-name-dropdown button:hover, .user-name-dropdown a:hover { background: #ff5252cc; }
+        .goodbye-message {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.3em;
+            color: #fff;
+            z-index: 1200;
+            font-weight: 900;
+            opacity: 0;
+            transition: opacity 1.1s cubic-bezier(0.22,1,0.36,1);
+            pointer-events: none;
+            background: none;
+            text-shadow: 0 6px 30px #000a;
+            letter-spacing: 2px;
+        }
+        .goodbye-message.show { opacity: 1; }
+        .goodbye-message.hide { opacity: 0; transition: opacity 0.8s; }
+        .welcome-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.6em;
+            color: #fff;
+            z-index: 1200;
+            font-weight: 900;
+            opacity: 0;
+            transition: opacity 1s cubic-bezier(0.22,1,0.36,1);
+            pointer-events: none;
+            background: none;
+            text-shadow: 0 6px 30px #000a;
+            letter-spacing: 2px;
+        }
+        .welcome-message.show { opacity: 1; }
+        .welcome-message.hide { opacity: 0; transition: opacity 0.8s; }
+        #main-options {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 999;
+            background: rgba(15,16,20,0.95);
+            padding-top: 140px;
+            padding-left: 40px;
+            box-sizing: border-box;
+        }
+        #main-options.show { display: flex; }
+        .options-center {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            height: 100vh;
+            width: 100vw;
+            max-width: 100vw;
+        }
+        .panel-bienvenida {
+            background: none;
+            box-shadow: none;
+            border: none;
+            margin: 0 0 0 0;
+            padding: 0;
+            width: 80vw;
+            max-width: 900px;
+        }
+        .panel-bienvenida h2 {
+            color: #fff;
+            font-size: 3.2em;
+            font-weight: bold;
+            margin: 0 0 0.4em 0;
+            padding: 0;
+            text-align: left;
+            letter-spacing: 1.5px;
+            text-shadow: none;
+            border: none;
+        }
+        .panel-bienvenida p {
+            font-size: 1.55em;
+            color: #e0e0e0;
+            margin: 0 0 2.8em 0;
+            line-height: 1.45;
+            text-align: left;
+            letter-spacing: .5px;
+            padding: 0;
+            border: none;
+            max-width: 1300px;
+        }
+        .main-btns-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 38px;
+            width: 100%;
+            margin-left: 0;
+        }
+        .big-option-btn {
+            width: 78vw;
+            min-width: 360px;
+            max-width: 1100px;
+            align-self: flex-start;
+            padding: 48px 30px 48px 38px;
+            font-size: 2.3em;
+            font-weight: bold;
+            border-radius: 22px;
+            border: 3px solid #ff5252;
+            color: #fff;
+            background: transparent;
+            box-shadow: 0 4px 14px #0007;
+            cursor: pointer;
+            transition: transform 0.19s, filter 0.18s, box-shadow 0.22s, background 0.24s;
+            letter-spacing: 1.25px;
+            margin-bottom: 0;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+        }
+        .big-option-btn:hover {
+            background: rgba(255,82,82,0.09);
+            filter: brightness(1.05);
+            transform: scale(1.025);
+            box-shadow: 0 7px 34px #000b;
+        }
+        .option-desc {
+            font-size: 0.55em;
+            color: #fff;
+            font-weight: 400;
+            margin-top: 15px;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+            opacity: 0.98;
+            line-height: 1.35;
+            text-shadow: 0 1px 6px #000a;
+        }
+        #panel-carta { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;}
+        #panel-carta.show { display: flex;}
+        .carta-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .carta-card {
+            background: rgba(24,18,22,0.99);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #000c;
+            padding: 34px 30px 28px 30px;
+            min-width: 340px;
+            max-width: 95vw;
+            width: 95vw;
+            color: #fff;
+            border: 3px solid #ff5252;
+            font-size: 1.25em;
+            position: relative;
+            animation: cartaFadeIn 0.4s;
+        }
+        @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
+        .carta-card h3 {
+            text-align: center; margin-top: 0; font-size: 1.65em; letter-spacing: 1.5px; color: #ff5252; text-shadow: 0 2px 8px #000a;
+        }
+        .logo-carta {
+            display: flex; align-items: center; margin-bottom: 15px; position: absolute; top: 20px; left: 20px; z-index: 2;
+        }
+        .logo-carta img {
+            width: 68px; height: 68px; object-fit: contain; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px #0008; padding: 6px;
+        }
+        .alitas-img { width: 100%; max-width: 320px; border-radius: 16px; margin: 0 auto 24px auto; display: block; box-shadow: 0 2px 12px #0008;}
+        .menu-alitas { list-style: none; padding: 0; margin: 0;}
+        .menu-alitas li {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; font-size: 1.25em;
+        }
+        .menu-desc { flex: 1 1 auto; margin-right: 14px; letter-spacing: 0.5px; }
+        .menu-precio {
+            font-weight: bold; font-size: 1.15em; color: #f7971e; margin-left: 6px; margin-right: 6px; min-width: 70px; text-align: right;
+        }
+        .menu-soles { font-size: 1.1em; font-weight: bold; color: #ffdd00; margin-right: 2px; }
+        .menu-pedir-btn {
+            background: transparent;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            border-radius: 9px;
+            padding: 10px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 7px;
+            box-shadow: 0 2px 6px #0004;
+            transition: background 0.18s, color 0.18s;
+        }
+        .menu-pedir-btn:hover {
+            background: #ff5252;
+            color: #fff;
+        }
+        #close-card {
+            position: absolute; right: 17px; top: 15px;
+            background: #ff5252; color: #fff; border: none; border-radius: 100%;
+            width: 32px; height: 32px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 8px #0009; z-index: 10;
+        }
+        .panel-actions {
+            display: flex; gap: 15px; justify-content: center; margin: 30px 0 5px 0;
+        }
+        .panel-action-btn {
+            background: transparent;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            border-radius: 9px;
+            padding: 13px 28px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0004;
+            transition: background 0.18s, color 0.18s;
+        }
+        .panel-action-btn:hover {
+            background: #ff5252;
+            color: #fff;
+        }
+        .pedido-resumen {
+            background: rgba(38,38,46,0.86); border-radius: 12px; margin: 38px auto 0 auto; max-width: 420px; width: 100%; padding: 17px 19px 11px 19px; box-shadow: 0 2px 12px #0006; font-size: 1.17em;
+        }
+        .pedido-resumen h4 { margin: 0 0 10px 0; color: #f7971e; text-align: center; }
+        .pedido-lista { margin: 0 0 11px 0; padding: 0; list-style: none;}
+        .pedido-lista li { margin-bottom: 7px; display: flex; justify-content: space-between; }
+        .pedido-item-nombre { font-weight: normal; }
+        .pedido-item-precio { font-weight: bold; color: #ffdd00; }
+        .pedido-total { text-align: right; font-size: 1.17em; font-weight: bold; color: #43e8ff; margin-top: 12px; margin-bottom: 0; }
+        @media (max-width: 1000px) {
+            .big-option-btn { width: 100%; max-width: 98vw; font-size: 1.25em; min-width: unset;}
+            .main-btns-row { width: 100%; }
+            .panel-bienvenida { width: 100vw; }
         }
     </style>
 </head>
 <body>
-    
+    <div id="dark-overlay"></div>
+    <div class="logo-global">
+        <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+    </div>
+    <button class="user-name-badge" id="user-name-badge" type="button"></button>
+    <nav class="user-name-dropdown" id="user-dropdown" tabindex="-1">
+        <ul>
+            <li><button type="button" onclick="alert('Cuenta: Pronto disponible')">Cuenta</button></li>
+            <li><button type="button" onclick="alert('Ajustes de pago: Pronto disponible')">Ajustes de pago</button></li>
+            <li><button type="button" onclick="alert('Información: Pronto disponible')">Información</button></li>
+            <li><button type="button" onclick="alert('Seguridad: Pronto disponible')">Seguridad</button></li>
+            <li><button type="button" onclick="alert('Términos y condiciones: Pronto disponible')">Términos y condiciones</button></li>
+            <li><button type="button" onclick="eliminarCuenta()">Eliminar cuenta</button></li>
+        </ul>
+    </nav>
+    <div class="welcome-message" id="welcome-message"></div>
+    <div class="goodbye-message" id="goodbye-message"></div>
+    <div class="container" id="auth-section">
+        <div class="logo-login">
+            <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+        </div>
+        <h2 id="form-title">Iniciar Sesión</h2>
+        <form id="login-form">
+            <label for="login-email">Correo electrónico:</label>
+            <input type="email" id="login-email" autocomplete="username" required>
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" autocomplete="current-password" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <form id="register-form" style="display:none;">
+            <label for="register-nombre">Nombre:</label>
+            <input type="text" id="register-nombre" required>
+            <label for="register-apellido">Apellido:</label>
+            <input type="text" id="register-apellido" required>
+            <label for="register-edad">Edad:</label>
+            <input type="number" id="register-edad" min="1" required>
+            <label for="register-direccion">Dirección:</label>
+            <input type="text" id="register-direccion" required>
+            <label for="register-telefono">Número telefónico:</label>
+            <input type="tel" id="register-telefono" required pattern="[0-9]{6,}">
+            <label for="register-email">Correo electrónico:</label>
+            <input type="email" id="register-email" autocomplete="username" required>
+            <label for="register-password">Contraseña:</label>
+            <input type="password" id="register-password" autocomplete="new-password" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <div class="switch" id="switch-area">
+            <span id="toggle-msg">¿No tienes cuenta?</span>
+            <a href="#" id="toggle-link">Registrarse</a>
+        </div>
+        <div style="text-align:center; margin-top:18px;">
+            <a href="#" id="forgot-link" style="color:#43e8ff;text-decoration:underline;cursor:pointer;font-size:1em;">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </div>
+        <form id="recover-form" style="display:none; margin-top:20px;">
+            <label for="recover-contact">Ingresa tu correo o número telefónico:</label>
+            <input type="text" id="recover-contact" required>
+            <button type="submit">Enviar código de recuperación</button>
+            <div id="recover-message" style="margin-top:14px;color:#f7971e;font-size:1.09em;"></div>
+        </form>
+    </div>
+    <button id="logout-btn">Cerrar sesión</button>
+    <div id="main-options">
+        <div class="options-center">
+            <div class="panel-bienvenida">
+                <h2>Bienvenido a Kaburi</h2>
+                <p>
+                    Les presentamos unas amplias opciones para que escoja a su gusto. Usa las opciones siguientes para navegar el sistema.
+                </p>
+            </div>
+            <div class="main-btns-row">
+                <button class="big-option-btn" id="btn-hacer-pedido">
+                    Hacer pedido
+                    <span class="option-desc">Visualiza nuestra carta de productos y realiza tu pedido personalizado.</span>
+                </button>
+                <button class="big-option-btn" onclick="alert('Pronto podrás reservar tu pedido para recogerlo en el local.')">
+                    Reservar pedido
+                    <span class="option-desc">Reserva tu pedido con anticipación y te lo tendremos listo para recoger.</span>
+                </button>
+                <button class="big-option-btn" onclick="alert('Pronto podrás pedir delivery a tu ubicación.')">
+                    Pedir por delivery
+                    <span class="option-desc">Solicita que llevemos tu pedido a tu dirección de preferencia.</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="panel-carta">
+        <div class="carta-center">
+            <div class="carta-card">
+                <div class="logo-carta">
+                    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+                </div>
+                <button id="close-card" title="Cerrar">&times;</button>
+                <img src="alitas-bg.jpg" alt="Alitas" class="alitas-img">
+                <h3>Alitas</h3>
+                <ul class="menu-alitas">
+                    <li>
+                        <span class="menu-desc">4 piezas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>14</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('4 piezas', 14)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">6 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>21</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('6 alitas', 21)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">9 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>32</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('9 alitas', 32)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">12 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>36</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('12 alitas', 36)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 20 alitas + nuggets</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>65</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + nuggets', 65)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 30 alitas + nuggets + gaseosa</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>75</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 30 alitas + nuggets + gaseosa', 75)">Pedir</button>
+                    </li>
+                </ul>
+                <div class="panel-actions">
+                    <button class="panel-action-btn" onclick="seguirOrdenando()">Seguir ordenando</button>
+                    <button class="panel-action-btn" onclick="cambiarPedido()">Cambiar pedido</button>
+                    <button class="panel-action-btn" onclick="continuarPedido()">Continuar</button>
+                </div>
+                <div id="pedido-resumen" class="pedido-resumen" style="display:none;">
+                    <h4>Mi pedido</h4>
+                    <ul class="pedido-lista" id="pedido-lista"></ul>
+                    <div class="pedido-total" id="pedido-total"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const welcomeMessage = document.getElementById('welcome-message');
+        const goodbyeMessage = document.getElementById('goodbye-message');
+        const userNameBadge = document.getElementById('user-name-badge');
+        const userDropdown = document.getElementById('user-dropdown');
+        const darkOverlay = document.getElementById('dark-overlay');
+        let pedido = [];
+        let dropdownOpen = false;
+
+        window.onload = function(){
+            setTimeout(() => {
+                document.getElementById('auth-section').classList.add('show');
+            }, 150);
+            if(localStorage.getItem('session')){
+                const session = JSON.parse(localStorage.getItem('session'));
+                showWelcome(session.nombre || "Usuario");
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.remove('show');
+                    document.getElementById('auth-section').classList.add('hidden');
+                }, 300);
+                setTimeout(() => {
+                    mainOptions.classList.add('show');
+                    logoutBtn.classList.add('show');
+                    mostrarUsuario(session.nombre || "Usuario");
+                }, 2600);
+            }
+        };
+
+        function mostrarUsuario(nombre) {
+            userNameBadge.textContent = nombre;
+            userNameBadge.classList.add('show', 'to-corner');
+            userNameBadge.style.display = "block";
+        }
+
+        function showWelcome(nombre) {
+            welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
+            welcomeMessage.className = "welcome-message show";
+            darkOverlay.classList.add('active');
+            setTimeout(() => {
+                welcomeMessage.className = "welcome-message hide";
+                darkOverlay.classList.remove('active');
+            }, 2200);
+        }
+
+        function showGoodbye(nombre, cb) {
+            goodbyeMessage.textContent = `¡Hasta pronto, ${nombre}!`;
+            goodbyeMessage.className = "goodbye-message show";
+            darkOverlay.classList.add('active');
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message show hide";
+                darkOverlay.classList.remove('active');
+            }, 1800);
+            setTimeout(() => {
+                goodbyeMessage.className = "goodbye-message";
+                if (cb) cb();
+            }, 2300);
+        }
+
+        userNameBadge.onclick = function(e) {
+            e.stopPropagation();
+            if (dropdownOpen) {
+                userDropdown.style.display = "none";
+                dropdownOpen = false;
+            } else {
+                userDropdown.style.display = "block";
+                dropdownOpen = true;
+                userDropdown.focus();
+            }
+        };
+        document.addEventListener('click', function(e){
+            if (dropdownOpen && !userDropdown.contains(e.target) && e.target !== userNameBadge) {
+                userDropdown.style.display = "none";
+                dropdownOpen = false;
+            }
+        });
+        userDropdown.addEventListener('blur', function() {
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+        });
+
+        function eliminarCuenta() {
+            if (confirm("¿Seguro que quieres eliminar tu cuenta? Esto no se puede deshacer.")) {
+                const session = JSON.parse(localStorage.getItem('session') || '{}');
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                if (session.email && users[session.email]) {
+                    delete users[session.email];
+                    localStorage.setItem('users', JSON.stringify(users));
+                    localStorage.removeItem('session');
+                    alert("Cuenta eliminada correctamente.");
+                    location.reload();
+                } else {
+                    alert("Error al eliminar la cuenta.");
+                }
+            }
+        }
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const toggleLink = document.getElementById('toggle-link');
+        const formTitle = document.getElementById('form-title');
+        const toggleMsg = document.getElementById('toggle-msg');
+        const authSection = document.getElementById('auth-section');
+        const switchArea = document.getElementById('switch-area');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mainOptions = document.getElementById('main-options');
+        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const panelCarta = document.getElementById('panel-carta');
+        const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
+        const forgotLink = document.getElementById('forgot-link');
+        const recoverForm = document.getElementById('recover-form');
+        const recoverContact = document.getElementById('recover-contact');
+        const recoverMessage = document.getElementById('recover-message');
+
+        toggleLink.onclick = function(e){
+            e.preventDefault();
+            if(loginForm.style.display !== 'none'){
+                loginForm.style.display = 'none';
+                registerForm.style.display = '';
+                formTitle.textContent = 'Registrarse';
+                toggleMsg.textContent = '¿Ya tienes cuenta?';
+                toggleLink.textContent = 'Iniciar sesión';
+            } else {
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+            }
+        };
+
+        function getUsers(){
+            return JSON.parse(localStorage.getItem('users') || '{}');
+        }
+        function saveUser(email, password, nombre, apellido, edad, direccion, telefono){
+            const users = getUsers();
+            users[email] = {password, nombre, apellido, edad, direccion, telefono};
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        function validateUser(email, password){
+            const users = getUsers();
+            return users[email] && users[email].password === password ? users[email] : null;
+        }
+
+        registerForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const nombre = document.getElementById('register-nombre').value;
+            const apellido = document.getElementById('register-apellido').value;
+            const edad = document.getElementById('register-edad').value;
+            const direccion = document.getElementById('register-direccion').value;
+            const telefono = document.getElementById('register-telefono').value;
+            const users = getUsers();
+            if(users[email]){
+                alert('Este correo ya está registrado.');
+            } else {
+                saveUser(email, password, nombre, apellido, edad, direccion, telefono);
+                alert('Registro exitoso. Ahora inicia sesión.');
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'Iniciar Sesión';
+                toggleMsg.textContent = '¿No tienes cuenta?';
+                toggleLink.textContent = 'Registrarse';
+                document.getElementById('login-email').focus();
+            }
+        };
+
+        loginForm.onsubmit = function(e){
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const user = validateUser(email, password);
+            if(user){
+                localStorage.setItem('session', JSON.stringify({email, nombre: user.nombre}));
+                showWelcome(user.nombre);
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.remove('show');
+                    document.getElementById('auth-section').classList.add('hidden');
+                }, 300);
+                setTimeout(() => {
+                    mainOptions.classList.add('show');
+                    logoutBtn.classList.add('show');
+                    mostrarUsuario(user.nombre);
+                }, 2600);
+            } else {
+                alert('Correo o contraseña incorrectos.');
+            }
+        };
+
+        forgotLink.onclick = function(e){
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            switchArea.style.display = 'none';
+            recoverForm.style.display = '';
+            formTitle.textContent = 'Recuperar cuenta';
+            recoverMessage.textContent = '';
+        };
+        recoverForm.onsubmit = function(e){
+            e.preventDefault();
+            const contacto = recoverContact.value.trim();
+            if(!contacto){
+                recoverMessage.textContent = "Por favor ingresa tu correo o número telefónico.";
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            let found = false;
+            for (let email in users) {
+                if (email === contacto || users[email].telefono === contacto) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                recoverMessage.style.color = "#43e8ff";
+                recoverMessage.textContent = "¡Te hemos enviado un mensaje de recuperación a tu correo o teléfono!";
+            } else {
+                recoverMessage.style.color = "#ff5252";
+                recoverMessage.textContent = "Usuario no encontrado. Intenta con otro correo o número.";
+            }
+            setTimeout(()=>{
+                formTitle.textContent = 'Iniciar Sesión';
+                recoverForm.style.display = 'none';
+                loginForm.style.display = '';
+                switchArea.style.display = '';
+            },2500);
+        };
+
+        logoutBtn.onclick = function() {
+            const session = JSON.parse(localStorage.getItem('session') || '{}');
+            const nombre = session.nombre || "usuario";
+            mainOptions.classList.remove('show');
+            panelCarta.classList.remove('show');
+            userNameBadge.classList.remove('show', 'to-corner');
+            userNameBadge.style.display = "none";
+            userDropdown.style.display = "none";
+            dropdownOpen = false;
+            loginForm.reset();
+            registerForm.reset();
+            loginForm.style.display = '';
+            registerForm.style.display = 'none';
+            formTitle.textContent = 'Iniciar Sesión';
+            toggleMsg.textContent = '¿No tienes cuenta?';
+            toggleLink.textContent = 'Registrarse';
+            switchArea.style.display = '';
+            localStorage.removeItem('session');
+            showGoodbye(nombre, () => {
+                document.getElementById('auth-section').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.add('show');
+                }, 80);
+                logoutBtn.classList.remove('show');
+            });
+        };
+
+        btnHacerPedido.onclick = function() {
+            mainOptions.classList.remove('show');
+            panelCarta.classList.add('show');
+            if (pedido.length > 0) {
+                pedidoResumen.style.display = '';
+                actualizarResumen();
+            }
+        }
+        closeCard.onclick = function() {
+            panelCarta.classList.remove('show');
+            mainOptions.classList.add('show');
+        }
+        function pedirMenu(item, precio) {
+            pedido.push({nombre: item, precio: precio});
+            actualizarResumen();
+            pedidoResumen.style.display = '';
+        }
+        function actualizarResumen() {
+            pedidoLista.innerHTML = "";
+            let total = 0;
+            pedido.forEach(p => {
+                total += p.precio;
+                let li = document.createElement('li');
+                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
+                pedidoLista.appendChild(li);
+            });
+            pedidoTotal.textContent = "Total: S/ " + total;
+        }
+        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
+        function cambiarPedido() {
+            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
+                pedido = [];
+                actualizarResumen();
+                pedidoResumen.style.display = 'none';
+            }
+        }
+        function continuarPedido() {
+            if(pedido.length === 0){
+                alert("Debes seleccionar al menos un producto.");
+                return;
+            }
+            alert("¡Pedido enviado!\nGracias por tu compra.");
+            pedido = [];
+            actualizarResumen();
+            pedidoResumen.style.display = 'none';
+        }
+        window.pedirMenu = pedirMenu;
+        window.seguirOrdenando = seguirOrdenando;
+        window.cambiarPedido = cambiarPedido;
+        window.continuarPedido = continuarPedido;
+    </script>
 </body>
 </html>
