@@ -7,8 +7,7 @@
     <style>
         html, body { height: 100%; margin: 0; padding: 0; }
         body {
-            min-height: 100vh;
-            min-width: 100vw;
+            min-height: 100vh; min-width: 100vw;
             font-family: Arial, sans-serif;
             background:
                 linear-gradient(120deg, rgba(183,28,28,0.65), rgba(33,33,33,0.85)),
@@ -238,6 +237,216 @@
             transition: filter 0.2s, background 0.2s;
         }
         #logout-btn.show { display: block; }
+        #main-options,
+        #panel-carta {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+        #main-options.show,
+        #panel-carta.show {
+            display: flex;
+        }
+        .options-center,
+        .carta-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .big-option-btn {
+            width: 350px;
+            max-width: 90vw;
+            padding: 38px 0;
+            margin: 23px 0;
+            font-size: 2.1em;
+            font-weight: bold;
+            border-radius: 18px;
+            border: 4px solid;
+            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
+            color: #fff;
+            background: rgba(30,30,35,0.2);
+            box-shadow: 0 3px 16px #0009;
+            cursor: pointer;
+            transition: transform 0.15s, filter 0.18s, border-color 0.2s;
+            letter-spacing: 1px;
+            backdrop-filter: blur(3px);
+        }
+        .big-option-btn:hover {
+            filter: brightness(1.13);
+            transform: scale(1.045);
+            border-color: #fff;
+        }
+        .carta-card {
+            background: rgba(24,18,22,0.97);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #000c;
+            padding: 34px 30px 28px 30px;
+            min-width: 320px;
+            max-width: 98vw;
+            color: #fff;
+            border: 4px solid;
+            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
+            font-size: 1.13em;
+            position: relative;
+            animation: cartaFadeIn 0.4s;
+        }
+        @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
+        .carta-card h3 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.45em;
+            letter-spacing: 1.5px;
+            color: #ff5252;
+            text-shadow: 0 2px 8px #000a;
+        }
+        .logo-carta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+        .logo-carta img {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px #0008;
+            padding: 6px;
+        }
+        .alitas-img {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 16px;
+            margin: 0 auto 24px auto;
+            display: block;
+            box-shadow: 0 2px 12px #0008;
+        }
+        .menu-alitas {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .menu-alitas li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 13px;
+            font-size: 1.15em;
+        }
+        .menu-desc {
+            flex: 1 1 auto;
+            margin-right: 14px;
+            letter-spacing: 0.5px;
+        }
+        .menu-precio {
+            font-weight: bold;
+            font-size: 1.08em;
+            color: #f7971e;
+            margin-left: 6px;
+            margin-right: 6px;
+            min-width: 64px;
+            text-align: right;
+        }
+        .menu-soles {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffdd00;
+            margin-right: 2px;
+        }
+        .menu-pedir-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 18px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 7px;
+            box-shadow: 0 2px 6px #0005;
+            transition: filter 0.15s;
+        }
+        .menu-pedir-btn:hover { filter: brightness(1.12); }
+        #close-card {
+            position: absolute;
+            right: 17px;
+            top: 15px;
+            background: #ff5252;
+            color: #fff;
+            border: none;
+            border-radius: 100%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #0009;
+            z-index: 10;
+        }
+        .panel-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0 5px 0;
+        }
+        .panel-action-btn {
+            background: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px #0005;
+            transition: filter 0.15s;
+        }
+        .panel-action-btn:hover { filter: brightness(1.11);}
+        .pedido-resumen {
+            background: rgba(38,38,46,0.86);
+            border-radius: 12px;
+            margin: 38px auto 0 auto;
+            max-width: 420px;
+            width: 100%;
+            padding: 17px 19px 11px 19px;
+            box-shadow: 0 2px 12px #0006;
+            font-size: 1.17em;
+        }
+        .pedido-resumen h4 {
+            margin: 0 0 10px 0;
+            color: #f7971e;
+            text-align: center;
+        }
+        .pedido-lista {
+            margin: 0 0 11px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .pedido-lista li {
+            margin-bottom: 7px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .pedido-item-nombre { font-weight: normal; }
+        .pedido-item-precio { font-weight: bold; color: #ffdd00; }
+        .pedido-total {
+            text-align: right;
+            font-size: 1.17em;
+            font-weight: bold;
+            color: #43e8ff;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -302,13 +511,90 @@
         </form>
     </div>
     <button id="logout-btn">Cerrar sesión</button>
-    <!-- Agrega aquí el resto de tus paneles y lógica de carta/pedidos si lo necesitas -->
+    <!-- PANEL PRINCIPAL DE OPCIONES -->
+    <div id="main-options">
+        <div class="options-center">
+            <div class="logo-carta">
+                <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+            </div>
+            <button class="big-option-btn" id="btn-hacer-pedido">Hacer pedido</button>
+            <button class="big-option-btn" onclick="alert('Reservar pedido')">Reservar pedido</button>
+            <button class="big-option-btn" onclick="alert('Pedir por delivery')">Pedir por delivery</button>
+        </div>
+    </div>
+    <!-- PANEL CARTA DE PEDIDO (ALITAS) -->
+    <div id="panel-carta">
+        <div class="carta-center">
+            <div class="carta-card">
+                <div class="logo-carta">
+                    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/606c0b3c1ecb5ca7d4e7c9e856ade344~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=0af96376&x-expires=1761796800&x-signature=YRCNvkKdx%2BsyMYGefK8D0hS8W4Q%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="Kaburi Logo" draggable="false">
+                </div>
+                <button id="close-card" title="Cerrar">&times;</button>
+                <img src="alitas-bg.jpg" alt="Alitas" class="alitas-img">
+                <h3>Alitas</h3>
+                <ul class="menu-alitas">
+                    <li>
+                        <span class="menu-desc">4 piezas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>14</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('4 piezas', 14)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">6 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>21</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('6 alitas', 21)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">9 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>32</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('9 alitas', 32)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">12 alitas</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>36</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('12 alitas', 36)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 20 alitas + nuggets</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>65</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 20 alitas + nuggets', 65)">Pedir</button>
+                    </li>
+                    <li>
+                        <span class="menu-desc">Combo 30 alitas + nuggets + gaseosa</span>
+                        <span class="menu-precio"><span class="menu-soles">S/</span>75</span>
+                        <button class="menu-pedir-btn" onclick="pedirMenu('Combo 30 alitas + nuggets + gaseosa', 75)">Pedir</button>
+                    </li>
+                </ul>
+                <div class="panel-actions">
+                    <button class="panel-action-btn" onclick="seguirOrdenando()">Seguir ordenando</button>
+                    <button class="panel-action-btn" onclick="cambiarPedido()">Cambiar pedido</button>
+                    <button class="panel-action-btn" onclick="continuarPedido()">Continuar</button>
+                </div>
+                <div id="pedido-resumen" class="pedido-resumen" style="display:none;">
+                    <h4>Mi pedido</h4>
+                    <ul class="pedido-lista" id="pedido-lista"></ul>
+                    <div class="pedido-total" id="pedido-total"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         // Animación panel de login
         window.onload = function(){
             setTimeout(() => {
                 document.getElementById('auth-section').classList.add('show');
             }, 150);
+            // Autologin si hay sesión
+            if(localStorage.getItem('session')){
+                const session = JSON.parse(localStorage.getItem('session'));
+                showWelcome(session.nombre || "Usuario");
+                setTimeout(() => {
+                    document.getElementById('auth-section').classList.remove('show');
+                }, 300);
+                setTimeout(() => {
+                    mainOptions.classList.add('show');
+                    logoutBtn.classList.add('show');
+                }, 2600);
+            }
         };
 
         // Login/registro y referencias JS
@@ -320,6 +606,13 @@
         const authSection = document.getElementById('auth-section');
         const switchArea = document.getElementById('switch-area');
         const logoutBtn = document.getElementById('logout-btn');
+        const mainOptions = document.getElementById('main-options');
+        const btnHacerPedido = document.getElementById('btn-hacer-pedido');
+        const panelCarta = document.getElementById('panel-carta');
+        const closeCard = document.getElementById('close-card');
+        const pedidoResumen = document.getElementById('pedido-resumen');
+        const pedidoLista = document.getElementById('pedido-lista');
+        const pedidoTotal = document.getElementById('pedido-total');
         const userNameBadge = document.getElementById('user-name-badge');
         const userDropdown = document.getElementById('user-dropdown');
         const welcomeMessage = document.getElementById('welcome-message');
@@ -327,9 +620,10 @@
         const recoverForm = document.getElementById('recover-form');
         const recoverContact = document.getElementById('recover-contact');
         const recoverMessage = document.getElementById('recover-message');
+        let pedido = [];
         let dropdownOpen = false;
 
-        // Bienvenida muy grande y transición a la esquina superior izquierda y luego muestra el nombre como botón sin marco
+        // Bienvenida muy grande y transición suave a la esquina superior izquierda y luego muestra el nombre como botón sin marco
         function showWelcome(nombre) {
             welcomeMessage.textContent = `¡Bienvenido, ${nombre}!`;
             welcomeMessage.className = "welcome-message show";
@@ -346,7 +640,6 @@
             }, 2600);
         }
 
-        // Badge y menú lateral
         userNameBadge.onclick = function(e) {
             e.stopPropagation();
             if (dropdownOpen) {
@@ -379,7 +672,6 @@
             }
         }
 
-        // Toggle login/registro
         toggleLink.onclick = function(e){
             e.preventDefault();
             if(loginForm.style.display !== 'none'){
@@ -397,7 +689,6 @@
             }
         };
 
-        // Registro
         function getUsers(){
             return JSON.parse(localStorage.getItem('users') || '{}');
         }
@@ -435,7 +726,6 @@
             }
         };
 
-        // Login
         loginForm.onsubmit = function(e){
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -448,14 +738,14 @@
                     document.getElementById('auth-section').classList.remove('show');
                 }, 300);
                 setTimeout(() => {
-                    // Aquí puedes mostrar tus paneles/pedidos (mainOptions.classList.add('show'), etc)
+                    mainOptions.classList.add('show');
+                    logoutBtn.classList.add('show');
                 }, 2600);
             } else {
                 alert('Correo o contraseña incorrectos.');
             }
         };
 
-        // Recuperación de contraseña
         forgotLink.onclick = function(e){
             e.preventDefault();
             loginForm.style.display = 'none';
@@ -495,9 +785,10 @@
             },2500);
         };
 
-        // Logout
         logoutBtn.onclick = function() {
             localStorage.removeItem('session');
+            mainOptions.classList.remove('show');
+            panelCarta.classList.remove('show');
             userNameBadge.classList.remove('show', 'to-corner');
             userDropdown.style.display = "none";
             dropdownOpen = false;
@@ -510,6 +801,58 @@
             toggleLink.textContent = 'Registrarse';
             switchArea.style.display = '';
         };
+
+        // PANEL DE PEDIDOS
+        btnHacerPedido.onclick = function() {
+            mainOptions.classList.remove('show');
+            panelCarta.classList.add('show');
+            if (pedido.length > 0) {
+                pedidoResumen.style.display = '';
+                actualizarResumen();
+            }
+        }
+        closeCard.onclick = function() {
+            panelCarta.classList.remove('show');
+            mainOptions.classList.add('show');
+        }
+        function pedirMenu(item, precio) {
+            pedido.push({nombre: item, precio: precio});
+            actualizarResumen();
+            pedidoResumen.style.display = '';
+        }
+        function actualizarResumen() {
+            pedidoLista.innerHTML = "";
+            let total = 0;
+            pedido.forEach(p => {
+                total += p.precio;
+                let li = document.createElement('li');
+                li.innerHTML = `<span class="pedido-item-nombre">${p.nombre}</span> <span class="pedido-item-precio">S/ ${p.precio}</span>`;
+                pedidoLista.appendChild(li);
+            });
+            pedidoTotal.textContent = "Total: S/ " + total;
+        }
+        function seguirOrdenando() { alert("¡Puedes seguir agregando más productos!"); }
+        function cambiarPedido() {
+            if(confirm("¿Estás seguro de eliminar tu pedido actual?")) {
+                pedido = [];
+                actualizarResumen();
+                pedidoResumen.style.display = 'none';
+            }
+        }
+        function continuarPedido() {
+            if(pedido.length === 0){
+                alert("Debes seleccionar al menos un producto.");
+                return;
+            }
+            alert("¡Pedido enviado!\nGracias por tu compra.");
+            pedido = [];
+            actualizarResumen();
+            pedidoResumen.style.display = 'none';
+        }
+        window.pedirMenu = pedirMenu;
+        window.seguirOrdenando = seguirOrdenando;
+        window.cambiarPedido = cambiarPedido;
+        window.continuarPedido = continuarPedido;
     </script>
 </body>
 </html>
