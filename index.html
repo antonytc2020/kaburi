@@ -292,10 +292,132 @@
         .pedido-item-nombre { font-weight: normal; }
         .pedido-item-precio { font-weight: bold; color: #ffdd00; }
         .pedido-total { text-align: right; font-size: 1.17em; font-weight: bold; color: #43e8ff; margin-top: 12px; margin-bottom: 0; }
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(24,18,22,0.96);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #000c;
+            padding: 34px 40px 38px 40px;
+            width: 90%;
+            max-width: 440px;
+            color: #fff;
+            border: 3px solid #ff5252;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .container.show {
+            opacity: 1;
+        }
+        .container.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .logo-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo-login img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px #0008;
+            padding: 8px;
+        }
+        .container h2 {
+            text-align: center;
+            margin: 0 0 25px 0;
+            font-size: 2em;
+            letter-spacing: 1.5px;
+            color: #ff5252;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container label {
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-size: 1.05em;
+            color: #e0e0e0;
+        }
+        .container input {
+            padding: 12px 14px;
+            font-size: 1.05em;
+            border-radius: 8px;
+            border: 2px solid #444;
+            background: rgba(40,40,48,0.8);
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .container input:focus {
+            border-color: #ff5252;
+        }
+        .container button[type="submit"] {
+            margin-top: 22px;
+            padding: 14px;
+            font-size: 1.15em;
+            font-weight: bold;
+            border-radius: 9px;
+            border: 2px solid #ff5252;
+            background: #ff5252;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .container button[type="submit"]:hover {
+            background: #ff3838;
+            transform: scale(1.02);
+        }
+        .switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.05em;
+        }
+        .switch a {
+            color: #43e8ff;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+        #logout-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 14px 28px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 2px solid #ff5252;
+            background: transparent;
+            color: #ff5252;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background 0.2s, color 0.2s, opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #logout-btn.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #logout-btn:hover {
+            background: #ff5252;
+            color: #fff;
+        }
         @media (max-width: 1000px) {
             .big-option-btn { width: 100%; max-width: 98vw; font-size: 1.25em; min-width: unset;}
             .main-btns-row { width: 100%; }
             .panel-bienvenida { width: 100vw; }
+            .container { width: 95%; max-width: 95vw; padding: 28px 24px 32px 24px; }
         }
     </style>
 </head>
