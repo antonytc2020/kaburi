@@ -82,7 +82,7 @@
         .welcome-message.show { opacity: 1; }
         .welcome-message.to-corner { top: 40px; left: 140px; transform: translate(0, 0); font-size: 1.23em; }
         .welcome-message.hide { opacity: 0; transition: opacity 0.8s; }
-        /* OPCIONES PANEL PRINCIPAL */
+
         #main-options {
             display: none;
             position: fixed;
@@ -93,26 +93,27 @@
         #main-options.show { display: flex; }
         .options-center {
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
             height: 100vh;
             width: 100vw;
+            padding-top: 5vh;
         }
         .panel-bienvenida {
             background: none;
             box-shadow: none;
             border: none;
-            margin: 0 0 0 5vw;
+            margin: 0 0 0 0;
             padding: 0;
-            max-width: 420px;
-            min-width: 300px;
-            width: auto;
+            width: 92vw;
+            max-width: 1200px;
         }
         .panel-bienvenida h2 {
             color: #fff;
-            font-size: 2.7em;
+            font-size: 3.2em;
             font-weight: bold;
-            margin: 35px 0 15px 0;
+            margin: 0 0 0.4em 0;
             padding: 0;
             text-align: left;
             letter-spacing: 1.5px;
@@ -120,30 +121,32 @@
             border: none;
         }
         .panel-bienvenida p {
-            font-size: 1.22em;
+            font-size: 1.35em;
             color: #e0e0e0;
-            margin: 0 0 5px 0;
+            margin: 0 0 1.5em 0;
             line-height: 1.45;
             text-align: left;
-            letter-spacing: .2px;
+            letter-spacing: .5px;
             padding: 0;
             border: none;
+            max-width: 1300px;
         }
-        .main-btns-col {
+        .main-btns-row {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: flex-start;
-            align-items: flex-start;
-            gap: 36px;
-            margin-left: 4vw;
-            margin-top: 60px;
+            align-items: stretch;
+            gap: 50px;
+            margin: 0 0 0 0;
+            flex-wrap: wrap;
+            width: 100%;
         }
         .big-option-btn {
-            min-width: 350px;
-            max-width: 85vw;
-            width: 430px;
-            padding: 40px 0 40px 0;
-            font-size: 2.6em;
+            flex: 1 1 320px;
+            min-width: 320px;
+            max-width: 500px;
+            padding: 40px 30px 35px 30px;
+            font-size: 2.3em;
             font-weight: bold;
             border-radius: 22px;
             border: none;
@@ -153,8 +156,7 @@
             cursor: pointer;
             transition: transform 0.19s, filter 0.18s, box-shadow 0.22s;
             letter-spacing: 1.5px;
-            margin-bottom: 15px;
-            margin-top: 0;
+            margin-bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -166,82 +168,28 @@
             box-shadow: 0 7px 34px #000b;
         }
         .option-desc {
-            font-size: 0.45em;
+            font-size: 0.47em;
             color: #fff;
             font-weight: 400;
-            margin-top: 12px;
-            margin-left: 8px;
+            margin-top: 18px;
+            margin-left: 6px;
             letter-spacing: 0.5px;
-            opacity: 0.96;
+            opacity: 0.97;
             line-height: 1.35;
             text-shadow: 0 1px 6px #000a;
         }
-        /* Resto de estilos igual (panel carta, login, etc) ... */
+        @media (max-width: 1100px) {
+            .main-btns-row { flex-direction: column; align-items: stretch; gap:32px; }
+            .big-option-btn { width: 98vw; max-width: 600px; margin: 0 auto 0 auto;}
+        }
+        @media (max-width: 700px) {
+            .panel-bienvenida { max-width: 100vw; padding-right: 0; }
+            .panel-bienvenida h2 { font-size: 2.1em; }
+            .panel-bienvenida p { font-size: 1.05em; }
+        }
+        /* ... resto igual que antes (carta, login, etc) ... */
         #panel-carta { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;}
         #panel-carta.show { display: flex;}
-        .carta-center { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw;}
-        .carta-card {
-            background: rgba(24,18,22,0.97);
-            border-radius: 18px;
-            box-shadow: 0 4px 32px #000c;
-            padding: 34px 30px 28px 30px;
-            min-width: 320px;
-            max-width: 98vw;
-            color: #fff;
-            border: 4px solid;
-            border-image: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252) 1;
-            font-size: 1.13em;
-            position: relative;
-            animation: cartaFadeIn 0.4s;
-        }
-        @keyframes cartaFadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
-        .carta-card h3 {
-            text-align: center; margin-top: 0; font-size: 1.45em; letter-spacing: 1.5px; color: #ff5252; text-shadow: 0 2px 8px #000a;
-        }
-        .logo-carta {
-            display: flex; align-items: center; margin-bottom: 15px; position: absolute; top: 20px; left: 20px; z-index: 2;
-        }
-        .logo-carta img {
-            width: 68px; height: 68px; object-fit: contain; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px #0008; padding: 6px;
-        }
-        .alitas-img { width: 100%; max-width: 320px; border-radius: 16px; margin: 0 auto 24px auto; display: block; box-shadow: 0 2px 12px #0008;}
-        .menu-alitas { list-style: none; padding: 0; margin: 0;}
-        .menu-alitas li {
-            display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; font-size: 1.15em;
-        }
-        .menu-desc { flex: 1 1 auto; margin-right: 14px; letter-spacing: 0.5px; }
-        .menu-precio {
-            font-weight: bold; font-size: 1.08em; color: #f7971e; margin-left: 6px; margin-right: 6px; min-width: 64px; text-align: right;
-        }
-        .menu-soles { font-size: 1.1em; font-weight: bold; color: #ffdd00; margin-right: 2px; }
-        .menu-pedir-btn {
-            background: linear-gradient(90deg, #ff5252, #f7971e);
-            color: #fff; border: none; border-radius: 7px; padding: 7px 18px; font-size: 1em; font-weight: bold; cursor: pointer; margin-left: 7px; box-shadow: 0 2px 6px #0005; transition: filter 0.15s;
-        }
-        .menu-pedir-btn:hover { filter: brightness(1.12); }
-        #close-card {
-            position: absolute; right: 17px; top: 15px;
-            background: #ff5252; color: #fff; border: none; border-radius: 100%;
-            width: 32px; height: 32px; font-size: 1.2em; font-weight: bold; cursor: pointer;
-            box-shadow: 0 2px 8px #0009; z-index: 10;
-        }
-        .panel-actions {
-            display: flex; gap: 15px; justify-content: center; margin: 30px 0 5px 0;
-        }
-        .panel-action-btn {
-            background: linear-gradient(90deg, #ff5252, #f7971e, #38ef7d, #43e8ff, #a259ff, #ff5252);
-            color: #fff; border: none; border-radius: 7px; padding: 12px 20px; font-size: 1.15em; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px #0005; transition: filter 0.15s;
-        }
-        .panel-action-btn:hover { filter: brightness(1.11);}
-        .pedido-resumen {
-            background: rgba(38,38,46,0.86); border-radius: 12px; margin: 38px auto 0 auto; max-width: 420px; width: 100%; padding: 17px 19px 11px 19px; box-shadow: 0 2px 12px #0006; font-size: 1.17em;
-        }
-        .pedido-resumen h4 { margin: 0 0 10px 0; color: #f7971e; text-align: center; }
-        .pedido-lista { margin: 0 0 11px 0; padding: 0; list-style: none;}
-        .pedido-lista li { margin-bottom: 7px; display: flex; justify-content: space-between; }
-        .pedido-item-nombre { font-weight: normal; }
-        .pedido-item-precio { font-weight: bold; color: #ffdd00; }
-        .pedido-total { text-align: right; font-size: 1.17em; font-weight: bold; color: #43e8ff; margin-top: 12px; margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -312,11 +260,10 @@
             <div class="panel-bienvenida">
                 <h2>Bienvenido a Kaburi</h2>
                 <p>
-                    Les presentamos unas amplias opciones para que escoja a su gusto.<br>
-                    Usa las opciones a la derecha para navegar el sistema.
+                    Les presentamos unas amplias opciones para que escoja a su gusto. Usa las opciones siguientes para navegar el sistema.
                 </p>
             </div>
-            <div class="main-btns-col">
+            <div class="main-btns-row">
                 <button class="big-option-btn" id="btn-hacer-pedido">
                     Hacer pedido
                     <span class="option-desc">Visualiza nuestra carta de productos y realiza tu pedido personalizado.</span>
@@ -428,7 +375,7 @@
                 darkOverlay.classList.remove('active');
             }, 2600);
             setTimeout(() => {
-                welcomeMessage.className = "welcome-message to-corner"; // Se queda arriba, invisible
+                welcomeMessage.className = "welcome-message to-corner";
             }, 3400);
         }
 
@@ -443,7 +390,6 @@
                 userDropdown.focus();
             }
         };
-        // Cerrar menú al hacer click fuera o perder foco
         document.addEventListener('click', function(e){
             if (dropdownOpen && !userDropdown.contains(e.target) && e.target !== userNameBadge) {
                 userDropdown.style.display = "none";
